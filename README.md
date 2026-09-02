@@ -34,4 +34,18 @@ La propuesta no busca reemplazar por completo la atención institucional, sino c
 
 En definitiva, el desarrollo de esta plataforma web para la Municipalidad de Santo Domingo permitirá centralizar la gestión de uno de los trámites más críticos, acelerar el cumplimiento de la Ley de Transformación Digital y proporcionar una experiencia de interacción más transparente, segura, rápida y cercana entre el municipio y sus ciudadanos.
 
+---
+
+Usuarios objetivo 
+
+La aplicación considera principalmente dos grupos de usuarios: vecinos (ciudadanos) y funcionarios municipales. Adicionalmente, se contempla un rol de administración para la gestión general y técnica de la plataforma en la Municipalidad de Santo Domingo.
+
+Vecinos (Ciudadanos)
+
+Los vecinos corresponden a los usuarios finales y principales beneficiarios de la plataforma. Se considera que constituyen un grupo diverso respecto a su edad, familiaridad con la tecnología, disponibilidad de tiempo y necesidades de accesibilidad para realizar trámites presenciales o digitales.
+
+Dentro de este grupo pueden existir ciudadanos que:
+
+
+
 

@@ -57,6 +57,15 @@ Dentro de este grupo pueden existir ciudadanos que:
 - Presentan dificultades de movilidad o tiempo para realizar trámites de manera presencial.
 - Pueden requerir asistencia o instrucciones muy concretas en cada etapa del proceso.
 
+La población objetivo considera también a adultos mayores y personas con menor alfabetización digital, reconociendo que pueden requerir interfaces más intuitivas, tipografías claras y procesos guiados paso a paso.
+
+La plataforma deberá evitar asumir que todos los usuarios poseen el mismo dominio tecnológico. En su lugar, ofrecerá alternativas claras de navegación, soporte visual y accesibilidad multiplataforma.
+
+Necesidades principales de los vecinos:
+
+
+
+
 
 
 

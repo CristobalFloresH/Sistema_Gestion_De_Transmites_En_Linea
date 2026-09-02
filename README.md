@@ -46,6 +46,17 @@ Los vecinos corresponden a los usuarios finales y principales beneficiarios de l
 
 Dentro de este grupo pueden existir ciudadanos que:
 
+- Realizan trámites por primera vez o renuevan su licencia de conducir.
+- Requieren agendar horas de atención según su disponibilidad laboral o personal.
+- Necesitan revisar con claridad los requisitos y documentos obligatorios antes de asistir.
+- Presentan diferentes niveles de experiencia con plataformas web o gubernamentales.
+- Requieren conocer el estado actual de su trámite sin necesidad de llamar o ir al municipio.
+- Suben y digitalizan documentos desde diferentes dispositivos (teléfonos móviles o computadores).
+- Necesitan una estructura clara y predecible de navegación para evitar confusiones.
+- Requieren reducir la cantidad de información presentada simultáneamente en pantalla.
+- Presentan dificultades de movilidad o tiempo para realizar trámites de manera presencial.
+- Pueden requerir asistencia o instrucciones muy concretas en cada etapa del proceso.
+
 
 
 

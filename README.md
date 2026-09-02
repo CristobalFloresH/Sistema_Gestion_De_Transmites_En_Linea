@@ -63,6 +63,16 @@ La plataforma deberá evitar asumir que todos los usuarios poseen el mismo domin
 
 Necesidades principales de los vecinos:
 
+- Agendar horas de atención para licencias de conducir de forma rápida y sin filas.
+- Consultar en tiempo real el estado en el que se encuentra su trámite.
+- Subir documentos obligatorios (fotografías, certificados, antecedentes) de manera online.
+- Recibir notificaciones claras sobre las siguientes etapas o correcciones necesarias.
+- Acceder a la plataforma desde computadores y dispositivos móviles indistintamente.
+- Disponer de instrucciones sencillas, concretas y directas en cada paso.
+- Visualizar requisitos previos claros para evitar rechazos en las pruebas médicas o teóricas.
+- Reducir la incertidumbre mediante un seguimiento transparente del proceso.
+- Contar con una navegación consistente y predecible.
+- Disminuir los tiempos de espera y la necesidad de traslados presenciales innecesarios.
 
 
 

@@ -24,4 +24,14 @@ Una de las principales dificultades radica en que la implementación tecnológic
 
 Además, el 1.er Estudio de Madurez Digital de Municipalidades —realizado por Movistar Empresas, Fundación País Digital y Fortinet— revela áreas críticas que frenan este proceso. Entre ellas destacan la falta de planificación estratégica (apenas un 6 % cuenta con un plan definido), el déficit en la capacitación del personal en competencias digitales (solo un 16 %), las limitaciones en interoperabilidad y gestión documental (menos del 20 %), y la urgencia de fortalecer los protocolos de ciberseguridad.
 
+En este escenario, uno de los cuellos de botella más evidentes a nivel municipal es la gestión del proceso de licencias de conducir. Actualmente, la baja disponibilidad de agendamiento online para este trámite genera aglomeraciones, largas filas y una alta congestión en la atención presencial. En el caso específico de la Municipalidad de Santo Domingo, la falta de un sistema digital integrado dificulta la toma de horas, el seguimiento del estado de los trámites y la recepción segura de documentos, afectando la experiencia de los vecinos y sobrecargando al personal interno.
+
+Por lo tanto, el problema abordado por el proyecto corresponde a la brecha digital y operativa en la gestión de licencias de conducir de la Municipalidad de Santo Domingo, la cual dificulta la eficiencia del servicio y la vinculación ágil con la ciudadanía, alejando al municipio de los estándares requeridos por la Ley 21.180.
+
+Para dar respuesta a esta problemática, se propone el desarrollo e implementación de una plataforma web centralizada orientada específicamente a la gestión integral de licencias de conducir. Este sistema permitirá optimizar la toma de horas en línea, realizar un seguimiento transparente de los estados del trámite, facilitar la subida y validación de documentos digitales, y dotar a los funcionarios de herramientas administrativas eficientes para el control de todo el flujo.
+
+La propuesta no busca reemplazar por completo la atención institucional, sino constituir un mecanismo tecnológico de apoyo que agilice los procesos internos y reduzca la carga presencial. A través de una interfaz intuitiva y accesible desde diferentes dispositivos, se busca guiar al municipio hacia un nivel óptimo de digitalización y mejora continua.
+
+En definitiva, el desarrollo de esta plataforma web para la Municipalidad de Santo Domingo permitirá centralizar la gestión de uno de los trámites más críticos, acelerar el cumplimiento de la Ley de Transformación Digital y proporcionar una experiencia de interacción más transparente, segura, rápida y cercana entre el municipio y sus ciudadanos.
+
 

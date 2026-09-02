@@ -1,12 +1,12 @@
 # Proyecto_Final_INF3245
 
-##Índice
-1. [Justificación del problema] (#justicacón-del-problema)
-2. [Usuarios](#usuarios)}
-   - [Roles](#oles)
-   - [ Proto-personas] (#proto-personas)
-3.  [Requerimientos] (#requerimientos)
-4. [Arquitectura de la informacion/Ux ] (#arquitectua-de-la-informacion)
+## Índice
+1. [Justificación del problema](#justificación-del-problema)
+2. [Usuarios](#usuarios)
+   - [Roles](#roles)
+   - [Proto-personas](#proto-personas)
+3. [Requerimientos](#requerimientos)
+4. [Arquitectura de la información/Ux](#arquitectura-de-la-informacionux)
    - [Diferenciación x roles](#diferenciación-x-roles)
    - [Flujos principales Tareas](#flujos-principales-tareas)
    - [Puntos críticos de interacción](#puntos-críticos-de-interacción)

@@ -110,6 +110,15 @@ El sistema desplegará a los funcionarios una lista detallada de todos los usuar
 **RF-11 : Envío recordatorio de cita**
 El sistema enviará un correo de recordatorio al usuario 24 horas antes de la hora agendada.
 
+**RF-12 : Cancelación de cita **
+El sistema permitirá al usuario cancelar su cita agendada a través de un panel web, liberando automáticamente el bloque de horario en el calendario para otro usuario.
+
+**RF-13 : Búsqueda de tramites personal**
+El sistema permitirá a funcionarios buscar expedientes y solicitudes de licencias de conducir ingresando el RUT del ciudadano.
+
+**RF-14 : Historial de trámites**
+El sistema permitirá a los funcionarios consultar un registro de todos los trámites y procesos por los que ha pasado un ciudadano.
+
 
 # Requerimientos no funcionales
 **RNF-1 : Validación de identidad institucional**

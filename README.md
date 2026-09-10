@@ -111,8 +111,16 @@ El sistema desplegará a los funcionarios una lista detallada de todos los usuar
 El sistema enviará un correo de recordatorio al usuario 24 horas antes de la hora agendada.
 
 
-Requerimientos no funcionales
-1. El sistema validara la identidad de la persona meidante el ingreso del RUT, numero de documento y ClaveUnica.
-2. El sistema verificara la validez de los documentos mediante comprobacion de codigos de verificacion en todos los            archivos recibidos.
-3. El moduo de agendamiento restringira el horario de reservas exclusivamente al ranngo de horario de 11:00 a 12:00 horas,     de lunes a viernes
-4. La plataforma web soportara un volumen total de hasta 70.000 usuario simultaneamente. 
+# Requerimientos no funcionales
+**RNF-1 : Validación de identidad institucional**
+El sistema validara la identidad de la persona mediante el ingreso de su RUT, número de documento y validación de su ClaveUnica
+
+**RNF-2 : Verificación de integridad de archivos**
+El sistema verificará la validez de los documentos mediante comprobación de códigos de verificación y formatos permitidos en todos los archivos.
+
+**RNF-3 : Restricción horaria del módulo de agendamiento**
+El módulo de agendamiento restringe el horario de reservas exclusivamente al rango de 11:00 a 12:00 horas, de lunes a viernes.
+
+**RNF-4 : Escalabilidad  **
+La plataforma web soportara un volumen de hasta 50.000 usuarios interactuando simultáneamente
+

@@ -77,17 +77,39 @@ Necesidades principales de los vecinos:
 
 
 # Requerimientos funcionales
-1. El sistema enviara un correo electrónico de confirmación de forma automática al usuario conteniendo el resumen de la        información del tramite ingresado.
-2. El sitio web permitira al usuario autenticarse e ingresar a la plataforma mediante validacion de RUT y ClaveUnica.
-3. La pagina web desplegara un calendario que mostrara los dias y bloquues de horario disponibles en donde el usuario podra    interactuar segun le convenga.
-4. el sitio web permitira al usuario adjuntar y cargar los documentos requeridos en formato PDF para procesar su solicitud.
-5. El sistema emitirá una notificación por correo electrónico al usuario con 24 horas de anticipación a la hora agendada       con el fin de recordar la fecha y hora.
-6. El sistema permitirá a los funcionarios visualizar y descargar los documentos adjuntados por los usuarios para revisar y    validar su vericidad
-7. El sistema mostrara en el panel del usuario y del funcionario la linea de tiempo con el estado actualizado, reflejando      en esta todas las fases del tramite (Cita Reservada, Examen Teorico Aprobado, Examen Psicotecnico Aprobado, Fotografia      Capturada, Licencia en Impresion y Lista para Retiro)
-8. El sistema identificara el rol del usuario al momento de autenticarse, redirigiendo a su interfaz correspondiente segun     sus permisos de acceso
-9. El sistema notificara automaticamente via correo electronico cuando el estado de la licencia cambie a "Lista para           Retiro". 
-10. El sistema desplegara a los funcionarios una lista de los usuarios agendados para cada bloque especifico.
-11. El sistema registrara y almacenara en la base de datos la reserva de la cita seleccionada por el usuuario, asociandose      al RUT.
+**RF-1 : Selección de bloque horario**
+El sistema desplegará un calendario interactivo que mostrará los días junto a los bloques de horarios disponibles.
+
+**RF-2 : Registro de reserva de cita**
+El sistema registrará y almacenará en la base de datos la reserva de la cita seleccionada por el usuario asociando directamente a su RUT.
+
+**RF-3 : Envío de comprobante por correo**
+El sistema enviará un correo de confirmación de forma automática al usuario luego de agendar su cita..
+
+**RF-4 : Carga de documentación** 
+La plataforma web permitirá al usuario adjuntar y cargar los documentos requeridos, los cuales deberán ser enviados exclusivamente en formato PDF.
+
+**RF-5 : Visualización de documentos adjuntos por el funcionario**
+El sistema permitirá a los funcionarios municipales,  visualizar en línea los documentos adjuntados por los usuario para revisar el contenido del archivo.
+
+**RF-6 : Validación de veracidad documental**
+El sistema permitirá a los funcionarios aprobar o rechazar los documentos adjuntados por los usuarios tras verificar su veracidad y cumplimiento normativo.
+
+**RF-7 : Visualización de la línea de tiempo del trámite**
+El sistema mostrará en el panel de los usuario y funcionarios una línea de tiempo actualizada que refleja todas las fases del trámite (Cita Reservada, Examen Teórico Aprobado, Examen Psicotécnico Aprobado, Fotografía Capturada, Licencia en Impresión y Lista para Retiro).
+
+**RF-8 : Redirección por roles de usuario**
+El sistema identificará el rol del usuario al momento de autenticarse redirigiendo de manera automática a su interfaz según correspondan sus permisos de acceso.
+
+**RF-9 : Notificación de licencia lista**
+El sistema enviará una notificación automática vía correo electrónico al usuario cuando el estado de su licencia cambie a “Lista para Retiro”.
+
+**RF-10 : Despliegue de agenda diaria**
+El sistema desplegará a los funcionarios una lista detallada de todos los usuarios agendados para cada día y horario específico.
+
+**RF-11 : Envío recordatorio de cita**
+El sistema enviará un correo de recordatorio al usuario 24 horas antes de la hora agendada.
+
 
 Requerimientos no funcionales
 1. El sistema validara la identidad de la persona meidante el ingreso del RUT, numero de documento y ClaveUnica.

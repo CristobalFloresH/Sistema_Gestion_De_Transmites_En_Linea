@@ -119,6 +119,9 @@ El sistema permitirá a funcionarios buscar expedientes y solicitudes de licenci
 **RF-14 : Historial de trámites**
 El sistema permitirá a los funcionarios consultar un registro de todos los trámites y procesos por los que ha pasado un ciudadano.
 
+**RF-15 : Emision de comprobante**
+El sistema permitirá al usuario descargar un comprobante digital en formato PDF al finalizar el proceso escogido, este incluirá el resumen del tramite junto a la información soliticada.
+
 
 # Requerimientos no funcionales
 **RNF-1 : Validación de identidad institucional**

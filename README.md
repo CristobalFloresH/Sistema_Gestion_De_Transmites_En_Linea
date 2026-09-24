@@ -76,9 +76,11 @@ Necesidades principales de los vecinos:
 - Disminuir los tiempos de espera y la necesidad de traslados presenciales innecesarios.
 
 # Roles del sistema
-.Administrador: Usuario encargado de la gestión general de la plataforma.
-.Estudiante: Puede crear, editar y eliminar productos.
-.Docente: Usuario encargado de administrar contenidos educativos.
+•Administrador: Usuario encargado de la gestión general de la plataforma.
+
+•Estudiante: Puede crear, editar y eliminar productos.
+
+•Docente: Usuario encargado de administrar contenidos educativos.
 
 
 # Requerimientos funcionales

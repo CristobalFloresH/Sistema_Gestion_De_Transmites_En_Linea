@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
@@ -25,7 +25,7 @@ export default function Navbar({ variant = 'public', userName = '' }) {
               className="navbar__btn-user"
               onClick={() => setShowDropdown(!showDropdown)}
             >
-              Hola XXXX
+              Hola {userName || 'XXXX'}
             </button>
             {showDropdown && (
               <div className="navbar__dropdown">

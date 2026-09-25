@@ -18,7 +18,7 @@ export default function Login() {
 
   const entrarComoFuncionario = () => {
     login('funcionario');
-    navigate('/funcionario');
+    navigate('/');
   };
 
   return (

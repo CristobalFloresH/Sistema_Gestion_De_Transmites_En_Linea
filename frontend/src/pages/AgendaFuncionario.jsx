@@ -66,7 +66,14 @@ export default function AgendaFuncionario() {
                     <td>{c.nombre}</td>
                     <td>{c.tramite}</td>
                     <td><span className={`estado-label ${c.estadoClass}`}>{c.estado}</span></td>
-                    <td><Link to="/funcionario/agenda/proceso" className="link-action">Ver proceso del tramite</Link></td>
+                    <td>
+                      <Link
+                        to={c.estado === 'Rechazado' ? '/funcionario/agenda/error' : '/funcionario/agenda/proceso'}
+                        className="link-action"
+                      >
+                        Ver proceso del tramite
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>

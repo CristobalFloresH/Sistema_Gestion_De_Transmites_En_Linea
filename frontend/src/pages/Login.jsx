@@ -2,17 +2,33 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IonPage, IonContent } from '@ionic/react';
 import NavBar from '../components/NavBar';
+import { login } from '../services/authService';
 import './Login.css';
 
 export default function Login() {
   const [rut, setRut] = useState('');
   const [clave, setClave] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/tramite-licencia');
+
+    if (!rut || !clave) {
+      setError('Ingresa tu RUT y tu clave unica');
+      return;
+    }
+
+    const usuario = login(rut, clave);
+    if (!usuario) {
+      setError('RUT o clave incorrectos');
+      return;
+    }
+
+    setError('');
+    navigate(usuario.rol === 'funcionario' ? '/funcionario/agenda' : '/tramite-licencia');
   };
+
 
   return (
     <IonPage>
@@ -45,6 +61,7 @@ export default function Login() {
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
                 />
+                {error && <p className="login-card__error">{error}</p>}                
                 <button type="submit" className="login-card__btn">Ingresar</button>
               </form>
               <p className="login-card__footer">
@@ -60,3 +77,4 @@ export default function Login() {
     </IonPage>
   );
 }
+

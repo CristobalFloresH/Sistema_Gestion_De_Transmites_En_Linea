@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { logout } from '../services/authService';
 import './NavBar.css';
 
 export default function NavBar({ variant = 'public', userName = '' }) {
@@ -42,11 +43,16 @@ export default function NavBar({ variant = 'public', userName = '' }) {
                   <li><Link to="/">Mis documentos</Link></li>
                   <li><Link to="/">Notificaciones</Link></li>
                   <li><Link to="/">Servicio y soporte</Link></li>
+                  <li><Link to="/login" onClick={logout}>Cerrar sesion</Link></li>                  
                 </ul>
               </div>
             )}
           </div>
         )}
+        {variant === 'funcionario' && (
+          <Link to="/login" onClick={logout} className="navbar__link">Salir</Link>
+        )}
+
         {variant === 'funcionario' && (
           <button className="NavBar__btn-user NavBar__btn-func">
             Hola Func.XXXX

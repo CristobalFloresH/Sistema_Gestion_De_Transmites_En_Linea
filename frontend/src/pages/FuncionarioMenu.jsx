@@ -8,7 +8,7 @@ export default function FuncionarioMenu() {
     <IonPage>
       <IonContent>
         <div className="page menu-principal">
-          <NavBar variant="funcionario" />
+          <NavBar />
           <main className="hero">
             <div className="hero__content">
               <h1 className="hero__title">

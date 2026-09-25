@@ -9,7 +9,7 @@ export default function AgendaProceso({ hasErrors = false }) {
     <IonPage>
       <IonContent>
         <div className="page">
-          <NavBar variant="funcionario" />
+          <NavBar />
           <main className="proceso-content">
             <div className="proceso-breadcrumb">
               <Link to="/funcionario/agenda" className="proceso-breadcrumb__link">Agenda</Link>

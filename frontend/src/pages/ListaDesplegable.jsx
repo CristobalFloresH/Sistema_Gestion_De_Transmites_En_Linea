@@ -8,7 +8,7 @@ export default function ListaDesplegable() {
     <IonPage>
       <IonContent>
         <div className="page menu-principal">
-          <NavBar variant="logged" />
+          <NavBar />
           <main className="hero">
             <div className="hero__content">
               <h1 className="hero__title">

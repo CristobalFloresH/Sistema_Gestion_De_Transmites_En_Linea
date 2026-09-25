@@ -8,33 +8,24 @@ import './Login.css';
 export default function Login() {
   const [rut, setRut] = useState('');
   const [clave, setClave] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!rut || !clave) {
-      setError('Ingresa tu RUT y tu clave unica');
-      return;
-    }
-
-    const usuario = login(rut, clave);
-    if (!usuario) {
-      setError('RUT o clave incorrectos');
-      return;
-    }
-
-    setError('');
-    navigate(usuario.rol === 'funcionario' ? '/funcionario/agenda' : '/tramite-licencia');
+    login('ciudadano');
+    navigate('/');
   };
 
+  const entrarComoFuncionario = () => {
+    login('funcionario');
+    navigate('/funcionario');
+  };
 
   return (
     <IonPage>
       <IonContent>
         <div className="page login-page">
-          <NavBar variant="public" />
+          <NavBar />
           <div className="login-bg">
             <div className="login-card">
               <h2 className="login-card__title">Municipalidad de Santo Domingo</h2>
@@ -52,6 +43,7 @@ export default function Login() {
                   placeholder="12.345.678-9"
                   value={rut}
                   onChange={(e) => setRut(e.target.value)}
+                  required
                 />
                 <label className="login-card__label">Clave Unica</label>
                 <input
@@ -60,10 +52,14 @@ export default function Login() {
                   placeholder="**********"
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
-                />
-                {error && <p className="login-card__error">{error}</p>}                
+                  required
+                />                
                 <button type="submit" className="login-card__btn">Ingresar</button>
               </form>
+              <button type="button" className="login-card__func" onClick={entrarComoFuncionario}>
+                Ingreso funcionarios
+              </button>
+
               <p className="login-card__footer">
                 Problemas con tu clave unica?<br />
                 <a href="https://claveunica.gob.cl" target="_blank" rel="noreferrer">

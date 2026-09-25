@@ -35,7 +35,7 @@ export default function MisTramites() {
     <IonPage>
       <IonContent>
         <div className="page">
-          <NavBar variant="logged" />
+          <NavBar />
           <main className="mis-tramites-content">
             <h1 className="mis-tramites-title">Mis tramites</h1>
             <p className="mis-tramites-subtitle">

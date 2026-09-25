@@ -24,7 +24,7 @@ export default function Calendario() {
     <IonPage>
       <IonContent>
         <div className="page calendario-page">
-          <NavBar variant="logged" />
+          <NavBar />
           <main className="tramite-content">
             <h1 className="tramite-content__title">
               Tu licencia de conducir, gestionada en linea en la municipalidad de Santo Domingo

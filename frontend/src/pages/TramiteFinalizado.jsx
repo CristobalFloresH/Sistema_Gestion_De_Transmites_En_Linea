@@ -8,7 +8,7 @@ export default function TramiteFinalizado() {
     <IonPage>
       <IonContent>
         <div className="page">
-          <NavBar variant="logged" />
+          <NavBar />
           <main className="finalizado-content">
             <div className="finalizado-card">
               <div className="finalizado-check">&#10003;</div>

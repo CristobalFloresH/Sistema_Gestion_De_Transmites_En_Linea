@@ -89,9 +89,14 @@
   text-decoration: underline;
 }
 
-.login-card__error {
-  color: var(--red);
-  font-size: 12px;
+.login-card__func {
   margin-top: 12px;
+  background: none;
+  border: none;
+  color: var(--blue);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
 }
+
 

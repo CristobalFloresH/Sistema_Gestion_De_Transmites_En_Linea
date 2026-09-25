@@ -8,7 +8,7 @@ export default function MenuPrincipal() {
     <IonPage>
       <IonContent>
         <div className="page menu-principal">
-          <NavBar variant="public" />
+          <NavBar />
           <main className="hero">
             <div className="hero__content">
               <h1 className="hero__title">

@@ -1,10 +1,23 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { logout } from '../services/authService';
+import { useIonViewWillEnter } from '@ionic/react';
+import { getUsuario, logout } from '../services/authService';
 import './NavBar.css';
 
-export default function NavBar({ variant = 'public', userName = '' }) {
+export default function NavBar() {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [usuario, setUsuario] = useState(getUsuario());
+
+  // Ionic deja las paginas montadas: cada vez que se vuelve a una,
+  // se revisa de nuevo si hay sesion.
+  useIonViewWillEnter(() => {
+    setUsuario(getUsuario());
+    setShowDropdown(false);
+  });
+
+  let variant = 'public';
+  if (usuario?.rol === 'ciudadano') variant = 'logged';
+  if (usuario?.rol === 'funcionario') variant = 'funcionario';
 
   return (
     <nav className="NavBar">
@@ -26,7 +39,7 @@ export default function NavBar({ variant = 'public', userName = '' }) {
               className="NavBar__btn-user"
               onClick={() => setShowDropdown(!showDropdown)}
             >
-              Hola {userName || 'XXXX'}
+              Hola XXXX
             </button>
             {showDropdown && (
               <div className="NavBar__dropdown">

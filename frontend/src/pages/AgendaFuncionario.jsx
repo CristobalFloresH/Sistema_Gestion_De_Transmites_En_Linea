@@ -32,7 +32,7 @@ export default function AgendaFuncionario() {
     <IonPage>
       <IonContent>
         <div className="page">
-          <NavBar variant="funcionario" />
+          <NavBar />
           <main className="agenda-content">
             <h1 className="agenda-title">Agenda</h1>
             <div className="agenda-filters">

@@ -39,14 +39,30 @@
   font-size: 13px;
 }
 
-.agenda-table { width: 100%; border-collapse: collapse; }
-.agenda-table thead { border-bottom: 2px solid #333; }
-.agenda-table th { text-align: left; padding: 10px 8px; font-size: 14px; font-weight: 600; }
-.agenda-table td { padding: 12px 8px; font-size: 13px; border-bottom: 1px solid #ddd; }
+.agenda-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.agenda-table th {
+  text-align: left;
+  padding: 12px;
+  background: #e6e6e6;
+  color: var(--gray-text);
+  font-size: 16px;
+  font-weight: 400;
+}
+.agenda-table td { padding: 6px 12px; font-size: 13px; border-bottom: 1px solid #ccc; }
+.agenda-table tbody tr:last-child td { border-bottom: none; }
 
 .agenda-table .td-hora { font-family: var(--font-body); font-size: 18px; font-weight: 400; }
 
-.estado-label { font-size: 13px; font-weight: 600; }
+.agenda-table .link-action { text-decoration: none; font-size: 13px; }
+
+.estado-label { font-size: 13px; font-weight: 400; }
 .estado-label.pendiente { color: #e6a817; }
 .estado-label.aprobado { color: var(--green); }
 .estado-label.rechazado { color: var(--red); }

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonButton } from '@ionic/react';
+import { IonPage, IonContent, IonButton, IonIcon } from '@ionic/react';
+import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
+import IconoPDF from '../assets/PDF.png';
 import './AgendaProceso.css';
 
 export default function AgendaProceso({ hasErrors = false }) {
@@ -33,20 +35,26 @@ export default function AgendaProceso({ hasErrors = false }) {
                   </div>
                 </div>
                 <div className="doc-icons">
-                  <div className="pdf-icon">PDF<br /><small>105 KB</small></div>
-                  <div className="pdf-icon">PDF<br /><small>80 KB</small></div>
+                  <div className="pdf-icon">
+                    <img src={IconoPDF} alt="PDF" />
+                    <small>105 KB</small>
+                  </div>
+                  <div className="pdf-icon">
+                    <img src={IconoPDF} alt="PDF" />
+                    <small>80 KB</small>
+                  </div>
                 </div>
               </div>
               <div className="proceso-panel">
                 <h3>Validar veracidad de los documentos</h3>
                 <ul className="validacion-list">
                   <li className={hasErrors ? 'error' : 'ok'}>
-                    <span>{hasErrors ? '✕' : '✓'}</span> Datos coinciden con RUT
+                    <IonIcon icon={hasErrors ? closeCircle : checkmarkCircle} /> Datos coinciden con RUT
                   </li>
                   <li className={hasErrors ? 'error' : 'ok'}>
-                    <span>{hasErrors ? '✕' : '✓'}</span> Documento legible
+                    <IonIcon icon={hasErrors ? closeCircle : checkmarkCircle} /> Documento legible
                   </li>
-                  <li className="ok"><span>✓</span> Cumple normativa vigente</li>
+                  <li className="ok"><IonIcon icon={checkmarkCircle} /> Cumple normativa vigente</li>
                 </ul>
                 <div className="validacion-actions">
                   <IonButton className="btn-validacion rechazar">Rechazar</IonButton>

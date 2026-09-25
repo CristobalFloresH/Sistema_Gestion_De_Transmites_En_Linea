@@ -29,21 +29,16 @@
 .doc-icons { display: flex; gap: 16px; }
 
 .pdf-icon {
-  width: 100px;
-  height: 100px;
-  background: #ff4444;
-  color: white;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  font-family: var(--font-display);
-  font-size: 28px;
-  text-align: center;
   flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.pdf-icon small { font-size: 11px; font-family: var(--font-body); }
+.pdf-icon img { width: 64px; height: auto; }
+
+.pdf-icon small { font-size: 11px; font-family: var(--font-body); color: var(--gray-text); }
+
 
 .validacion-list { list-style: none; margin-bottom: 16px; }
 
@@ -55,8 +50,9 @@
   gap: 8px;
 }
 
-.validacion-list li.ok span { color: var(--green); }
-.validacion-list li.error span { color: var(--red); }
+.validacion-list ion-icon { font-size: 20px; }
+.validacion-list li.ok ion-icon { color: var(--green); }
+.validacion-list li.error ion-icon { color: var(--red); }
 
 .validacion-actions { display: flex; gap: 12px; margin-bottom: 24px; }
 

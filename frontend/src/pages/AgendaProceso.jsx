@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonButton } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import './AgendaProceso.css';
@@ -49,8 +49,8 @@ export default function AgendaProceso({ hasErrors = false }) {
                   <li className="ok"><span>✓</span> Cumple normativa vigente</li>
                 </ul>
                 <div className="validacion-actions">
-                  <button className="btn-validacion rechazar">Rechazar</button>
-                  <button className="btn-validacion aprobar">Aprobar</button>
+                  <IonButton className="btn-validacion rechazar">Rechazar</IonButton>
+                  <IonButton className="btn-validacion aprobar">Aprobar</IonButton>
                 </div>
                 <div className="historial">
                   <h4>Historial de tramites</h4>

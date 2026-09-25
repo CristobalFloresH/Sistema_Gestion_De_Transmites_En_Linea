@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonButton } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './MenuPrincipal.css';
 
@@ -18,8 +18,8 @@ export default function MenuPrincipal() {
                 Agenda tu hora, realiza tramites online y sigue cada fase de tu licencia desde un solo lugar
               </p>
               <div className="hero__actions">
-                <Link to="/tramite-licencia" className="btn btn--green">Ver Tramites</Link>
-                <Link to="/mis-tramites" className="btn btn--outline">Seguir mis tramites</Link>
+                <IonButton routerLink="/tramite-licencia" className="btn btn--green">Ver Tramites</IonButton>
+                <IonButton routerLink="/mis-tramites" className="btn btn--outline">Seguir mis tramites</IonButton>
               </div>
             </div>
             <div className="hero__image">

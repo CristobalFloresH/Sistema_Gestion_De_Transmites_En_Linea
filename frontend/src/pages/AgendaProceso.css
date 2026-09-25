@@ -7,7 +7,7 @@
   margin-bottom: 20px;
 }
 
-.proceso-breadcrumb__link { color: var(--black); text-decoration: none; font-weight: 700; }
+.proceso-breadcrumb__link { color: var(--black); text-decoration: none; font-weight: 400; }
 .proceso-breadcrumb span { font-weight: 400; }
 .proceso-progress { margin-bottom: 30px; }
 
@@ -18,7 +18,7 @@
 .proceso-panel h3 {
   font-family: var(--font-display);
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 16px;
 }
 
@@ -61,25 +61,34 @@
 .validacion-actions { display: flex; gap: 12px; margin-bottom: 24px; }
 
 .btn-validacion {
-  padding: 6px 24px;
-  border-radius: 8px;
+  margin: 0;
+  --border-radius: 8px;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --box-shadow: none;
   font-family: var(--font-body);
   font-size: 13px;
-  cursor: pointer;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .btn-validacion.rechazar {
-  background: var(--white);
-  border: 2px solid var(--red);
-  color: var(--red);
+  --background: var(--white);
+  --color: var(--red);
+  --border-color: var(--red);
+  --border-width: 2px;
+  --border-style: solid;
 }
 
-.btn-validacion.aprobar { background: var(--green); border: none; color: var(--white); }
+.btn-validacion.aprobar {
+  --background: var(--green);
+  --color: var(--white);
+}
 
 .historial h4 {
   font-family: var(--font-display);
   font-size: 22px;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 8px;
 }
 

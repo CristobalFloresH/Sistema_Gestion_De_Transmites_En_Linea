@@ -100,5 +100,3 @@
 }
 
 .hora-slot:hover, .hora-slot.selected { background: var(--green); color: var(--white); }
-
-.calendario-confirm { width: 100%; text-align: center; }

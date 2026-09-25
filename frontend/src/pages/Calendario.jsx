@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonButton } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './Calendario.css';
 
@@ -80,9 +79,9 @@ export default function Calendario() {
                       </button>
                     ))}
                   </div>
-                  <Link to="/tramite-finalizado" className="btn btn--green calendario-confirm">
+                  <IonButton routerLink="/tramite-finalizado" expand="block" className="btn btn--green">
                     Continuar
-                  </Link>
+                  </IonButton>
                 </div>
               </div>
             </div>

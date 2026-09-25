@@ -4,7 +4,7 @@
 .mis-tramites-title {
   font-family: var(--font-display);
   font-size: 48px;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 4px;
 }
 
@@ -43,13 +43,24 @@
 .tramite-card__actions { display: flex; gap: 12px; margin-top: 16px; }
 
 .btn-tramite {
-  padding: 6px 20px;
-  border: 1px solid #ccc;
-  border-radius: 100px;
-  background: var(--white);
+  margin: 0;
+  --background: var(--white);
+  --color: var(--black);
+  --border-color: #ccc;
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 100px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --box-shadow: none;
   font-family: var(--font-body);
   font-size: 13px;
-  cursor: pointer;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-.btn-tramite.cancel { background: #ffb3b3; border-color: #ff8888; color: #900; }
+.btn-tramite.cancel {
+  --background: #ffb3b3;
+  --border-color: #ff8888;
+  --color: #900;
+}

@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonButton } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './TramiteFinalizado.css';
 
@@ -30,8 +29,8 @@ export default function TramiteFinalizado() {
                 <p>Te enviamos un correo a juanlopez@gmail.com con el comprobante e informacion sobre [Tramite]</p>
               </div>
               <div className="finalizado-actions">
-                <button className="btn btn--white-outline">Descargar Comprobante</button>
-                <Link to="/" className="btn btn--green">Volver al inicio</Link>
+                <IonButton className="btn btn--white-outline">Descargar Comprobante</IonButton>
+                <IonButton routerLink="/" className="btn btn--green">Volver al inicio</IonButton>
               </div>
             </div>
           </main>

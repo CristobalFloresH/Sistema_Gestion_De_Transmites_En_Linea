@@ -40,24 +40,6 @@
   align-items: center;
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 32px;
-  border-radius: 100px;
-  font-family: var(--font-body);
-  font-size: 20px;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.btn:hover { opacity: 0.85; }
-.btn--green { background: var(--green); color: var(--white); }
-.btn--outline { background: var(--white); color: var(--blue); border: 2px solid var(--blue); }
-.btn--red { background: var(--red); color: var(--white); }
-.btn--white-outline { background: var(--white); color: var(--black); border: 2px solid #ccc; }
-
 .hero__image img {
   width: 100%;
   max-width: 518px;

@@ -1,4 +1,4 @@
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonButton } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import './MisTramites.css';
@@ -56,7 +56,7 @@ export default function MisTramites() {
                       <ProgressBar currentStep={t.step} />
                       <div className="tramite-card__actions">
                         {t.actions.map((a, j) => (
-                          <button key={j} className={`btn-tramite ${j === 0 ? 'cancel' : ''}`}>{a}</button>
+                          <IonButton key={j} className={`btn-tramite ${j === 0 ? 'cancel' : ''}`}>{a}</IonButton>
                         ))}
                       </div>
                     </>

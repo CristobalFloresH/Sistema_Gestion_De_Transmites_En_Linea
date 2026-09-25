@@ -1,0 +1,104 @@
+
+.calendario-section {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 24px 32px;
+}
+
+.calendario-step-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendario-body { display: flex; gap: 40px; align-items: flex-start; }
+
+.calendario-grid {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  min-width: 300px;
+}
+
+.calendario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.calendario-header h3 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.calendario-nav {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.calendario-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 14px;
+}
+
+.calendario-table th {
+  padding: 6px;
+  font-weight: 600;
+  color: var(--gray-text);
+  font-size: 12px;
+}
+
+.cal-day { padding: 8px; cursor: pointer; border-radius: 6px; }
+.cal-day:hover { background: #f0f0f0; }
+.cal-day.selected { background: var(--green); color: var(--white); border-radius: 50%; }
+.cal-day.past { color: #bbb; }
+
+.calendario-legend {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--gray-text);
+}
+
+.legend-item { display: flex; align-items: center; gap: 4px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.legend-dot.available { background: var(--green); }
+.legend-dot.occupied { background: #ccc; }
+
+.horas-panel { flex: 1; }
+
+.horas-panel h4 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.horas-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+
+.hora-slot {
+  padding: 8px 24px;
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  background: rgba(75, 229, 126, 0.08);
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.hora-slot:hover, .hora-slot.selected { background: var(--green); color: var(--white); }
+
+.calendario-confirm { width: 100%; text-align: center; }

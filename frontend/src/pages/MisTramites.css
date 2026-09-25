@@ -1,0 +1,55 @@
+
+.mis-tramites-content { padding: 30px 40px; }
+
+.mis-tramites-title {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.mis-tramites-subtitle { font-size: 14px; color: var(--gray-text); margin-bottom: 24px; }
+
+.tramites-list { display: flex; flex-direction: column; gap: 16px; }
+
+.tramite-card { background: var(--white); border-radius: 16px; padding: 24px 32px; }
+
+.tramite-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.tramite-card__header h3 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.tramite-card__fecha { font-size: 12px; color: var(--gray-text); }
+
+.tramite-badge {
+  padding: 4px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--white);
+}
+
+.tramite-badge.proceso { background: #f0c040; }
+.tramite-badge.rechazado { background: var(--red); }
+.tramite-badge.aprobado { background: var(--green); }
+
+.tramite-card__actions { display: flex; gap: 12px; margin-top: 16px; }
+
+.btn-tramite {
+  padding: 6px 20px;
+  border: 1px solid #ccc;
+  border-radius: 100px;
+  background: var(--white);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn-tramite.cancel { background: #ffb3b3; border-color: #ff8888; color: #900; }

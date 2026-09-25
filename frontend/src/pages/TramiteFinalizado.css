@@ -1,0 +1,64 @@
+
+.finalizado-content {
+  display: flex;
+  justify-content: center;
+  padding: 60px 40px;
+}
+
+.finalizado-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 48px 60px;
+  text-align: center;
+  max-width: 560px;
+  width: 100%;
+}
+
+.finalizado-check {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 4px solid var(--green);
+  color: var(--green);
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.finalizado-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.finalizado-desc { font-size: 14px; color: var(--gray-text); margin-bottom: 20px; }
+
+.finalizado-info {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background: #f5f5f5;
+  border-radius: 100px;
+  font-size: 13px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.finalizado-email {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gray-text);
+  margin-bottom: 24px;
+  justify-content: center;
+}
+
+.finalizado-email span { font-size: 20px; }
+
+.finalizado-actions { display: flex; gap: 16px; justify-content: center; }

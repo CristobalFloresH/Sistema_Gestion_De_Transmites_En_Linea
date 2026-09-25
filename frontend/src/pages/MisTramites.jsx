@@ -1,4 +1,7 @@
-import { IonPage, IonContent, IonButton } from '@ionic/react';
+import {
+  IonPage, IonContent, IonButton, IonCard, IonCardHeader, IonCardTitle,
+  IonCardSubtitle, IonCardContent, IonBadge,
+} from '@ionic/react';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import './MisTramites.css';
@@ -43,25 +46,25 @@ export default function MisTramites() {
             </p>
             <div className="tramites-list">
               {TRAMITES.map((t, i) => (
-                <div key={i} className="tramite-card">
-                  <div className="tramite-card__header">
+                <IonCard key={i} className="tramite-card">
+                  <IonCardHeader className="tramite-card__header">
                     <div>
-                      <h3>{t.tipo}</h3>
-                      <p className="tramite-card__fecha">{t.fecha}</p>
+                      <IonCardTitle className="tramite-card__titulo">{t.tipo}</IonCardTitle>
+                      <IonCardSubtitle className="tramite-card__fecha">{t.fecha}</IonCardSubtitle>
                     </div>
-                    <span className={`tramite-badge ${t.estadoClass}`}>{t.estado}</span>
-                  </div>
+                    <IonBadge className={`tramite-badge ${t.estadoClass}`}>{t.estado}</IonBadge>
+                  </IonCardHeader>
                   {t.step !== null && (
-                    <>
+                    <IonCardContent className="tramite-card__contenido">
                       <ProgressBar currentStep={t.step} />
                       <div className="tramite-card__actions">
                         {t.actions.map((a, j) => (
                           <IonButton key={j} className={`btn-tramite ${j === 0 ? 'cancel' : ''}`}>{a}</IonButton>
                         ))}
                       </div>
-                    </>
+                    </IonCardContent>
                   )}
-                </div>
+                </IonCard>
               ))}
             </div>
           </main>

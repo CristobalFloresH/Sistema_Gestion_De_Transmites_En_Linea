@@ -31,12 +31,12 @@ export default function App() {
           <Route path="/" element={<MenuPrincipal />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Rutas del ciudadano */}
-          <Route path="/tramite-licencia" element={<ProtectedRoute rol="ciudadano"><TramiteLicencia /></ProtectedRoute>} />
-          <Route path="/calendario" element={<ProtectedRoute rol="ciudadano"><Calendario /></ProtectedRoute>} />
-          <Route path="/tramite-finalizado" element={<ProtectedRoute rol="ciudadano"><TramiteFinalizado /></ProtectedRoute>} />
-          <Route path="/mis-tramites" element={<ProtectedRoute rol="ciudadano"><MisTramites /></ProtectedRoute>} />
-          <Route path="/lista-desplegable" element={<ProtectedRoute rol="ciudadano"><ListaDesplegable /></ProtectedRoute>} />
+          {/* Rutas con sesion (ciudadano y funcionario) */}
+          <Route path="/tramite-licencia" element={<ProtectedRoute><TramiteLicencia /></ProtectedRoute>} />
+          <Route path="/calendario" element={<ProtectedRoute><Calendario /></ProtectedRoute>} />
+          <Route path="/tramite-finalizado" element={<ProtectedRoute><TramiteFinalizado /></ProtectedRoute>} />
+          <Route path="/mis-tramites" element={<ProtectedRoute><MisTramites /></ProtectedRoute>} />
+          <Route path="/lista-desplegable" element={<ProtectedRoute><ListaDesplegable /></ProtectedRoute>} />
 
           {/* Rutas del funcionario */}
           <Route path="/funcionario" element={<ProtectedRoute rol="funcionario"><FuncionarioMenu /></ProtectedRoute>} />

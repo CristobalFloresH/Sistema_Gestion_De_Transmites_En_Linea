@@ -94,7 +94,8 @@
   background: none;
   border: none;
   color: var(--blue);
-  font-size: 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
   text-decoration: underline;
   cursor: pointer;
 }

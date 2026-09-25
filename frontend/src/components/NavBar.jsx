@@ -33,21 +33,22 @@ export default function NavBar() {
         {variant === 'public' && (
           <Link to="/login" className="NavBar__btn-ingresar">Ingresar</Link>
         )}
-        {variant === 'logged' && (
+        {variant !== 'public' && (
           <div className="NavBar__user-area">
             <button
-              className="NavBar__btn-user"
+              className={variant === 'funcionario' ? 'NavBar__btn-user NavBar__btn-func' : 'NavBar__btn-user'}
               onClick={() => setShowDropdown(!showDropdown)}
             >
-              Hola XXXX
+              {/* Cuando exista el login real, se mostrara el nombre del usuario */}
+              Hola {usuario.nombre || (variant === 'funcionario' ? 'Func.XXXX' : 'XXXX')}
             </button>
             {showDropdown && (
               <div className="NavBar__dropdown">
                 <div className="NavBar__dropdown-header">
                   <div className="NavBar__avatar" />
                   <div>
-                    <strong>Juan Lopez</strong>
-                    <p>Ciudadano</p>
+                    <strong>{usuario.nombre || 'Usuario'}</strong>
+                    <p>{variant === 'funcionario' ? 'Funcionario' : 'Ciudadano'}</p>
                   </div>
                 </div>
                 <ul>
@@ -61,15 +62,6 @@ export default function NavBar() {
               </div>
             )}
           </div>
-        )}
-        {variant === 'funcionario' && (
-          <Link to="/login" onClick={logout} className="navbar__link">Salir</Link>
-        )}
-
-        {variant === 'funcionario' && (
-          <button className="NavBar__btn-user NavBar__btn-func">
-            Hola Func.XXXX
-          </button>
         )}
       </div>
       <div className="NavBar__bar">

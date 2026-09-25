@@ -21,7 +21,8 @@
   background: var(--white);
   border-radius: 16px;
   padding: 24px 32px;
-  margin-bottom: 20px;
+  max-width: 900px;
+  margin: 0 auto 20px;
   display: flex;
   gap: 16px;
 }
@@ -45,6 +46,7 @@
 .step-content h3 {
   font-family: var(--font-body);
   font-size: 14px;
+  font-weight: 400;
   margin-bottom: 12px;
 }
 
@@ -60,80 +62,141 @@
   text-decoration: underline;
 }
 
-.tipo-tramite-options { display: flex; gap: 16px; }
-
-.tipo-btn {
-  padding: 8px 20px;
-  border: 2px solid #ccc;
-  border-radius: 100px;
-  background: var(--white);
-  font-family: var(--font-body);
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
+.tipo-tramite-options {
+  gap: 16px;
+  justify-content: space-between;
+  background: transparent;
 }
 
-.tipo-btn.active {
+.tipo-btn {
+  flex: 0 1 190px;
+  max-width: none;
+  min-height: auto;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  --background: var(--white);
+  --background-checked: var(--white);
+  --color: var(--black);
+  --color-checked: var(--black);
+  --indicator-color: transparent;
+  --padding-top: 6px;
+  --padding-bottom: 6px;
+  --border-radius: 6px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.tipo-btn.segment-button-checked {
   border-color: var(--green);
-  background: rgba(75, 229, 126, 0.1);
+}
+
+.tipo-btn__titulo {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.tipo-btn__detalle {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--gray-text);
 }
 
 .fecha-selector {
   display: flex;
-  gap: 24px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  gap: 16px;
+  align-items: stretch;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 }
 
-.fecha-mes {
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 16px;
+.fecha-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border: 1px solid #ccc;
   border-radius: 6px;
+  padding: 10px 14px;
 }
 
-.fecha-dias {
-  display: grid;
-  grid-template-columns: repeat(7, 32px);
-  gap: 4px;
-  text-align: center;
-  font-size: 12px;
-}
-
-.fecha-dia-header { font-weight: 600; color: var(--gray-text); }
-.fecha-dia { padding: 4px; cursor: pointer; border-radius: 4px; }
-.fecha-dia:hover { background: #eee; }
-.fecha-dia.selected { background: var(--green); color: var(--white); }
-
-.hora-selector label {
-  display: block;
-  font-size: 12px;
+.fecha-box__titulo {
+  font-size: 16px;
   color: var(--gray-text);
   margin-bottom: 8px;
 }
 
-.horas-grid { display: flex; flex-direction: column; gap: 6px; }
+.dias-fila { display: flex; gap: 8px; }
 
-.hora-btn {
-  padding: 6px 20px;
-  border: 1px solid var(--green);
-  background: rgba(75, 229, 126, 0.1);
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  font-family: var(--font-body);
+.horas-grid {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  gap: 8px;
 }
 
-.hora-btn:hover { background: var(--green); color: var(--white); }
+.opcion-btn {
+  margin: 0;
+  height: auto;
+  --background: var(--white);
+  --color: var(--black);
+  --border-color: #ccc;
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 100px;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --padding-top: 3px;
+  --padding-bottom: 3px;
+  --box-shadow: none;
+  font-family: var(--font-body);
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: normal;
+}
 
-.docs-grid { display: flex; gap: 16px; }
+.opcion-btn.selected {
+  --background: rgba(75, 229, 126, 0.3);
+  --border-color: var(--green);
+}
+
+.opcion-btn--hora {
+  --border-radius: 3px;
+  --color: var(--gray-text);
+  --padding-start: 8px;
+  --padding-end: 8px;
+}
+
+.mas-horarios {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  max-width: 110px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.mas-horarios__icono {
+  width: 80px;
+  height: auto;
+}
+
+.mas-horarios small {
+  color: var(--gray-text);
+  font-style: italic;
+}
+
+
+.docs-grid { display: flex; gap: 16px; justify-content: space-between; }
 
 .doc-card {
-  flex: 1;
+  flex: 0 1 190px;
   padding: 14px 20px;
-  border: 2px solid #ccc;
-  border-radius: 10px;
+  border: 2px dashed var(--blue);
+  border-radius: 4px;
   font-size: 14px;
   text-align: center;
   cursor: pointer;
@@ -141,3 +204,15 @@
 }
 
 .doc-card:hover { border-color: var(--green); }
+
+.doc-card.cargado {
+  border-style: solid;
+  border-color: var(--green);
+}
+
+.btn.tramite-continuar {
+  display: block;
+  width: 230px;
+  margin: 8px auto 0;
+  --border-radius: 6px;
+}

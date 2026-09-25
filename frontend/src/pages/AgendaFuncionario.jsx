@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { IonPage, IonContent } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './AgendaFuncionario.css';
 
@@ -28,47 +29,51 @@ export default function AgendaFuncionario() {
   });
 
   return (
-    <div className="page">
-      <NavBar variant="funcionario" />
-      <main className="agenda-content">
-        <h1 className="agenda-title">Agenda</h1>
-        <div className="agenda-filters">
-          <div className="filter-search">
-            <span>&#128269;</span>
-            <input type="text" placeholder="Buscar por RUT / Nombre"
-              value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
-          </div>
-          <select className="filter-select" value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)}>
-            <option value="">Todos los estados</option>
-            <option value="Pendiente">Pendiente</option>
-            <option value="Aprobado">Aprobado</option>
-            <option value="Rechazado">Rechazado</option>
-          </select>
-          <select className="filter-select" value={filtroTramite} onChange={(e) => setFiltroTramite(e.target.value)}>
-            <option value="">Todos los tramites</option>
-            <option value="Licencia Nueva">Licencia Nueva</option>
-            <option value="Renovacion">Renovacion</option>
-            <option value="Reimpresion">Reimpresion</option>
-          </select>
+    <IonPage>
+      <IonContent>
+        <div className="page">
+          <NavBar variant="funcionario" />
+          <main className="agenda-content">
+            <h1 className="agenda-title">Agenda</h1>
+            <div className="agenda-filters">
+              <div className="filter-search">
+                <span>&#128269;</span>
+                <input type="text" placeholder="Buscar por RUT / Nombre"
+                  value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
+              </div>
+              <select className="filter-select" value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)}>
+                <option value="">Todos los estados</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Aprobado">Aprobado</option>
+                <option value="Rechazado">Rechazado</option>
+              </select>
+              <select className="filter-select" value={filtroTramite} onChange={(e) => setFiltroTramite(e.target.value)}>
+                <option value="">Todos los tramites</option>
+                <option value="Licencia Nueva">Licencia Nueva</option>
+                <option value="Renovacion">Renovacion</option>
+                <option value="Reimpresion">Reimpresion</option>
+              </select>
+            </div>
+            <table className="agenda-table">
+              <thead>
+                <tr><th>Hora</th><th>RUT</th><th>Nombre</th><th>Tramite</th><th>Estado</th><th>Acciones</th></tr>
+              </thead>
+              <tbody>
+                {citasFiltradas.map((c, i) => (
+                  <tr key={i}>
+                    <td className="td-hora">{c.hora}</td>
+                    <td>{c.rut}</td>
+                    <td>{c.nombre}</td>
+                    <td>{c.tramite}</td>
+                    <td><span className={`estado-label ${c.estadoClass}`}>{c.estado}</span></td>
+                    <td><Link to="/funcionario/agenda/proceso" className="link-action">Ver proceso del tramite</Link></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </main>
         </div>
-        <table className="agenda-table">
-          <thead>
-            <tr><th>Hora</th><th>RUT</th><th>Nombre</th><th>Tramite</th><th>Estado</th><th>Acciones</th></tr>
-          </thead>
-          <tbody>
-            {citasFiltradas.map((c, i) => (
-              <tr key={i}>
-                <td className="td-hora">{c.hora}</td>
-                <td>{c.rut}</td>
-                <td>{c.nombre}</td>
-                <td>{c.tramite}</td>
-                <td><span className={`estado-label ${c.estadoClass}`}>{c.estado}</span></td>
-                <td><Link to="/funcionario/agenda/proceso" className="link-action">Ver proceso del tramite</Link></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </main>
-    </div>
+      </IonContent>
+    </IonPage>
   );
 }

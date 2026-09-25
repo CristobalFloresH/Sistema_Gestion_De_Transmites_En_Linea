@@ -23,6 +23,9 @@ body {
   --green-dark: #2D8B4E;
   --font-display: 'Jomhuria', cursive;
   --font-body: 'Jomolhari', serif;
+  --ion-background-color: #DEDDDD;
+  --ion-font-family: 'Jomolhari', serif;
+
 }
 
 a {
@@ -39,4 +42,8 @@ button {
 input {
   font-family: var(--font-body);
   outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
 }

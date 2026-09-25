@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { IonPage, IonContent } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './Calendario.css';
 
@@ -20,70 +21,74 @@ export default function Calendario() {
   const [selectedHora, setSelectedHora] = useState(null);
 
   return (
-    <div className="page calendario-page">
-      <NavBar variant="logged" />
-      <main className="tramite-content">
-        <h1 className="tramite-content__title">
-          Tu licencia de conducir, gestionada en linea en la municipalidad de Santo Domingo
-        </h1>
-        <p className="tramite-content__subtitle">
-          Agenda tu hora, sube tus documentos y sigue tu tramite desde un solo lugar.
-        </p>
-        <div className="calendario-section">
-          <div className="calendario-step-header">
-            <div className="step-badge">2</div>
-            <div className="step-header" style={{ flex: 1 }}>
-              <h3>Elija hora y dia</h3>
-              <span className="link-green">Busca mas horarios?</span>
-            </div>
-          </div>
-          <div className="calendario-body">
-            <div className="calendario-grid">
-              <div className="calendario-header">
-                <h3>Septiembre</h3>
-                <button className="calendario-nav">&gt;</button>
+    <IonPage>
+      <IonContent>
+        <div className="page calendario-page">
+          <NavBar variant="logged" />
+          <main className="tramite-content">
+            <h1 className="tramite-content__title">
+              Tu licencia de conducir, gestionada en linea en la municipalidad de Santo Domingo
+            </h1>
+            <p className="tramite-content__subtitle">
+              Agenda tu hora, sube tus documentos y sigue tu tramite desde un solo lugar.
+            </p>
+            <div className="calendario-section">
+              <div className="calendario-step-header">
+                <div className="step-badge">2</div>
+                <div className="step-header" style={{ flex: 1 }}>
+                  <h3>Elija hora y dia</h3>
+                  <span className="link-green">Busca mas horarios?</span>
+                </div>
               </div>
-              <table className="calendario-table">
-                <thead>
-                  <tr><th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>
-                </thead>
-                <tbody>
-                  {DIAS_MES.map((semana, i) => (
-                    <tr key={i}>
-                      {semana.map((dia, j) => (
-                        <td key={j}
-                          className={`cal-day ${dia === selectedDay ? 'selected' : ''} ${dia && dia < 15 ? 'past' : ''}`}
-                          onClick={() => dia && setSelectedDay(dia)}>
-                          {dia || ''}
-                        </td>
+              <div className="calendario-body">
+                <div className="calendario-grid">
+                  <div className="calendario-header">
+                    <h3>Septiembre</h3>
+                    <button className="calendario-nav">&gt;</button>
+                  </div>
+                  <table className="calendario-table">
+                    <thead>
+                      <tr><th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>
+                    </thead>
+                    <tbody>
+                      {DIAS_MES.map((semana, i) => (
+                        <tr key={i}>
+                          {semana.map((dia, j) => (
+                            <td key={j}
+                              className={`cal-day ${dia === selectedDay ? 'selected' : ''} ${dia && dia < 15 ? 'past' : ''}`}
+                              onClick={() => dia && setSelectedDay(dia)}>
+                              {dia || ''}
+                            </td>
+                          ))}
+                        </tr>
                       ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="calendario-legend">
-                <span className="legend-item"><span className="legend-dot available" /> Disponible</span>
-                <span className="legend-item"><span className="legend-dot occupied" /> Ocupado</span>
+                    </tbody>
+                  </table>
+                  <div className="calendario-legend">
+                    <span className="legend-item"><span className="legend-dot available" /> Disponible</span>
+                    <span className="legend-item"><span className="legend-dot occupied" /> Ocupado</span>
+                  </div>
+                </div>
+                <div className="horas-panel">
+                  <h4>Horas disponibles</h4>
+                  <div className="horas-list">
+                    {HORAS.map(h => (
+                      <button key={h}
+                        className={`hora-slot ${selectedHora === h ? 'selected' : ''}`}
+                        onClick={() => setSelectedHora(h)}>
+                        {h}
+                      </button>
+                    ))}
+                  </div>
+                  <Link to="/tramite-finalizado" className="btn btn--green calendario-confirm">
+                    Continuar
+                  </Link>
+                </div>
               </div>
             </div>
-            <div className="horas-panel">
-              <h4>Horas disponibles</h4>
-              <div className="horas-list">
-                {HORAS.map(h => (
-                  <button key={h}
-                    className={`hora-slot ${selectedHora === h ? 'selected' : ''}`}
-                    onClick={() => setSelectedHora(h)}>
-                    {h}
-                  </button>
-                ))}
-              </div>
-              <Link to="/tramite-finalizado" className="btn btn--green calendario-confirm">
-                Continuar
-              </Link>
-            </div>
-          </div>
+          </main>
         </div>
-      </main>
-    </div>
+      </IonContent>
+    </IonPage>
   );
 }

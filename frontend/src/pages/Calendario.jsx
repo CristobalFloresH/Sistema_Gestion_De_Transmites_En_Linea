@@ -1,23 +1,38 @@
-
 import { useState } from 'react';
-import { IonPage, IonContent, IonButton } from '@ionic/react';
+import { IonPage, IonContent, IonButton, IonDatetime } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './Calendario.css';
 
-const DIAS_MES = [
-  [null, 1, 2, 3, 4, 5, 6],
-  [7, 8, 9, 10, 11, 12, 13],
-  [14, 15, 16, 17, 18, 19, 20],
-  [21, 22, 23, 24, 25, 26, 27],
-  [28, 29, 30, null, null, null, null],
+const BLOQUES = [
+  { hora: '09:00', cupos: 13 },
+  { hora: '10:00', cupos: 30 },
+  { hora: '11:00', cupos: 1 },
+  { hora: '12:00', cupos: 3 },
+  { hora: '13:00', cupos: 3 },
 ];
 
-const HORAS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
+function fechaDeHoy() {
+  const hoy = new Date();
+  const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+  const dia = String(hoy.getDate()).padStart(2, '0');
+  return `${hoy.getFullYear()}-${mes}-${dia}`;
+}
 
+function formatearFecha(fechaIso) {
+  const fecha = new Date(`${fechaIso.slice(0, 10)}T12:00:00`);
+  const texto = fecha.toLocaleDateString('es-CL', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
 
 export default function Calendario() {
-  const [selectedDay, setSelectedDay] = useState(17);
-  const [selectedHora, setSelectedHora] = useState(null);
+  const hoy = fechaDeHoy();
+  const [fecha, setFecha] = useState(hoy);
+  const [hora, setHora] = useState(null);
+
+  const cambiarFecha = (nuevaFecha) => {
+    setFecha(nuevaFecha);
+    setHora(null);
+  };
 
   return (
     <IonPage>
@@ -32,54 +47,50 @@ export default function Calendario() {
               Agenda tu hora, sube tus documentos y sigue tu tramite desde un solo lugar.
             </p>
             <div className="calendario-section">
-              <div className="calendario-step-header">
-                <div className="step-badge">2</div>
-                <div className="step-header" style={{ flex: 1 }}>
-                  <h3>Elija hora y dia</h3>
-                  <span className="link-green">Busca mas horarios?</span>
-                </div>
-              </div>
               <div className="calendario-body">
-                <div className="calendario-grid">
-                  <div className="calendario-header">
-                    <h3>Septiembre</h3>
-                    <button className="calendario-nav">&gt;</button>
+                <div>
+                  <div className="calendario-step-header">
+                    <div className="step-badge">2</div>
+                    <h3>Elija hora y dia</h3>
                   </div>
-                  <table className="calendario-table">
-                    <thead>
-                      <tr><th>L</th><th>M</th><th>M</th><th>J</th><th>V</th><th>S</th><th>D</th></tr>
-                    </thead>
-                    <tbody>
-                      {DIAS_MES.map((semana, i) => (
-                        <tr key={i}>
-                          {semana.map((dia, j) => (
-                            <td key={j}
-                              className={`cal-day ${dia === selectedDay ? 'selected' : ''} ${dia && dia < 15 ? 'past' : ''}`}
-                              onClick={() => dia && setSelectedDay(dia)}>
-                              {dia || ''}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <div className="calendario-legend">
-                    <span className="legend-item"><span className="legend-dot available" /> Disponible</span>
-                    <span className="legend-item"><span className="legend-dot occupied" /> Ocupado</span>
+                  <div className="calendario-grid">
+                    <IonDatetime
+                      className="calendario-datetime"
+                      presentation="date"
+                      locale="es-CL"
+                      firstDayOfWeek={1}
+                      min={hoy}
+                      value={fecha}
+                      onIonChange={(e) => cambiarFecha(e.detail.value)}
+                    />
                   </div>
                 </div>
                 <div className="horas-panel">
-                  <h4>Horas disponibles</h4>
+                  <h4>Bloques disponibles</h4>
+                  <p className="horas-panel__fecha">{formatearFecha(fecha)}</p>
                   <div className="horas-list">
-                    {HORAS.map(h => (
-                      <button key={h}
-                        className={`hora-slot ${selectedHora === h ? 'selected' : ''}`}
-                        onClick={() => setSelectedHora(h)}>
-                        {h}
-                      </button>
+                    {BLOQUES.map((b) => (
+                      <IonButton
+                        key={b.hora}
+                        className={`hora-slot ${hora === b.hora ? 'selected' : ''}`}
+                        onClick={() => setHora(b.hora)}>
+                        <span className="hora-slot__contenido">
+                          <span className="hora-slot__hora">{b.hora}</span>
+                          <span className="hora-slot__cupos">{b.cupos} cupos</span>
+                        </span>
+                      </IonButton>
                     ))}
                   </div>
-                  <IonButton routerLink="/tramite-finalizado" expand="block" className="btn btn--green">
+                  <p className="horas-panel__resumen">
+                    {hora && (
+                      <>Seleccionaste: <strong>{formatearFecha(fecha)}, {hora}</strong></>
+                    )}
+                  </p>
+                  <IonButton
+                    routerLink="/tramite-finalizado"
+                    expand="block"
+                    disabled={!hora}
+                    className="btn btn--green calendario-continuar">
                     Continuar
                   </IonButton>
                 </div>

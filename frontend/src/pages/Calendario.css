@@ -12,91 +12,104 @@
   margin-bottom: 20px;
 }
 
+.calendario-step-header h3 {
+  font-family: var(--font-body);
+  font-size: 22px;
+  font-weight: 400;
+}
+
 .calendario-body { display: flex; gap: 40px; align-items: flex-start; }
 
 .calendario-grid {
   background: var(--white);
   border-radius: 12px;
-  padding: 20px;
+  padding: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  min-width: 300px;
 }
 
-.calendario-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+.calendario-datetime {
+  --background: var(--white);
+  --ion-color-primary: var(--green);
+  --ion-color-primary-rgb: 75, 229, 126;
+  --ion-color-primary-contrast: var(--white);
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #42ca6f;
+  --ion-color-primary-tint: #5de88b;
+  font-family: var(--font-body);
 }
-
-.calendario-header h3 {
-  font-family: var(--font-display);
-  font-size: 28px;
-  font-weight: 400;
-}
-
-.calendario-nav {
-  background: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 4px 10px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.calendario-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-  font-size: 14px;
-}
-
-.calendario-table th {
-  padding: 6px;
-  font-weight: 600;
-  color: var(--gray-text);
-  font-size: 12px;
-}
-
-.cal-day { padding: 8px; cursor: pointer; border-radius: 6px; }
-.cal-day:hover { background: #f0f0f0; }
-.cal-day.selected { background: var(--green); color: var(--white); border-radius: 50%; }
-.cal-day.past { color: #bbb; }
-
-.calendario-legend {
-  display: flex;
-  gap: 16px;
-  margin-top: 12px;
-  font-size: 11px;
-  color: var(--gray-text);
-}
-
-.legend-item { display: flex; align-items: center; gap: 4px; }
-.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-.legend-dot.available { background: var(--green); }
-.legend-dot.occupied { background: #ccc; }
 
 .horas-panel { flex: 1; }
 
 .horas-panel h4 {
-  font-family: var(--font-display);
-  font-size: 24px;
+  font-family: var(--font-body);
+  font-size: 18px;
   font-weight: 400;
+}
+
+.horas-panel__fecha {
+  font-size: 12px;
+  color: var(--gray-text);
   margin-bottom: 12px;
 }
 
-.horas-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.horas-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
 
 .hora-slot {
-  padding: 8px 24px;
-  border: 1px solid var(--green);
-  border-radius: 6px;
-  background: rgba(75, 229, 126, 0.08);
-  font-family: var(--font-body);
-  font-size: 14px;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s;
+  margin: 0;
+  height: 44px;
+  font-weight: 400;
+  --background: var(--white);
+  --color: var(--black);
+  --border-color: #bbb;
+  --border-width: 1px;
+  --border-style: solid;
+  --border-radius: 8px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --box-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-.hora-slot:hover, .hora-slot.selected { background: var(--green); color: var(--white); }
+.hora-slot.selected {
+  --background: rgba(75, 229, 126, 0.3);
+  --border-color: var(--green);
+}
+
+.hora-slot__contenido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.hora-slot__hora {
+  font-family: var(--font-body);
+  font-size: 20px;
+}
+
+.hora-slot__cupos {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--green);
+}
+
+.horas-panel__resumen {
+  min-height: 26px;
+  text-align: center;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.horas-panel__resumen strong {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.btn.calendario-continuar {
+  height: 48px;
+  --border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 44px;
+}

@@ -1,8 +1,10 @@
-import { IonPage, IonContent, IonButton } from '@ionic/react';
+import { IonPage, IonContent, IonButton, useIonToast } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './TramiteFinalizado.css';
 
 export default function TramiteFinalizado() {
+  const [mostrarAviso] = useIonToast();
+
   return (
     <IonPage>
       <IonContent>
@@ -29,7 +31,11 @@ export default function TramiteFinalizado() {
                 <p>Te enviamos un correo a juanlopez@gmail.com con el comprobante e informacion sobre [Tramite]</p>
               </div>
               <div className="finalizado-actions">
-                <IonButton className="btn btn--white-outline">Descargar Comprobante</IonButton>
+                <IonButton
+                  className="btn btn--white-outline"
+                  onClick={() => mostrarAviso({ message: 'Comprobante descargado', duration: 2000, color: 'success' })}>
+                  Descargar Comprobante
+                </IonButton>
                 <IonButton routerLink="/" className="btn btn--green">Volver al inicio</IonButton>
               </div>
             </div>

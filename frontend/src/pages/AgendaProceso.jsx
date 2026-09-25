@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonButton, IonIcon } from '@ionic/react';
+import { IonPage, IonContent, IonButton, IonIcon, useIonToast } from '@ionic/react';
 import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
@@ -7,6 +7,8 @@ import IconoPDF from '../assets/PDF.png';
 import './AgendaProceso.css';
 
 export default function AgendaProceso({ hasErrors = false }) {
+  const [mostrarAviso] = useIonToast();
+
   return (
     <IonPage>
       <IonContent>
@@ -57,8 +59,16 @@ export default function AgendaProceso({ hasErrors = false }) {
                   <li className="ok"><IonIcon icon={checkmarkCircle} /> Cumple normativa vigente</li>
                 </ul>
                 <div className="validacion-actions">
-                  <IonButton className="btn-validacion rechazar">Rechazar</IonButton>
-                  <IonButton className="btn-validacion aprobar">Aprobar</IonButton>
+                  <IonButton
+                    className="btn-validacion rechazar"
+                    onClick={() => mostrarAviso({ message: 'Tramite rechazado', duration: 2000, color: 'danger' })}>
+                    Rechazar
+                  </IonButton>
+                  <IonButton
+                    className="btn-validacion aprobar"
+                    onClick={() => mostrarAviso({ message: 'Tramite aprobado', duration: 2000, color: 'success' })}>
+                    Aprobar
+                  </IonButton>
                 </div>
                 <div className="historial">
                   <h4>Historial de tramites</h4>

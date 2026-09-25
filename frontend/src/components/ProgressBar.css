@@ -1,0 +1,41 @@
+.progress-bar {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.progress-bar__track {
+  display: flex;
+  align-items: center;
+}
+
+.progress-bar__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ccc;
+  flex-shrink: 0;
+}
+
+.progress-bar__dot.active {
+  background: var(--green);
+}
+
+.progress-bar__line {
+  flex: 1;
+  height: 4px;
+  background: #ccc;
+}
+
+.progress-bar__line.active {
+  background: var(--green);
+}
+
+.progress-bar__labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--gray-text);
+  font-family: var(--font-body);
+}

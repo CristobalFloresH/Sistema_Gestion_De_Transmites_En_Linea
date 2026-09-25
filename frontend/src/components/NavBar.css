@@ -1,0 +1,125 @@
+
+.navbar {
+  background: var(--white);
+  padding: 12px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.navbar__logo a {
+  font-family: var(--font-body);
+  font-size: 24px;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar__link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--black);
+}
+
+.navbar__link:hover {
+  text-decoration: underline;
+}
+
+.navbar__btn-ingresar {
+  background: var(--green);
+  color: var(--white);
+  padding: 4px 20px;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.navbar__btn-user {
+  background: var(--green);
+  color: var(--white);
+  padding: 4px 16px;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.navbar__btn-func {
+  background: var(--red);
+}
+
+.navbar__user-area {
+  position: relative;
+}
+
+.navbar__dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 16px;
+  min-width: 220px;
+  z-index: 100;
+  margin-top: 8px;
+}
+
+.navbar__dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+
+.navbar__dropdown-header strong {
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+
+.navbar__dropdown-header p {
+  font-size: 12px;
+  color: var(--gray-text);
+}
+
+.navbar__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.navbar__dropdown ul {
+  list-style: none;
+}
+
+.navbar__dropdown li {
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.navbar__dropdown li a:hover {
+  text-decoration: underline;
+}
+
+.navbar__bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  height: 6px;
+}
+
+.navbar__bar-green { flex: 1; background: var(--green); }
+.navbar__bar-red { flex: 1; background: var(--red); }
+.navbar__bar-blue { flex: 1; background: var(--blue); }

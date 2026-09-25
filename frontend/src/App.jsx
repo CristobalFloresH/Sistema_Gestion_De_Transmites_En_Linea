@@ -1,14 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import ProgressBar from './components/ProgressBar';
+import MenuPrincipal from './pages/MenuPrincipal';
+import Login from './pages/Login';
 import './styles/global.css';
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<><Navbar variant="logged" /><ProgressBar currentStep={2} /></>} />
+        <Route path="/" element={<MenuPrincipal />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

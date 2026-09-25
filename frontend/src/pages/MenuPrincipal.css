@@ -1,0 +1,100 @@
+.page {
+  max-width: 1160px;
+  margin: 0 auto;
+  background: var(--gray-bg);
+  min-height: 100vh;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px;
+  gap: 40px;
+}
+
+.hero__content {
+  flex: 1;
+  max-width: 420px;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--black);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.hero__subtitle {
+  font-size: 16px;
+  color: var(--gray-text);
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 32px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.85; }
+.btn--green { background: var(--green); color: var(--white); }
+.btn--outline { background: var(--white); color: var(--blue); border: 2px solid var(--blue); }
+.btn--red { background: var(--red); color: var(--white); }
+.btn--white-outline { background: var(--white); color: var(--black); border: 2px solid #ccc; }
+
+.hero__image img {
+  width: 100%;
+  max-width: 518px;
+  border-radius: 30px;
+  object-fit: cover;
+  height: 345px;
+}
+
+.accesos {
+  padding: 20px 40px 40px;
+}
+
+.accesos__title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.accesos__cards {
+  display: flex;
+  gap: 24px;
+}
+
+.acceso-card {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 30px 40px;
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--black);
+  text-decoration: none;
+  transition: box-shadow 0.2s;
+}
+
+.acceso-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}

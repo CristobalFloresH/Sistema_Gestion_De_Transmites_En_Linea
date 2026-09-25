@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import './AgendaProceso.css';
 
 export default function AgendaProceso({ hasErrors = false }) {
   return (
     <div className="page">
-      <Navbar variant="funcionario" />
+      <NavBar variant="funcionario" />
       <main className="proceso-content">
         <div className="proceso-breadcrumb">
           <Link to="/funcionario/agenda" className="proceso-breadcrumb__link">Agenda</Link>

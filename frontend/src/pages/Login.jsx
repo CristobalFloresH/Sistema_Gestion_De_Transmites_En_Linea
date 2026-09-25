@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import './Login.css';
 
 export default function Login() {
@@ -15,7 +15,7 @@ export default function Login() {
 
   return (
     <div className="page login-page">
-      <Navbar variant="public" />
+      <NavBar variant="public" />
       <div className="login-bg">
         <div className="login-card">
           <h2 className="login-card__title">Municipalidad de Santo Domingo</h2>

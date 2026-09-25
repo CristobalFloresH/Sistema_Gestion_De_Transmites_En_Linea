@@ -1,4 +1,4 @@
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import './MisTramites.css';
 
@@ -32,7 +32,7 @@ const TRAMITES = [
 export default function MisTramites() {
   return (
     <div className="page">
-      <Navbar variant="logged" />
+      <NavBar variant="logged" />
       <main className="mis-tramites-content">
         <h1 className="mis-tramites-title">Mis tramites</h1>
         <p className="mis-tramites-subtitle">

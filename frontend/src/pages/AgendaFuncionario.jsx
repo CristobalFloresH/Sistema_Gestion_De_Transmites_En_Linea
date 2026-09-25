@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import './AgendaFuncionario.css';
 
 const CITAS = [
@@ -29,7 +29,7 @@ export default function AgendaFuncionario() {
 
   return (
     <div className="page">
-      <Navbar variant="funcionario" />
+      <NavBar variant="funcionario" />
       <main className="agenda-content">
         <h1 className="agenda-title">Agenda</h1>
         <div className="agenda-filters">

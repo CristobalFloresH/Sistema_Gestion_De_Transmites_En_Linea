@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import './TramiteLicencia.css';
 
 export default function TramiteLicencia() {
@@ -10,7 +10,7 @@ export default function TramiteLicencia() {
 
   return (
     <div className="page tramite-page">
-      <Navbar variant="logged" />
+      <NavBar variant="logged" />
       <main className="tramite-content">
         <h1 className="tramite-content__title">
           Tu licencia de conducir, gestionada en linea en la municipalidad de Santo Domingo

@@ -1,36 +1,36 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css';
+import './NavBar.css';
 
-export default function Navbar({ variant = 'public', userName = '' }) {
+export default function NavBar({ variant = 'public', userName = '' }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   return (
-    <nav className="navbar">
-      <div className="navbar__logo">
+    <nav className="NavBar">
+      <div className="NavBar__logo">
         <Link to="/">Municipalidad de Santo Domingo</Link>
       </div>
-      <div className="navbar__links">
+      <div className="NavBar__links">
         {variant === 'funcionario' && (
-          <Link to="/funcionario/agenda" className="navbar__link">Agenda</Link>
+          <Link to="/funcionario/agenda" className="NavBar__link">Agenda</Link>
         )}
-        <Link to="/tramite-licencia" className="navbar__link">Tramites</Link>
-        <Link to="/" className="navbar__link">Contacto</Link>
+        <Link to="/tramite-licencia" className="NavBar__link">Tramites</Link>
+        <Link to="/" className="NavBar__link">Contacto</Link>
         {variant === 'public' && (
-          <Link to="/login" className="navbar__btn-ingresar">Ingresar</Link>
+          <Link to="/login" className="NavBar__btn-ingresar">Ingresar</Link>
         )}
         {variant === 'logged' && (
-          <div className="navbar__user-area">
+          <div className="NavBar__user-area">
             <button
-              className="navbar__btn-user"
+              className="NavBar__btn-user"
               onClick={() => setShowDropdown(!showDropdown)}
             >
               Hola {userName || 'XXXX'}
             </button>
             {showDropdown && (
-              <div className="navbar__dropdown">
-                <div className="navbar__dropdown-header">
-                  <div className="navbar__avatar" />
+              <div className="NavBar__dropdown">
+                <div className="NavBar__dropdown-header">
+                  <div className="NavBar__avatar" />
                   <div>
                     <strong>Juan Lopez</strong>
                     <p>Ciudadano</p>
@@ -48,15 +48,15 @@ export default function Navbar({ variant = 'public', userName = '' }) {
           </div>
         )}
         {variant === 'funcionario' && (
-          <button className="navbar__btn-user navbar__btn-func">
+          <button className="NavBar__btn-user NavBar__btn-func">
             Hola Func.XXXX
           </button>
         )}
       </div>
-      <div className="navbar__bar">
-        <div className="navbar__bar-green" />
-        <div className="navbar__bar-red" />
-        <div className="navbar__bar-blue" />
+      <div className="NavBar__bar">
+        <div className="NavBar__bar-green" />
+        <div className="NavBar__bar-red" />
+        <div className="NavBar__bar-blue" />
       </div>
     </nav>
   );

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import './MenuPrincipal.css';
 
 export default function FuncionarioMenu() {
   return (
     <div className="page menu-principal">
-      <Navbar variant="funcionario" />
+      <NavBar variant="funcionario" />
       <main className="hero">
         <div className="hero__content">
           <h1 className="hero__title">

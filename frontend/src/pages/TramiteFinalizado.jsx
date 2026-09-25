@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import './TramiteFinalizado.css';
 
 export default function TramiteFinalizado() {
   return (
     <div className="page">
-      <Navbar variant="logged" />
+      <NavBar variant="logged" />
       <main className="finalizado-content">
         <div className="finalizado-card">
           <div className="finalizado-check">&#10003;</div>

@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 import './Calendario.css';
 
 const DIAS_MES = [
@@ -21,7 +21,7 @@ export default function Calendario() {
 
   return (
     <div className="page calendario-page">
-      <Navbar variant="logged" />
+      <NavBar variant="logged" />
       <main className="tramite-content">
         <h1 className="tramite-content__title">
           Tu licencia de conducir, gestionada en linea en la municipalidad de Santo Domingo

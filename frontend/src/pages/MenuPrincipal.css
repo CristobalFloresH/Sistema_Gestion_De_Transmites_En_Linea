@@ -40,6 +40,8 @@
   align-items: center;
 }
 
+.hero__actions .btn { white-space: nowrap; }
+
 .hero__image img {
   width: 100%;
   max-width: 518px;
@@ -65,6 +67,10 @@
 }
 
 .acceso-card {
+  margin: 0;
+  box-shadow: none;
+  --background: var(--white);
+  --color: var(--black);
   background: var(--white);
   border-radius: 10px;
   padding: 30px 40px;

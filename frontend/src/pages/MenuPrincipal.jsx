@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonButton } from '@ionic/react';
+import { IonPage, IonContent, IonButton, IonCard } from '@ionic/react';
+import ImagenPersonas from '../assets/ImagenPersonasMenuPrincipal.webp';
 import NavBar from '../components/NavBar';
 import './MenuPrincipal.css';
 
@@ -23,24 +23,21 @@ export default function MenuPrincipal() {
               </div>
             </div>
             <div className="hero__image">
-              <img
-                src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=520&h=345&fit=crop"
-                alt="Licencia de conducir"
-              />
+              <img src={ImagenPersonas} alt="Personas realizando tramites" />
             </div>
           </main>
           <section className="accesos">
             <h2 className="accesos__title">Accesos Rapidos</h2>
             <div className="accesos__cards">
-              <Link to="/tramite-licencia" className="acceso-card">
+              <IonCard button routerLink="/tramite-licencia" className="acceso-card">
                 <span>Licencia Primera vez</span>
-              </Link>
-              <Link to="/tramite-licencia" className="acceso-card">
+              </IonCard>
+              <IonCard button routerLink="/tramite-licencia" className="acceso-card">
                 <span>Renovacion</span>
-              </Link>
-              <Link to="/tramite-licencia" className="acceso-card">
+              </IonCard>
+              <IonCard button routerLink="/tramite-licencia" className="acceso-card">
                 <span>Reimprimir</span>
-              </Link>
+              </IonCard>
             </div>
           </section>
         </div>

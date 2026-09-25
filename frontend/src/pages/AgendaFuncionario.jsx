@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonSearchbar, IonSelect, IonSelectOption } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import './AgendaFuncionario.css';
 
@@ -36,23 +36,36 @@ export default function AgendaFuncionario() {
           <main className="agenda-content">
             <h1 className="agenda-title">Agenda</h1>
             <div className="agenda-filters">
-              <div className="filter-search">
-                <span>&#128269;</span>
-                <input type="text" placeholder="Buscar por RUT / Nombre"
-                  value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
-              </div>
-              <select className="filter-select" value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)}>
-                <option value="">Todos los estados</option>
-                <option value="Pendiente">Pendiente</option>
-                <option value="Aprobado">Aprobado</option>
-                <option value="Rechazado">Rechazado</option>
-              </select>
-              <select className="filter-select" value={filtroTramite} onChange={(e) => setFiltroTramite(e.target.value)}>
-                <option value="">Todos los tramites</option>
-                <option value="Licencia Nueva">Licencia Nueva</option>
-                <option value="Renovacion">Renovacion</option>
-                <option value="Reimpresion">Reimpresion</option>
-              </select>
+              <IonSearchbar
+                className="filter-search"
+                placeholder="Buscar por RUT / Nombre"
+                value={busqueda}
+                onIonInput={(e) => setBusqueda(e.detail.value ?? '')}
+              />
+              <IonSelect
+                className="filter-select"
+                aria-label="Filtrar por estado"
+                interface="popover"
+                value={filtroEstado}
+                onIonChange={(e) => setFiltroEstado(e.detail.value)}
+              >
+                <IonSelectOption value="">Todos los estados</IonSelectOption>
+                <IonSelectOption value="Pendiente">Pendiente</IonSelectOption>
+                <IonSelectOption value="Aprobado">Aprobado</IonSelectOption>
+                <IonSelectOption value="Rechazado">Rechazado</IonSelectOption>
+              </IonSelect>
+              <IonSelect
+                className="filter-select"
+                aria-label="Filtrar por tramite"
+                interface="popover"
+                value={filtroTramite}
+                onIonChange={(e) => setFiltroTramite(e.detail.value)}
+              >
+                <IonSelectOption value="">Todos los tramites</IonSelectOption>
+                <IonSelectOption value="Licencia Nueva">Licencia Nueva</IonSelectOption>
+                <IonSelectOption value="Renovacion">Renovacion</IonSelectOption>
+                <IonSelectOption value="Reimpresion">Reimpresion</IonSelectOption>
+              </IonSelect>
             </div>
             <table className="agenda-table">
               <thead>

@@ -9,30 +9,34 @@
 }
 
 
-.agenda-filters { display: flex; gap: 12px; margin-bottom: 24px; }
+.agenda-filters { display: flex; gap: 12px; margin-bottom: 24px; align-items: stretch; }
 
 .filter-search {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--white);
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
   flex: 1;
-  max-width: 260px;
+  max-width: 300px;
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  --background: var(--white);
+  --border-radius: 8px;
+  --box-shadow: none;
+  font-family: var(--font-body);
+  font-size: 15px;
 }
 
-.filter-search input { border: none; background: none; font-size: 13px; width: 100%; }
+.agenda-filters .filter-search .searchbar-input {
+  font-size: 13px;
+}
 
 .filter-select {
-  padding: 8px 14px;
+  flex: none;
+  width: 200px;
+  padding: 0 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  background: var(--white);
   font-family: var(--font-body);
   font-size: 13px;
-  background: var(--white);
-  cursor: pointer;
 }
 
 .agenda-table { width: 100%; border-collapse: collapse; }

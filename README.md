@@ -143,6 +143,30 @@ Rosa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el
 
 •Instrucciones concretas y breves en cada paso.
 •Letra clara, botones grandes y buen contraste.
+•Saber de antemano qué documentos y exámenes necesita.
+•Conocer el estado de su trámite sin tener que ir al municipio ni llamar.
+•Poder cancelar o cambiar su hora si tiene un imprevisto de salud.
+
+### Objetivos de uso
+
+Agendar su hora sin hacer fila, saber qué debe llevar o facilidad para subir documentos y enterarse cuando su licencia esté lista para retiro.
+
+### Dificultades o puntos de frustración
+
+•Pantallas con demasiada información a la vez.
+•Términos técnicos o poco claros.
+•Formularios largos o sin mensajes de error comprensibles.
+•No saber si la acción que hizo quedó registrada.
+•Dificultad para escanear o subir documentos.
+
+### Funcionalidades que utilizaría
+
+Selección de bloque horario, comprobante por correo o WhatsApp, recordatorio de cita, carga de documentos, línea de tiempo del trámite, cancelación de cita y notificación de licencia lista.
+
+### Dispositivo y contexto probable de acceso
+
+Teléfono móvil, desde su casa y en ocasiones con apoyo de un familiar. 
+Nivel de experiencia tecnológica estimado: bajo.
 
 
 # Requerimientos funcionales

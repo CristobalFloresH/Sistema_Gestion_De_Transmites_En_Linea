@@ -177,6 +177,7 @@ Nivel de experiencia tecnológica estimado: bajo.
 ### Proto-persona 3: Funcionaria de atención de licencias
 
 Nombre: Patricia
+
 Rol: Funcionario municipal
 
 #### Características generales
@@ -220,7 +221,57 @@ Computador de escritorio en su puesto de trabajo, durante toda la jornada.
 Nivel de experiencia tecnológica estimado: medio.
 
 ---
-### Proto-Persona 4:
+### Proto-Persona 4:Joven que solicita reimpresión de licencia por robo
+
+Nombre: Matías Delgado.
+Rol: Vecino.
+Edad: 26 años.
+
+#### Características generales
+
+Matías trabaja como repartidor y depende de su licencia de conducir para movilizarse. Hace unos días le robaron la billetera junto con sus documentos, entre ellos su licencia. Usa el celular constantemente y está familiarizado con apps y trámites en línea, pero nunca ha hecho un trámite de reimpresión y no sabe bien qué pasos o requisitos le corresponden en este caso distinto al de una renovación normal.
+
+#### Necesidades principales
+
+Entender rápido qué trámite le corresponde (reimpresión por pérdida o robo, no renovación).
+Saber si necesita denuncia policial u otro documento antes de agendar.
+Agendar una hora lo antes posible, porque necesita la licencia para trabajar.
+Evitar rehacer exámenes que ya aprobó anteriormente, si no corresponde.
+Seguir el estado del trámite para volver a manejar cuanto antes.
+
+#### Objetivos de uso
+
+Resolver la pérdida de su licencia de forma rápida y con la menor cantidad de trámites presenciales posible, ya que cada día sin licencia significa menos ingresos.
+
+#### Dificultades o puntos de frustración
+
+•No encontrar claramente la opción de "reimpresión por robo o pérdida" entre otros trámites similares.
+
+•Desconocer qué documentos exactos debe adjuntar (por ejemplo, la constancia de Carabineros).
+
+•Procesos que no distinguen su caso del de una renovación común y le piden pasos innecesarios.
+
+•Demoras que afectan directamente su fuente de ingreso.
+
+•Falta de información sobre cuánto tiempo tomará el trámite.
+
+#### Funcionalidades de la aplicación que utilizaría
+
+•Selección de bloque horario.
+
+•Carga de documentación, incluyendo la constancia de denuncia.
+
+•Línea de tiempo del trámite.
+
+•Notificación de licencia lista para retiro.
+
+•Descarga de comprobante en PDF.
+
+#### Dispositivo y contexto probable de acceso
+
+Teléfono móvil, en cualquier momento del día entre turnos de trabajo.
+
+Nivel de experiencia tecnológica estimado: medio-alto.
 
 ---
 # Requerimientos funcionales

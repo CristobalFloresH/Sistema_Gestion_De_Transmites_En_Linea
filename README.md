@@ -95,6 +95,28 @@ Diego tiene 32 años, trabaja a tiempo completo y necesita obtener su licencia p
 
 Necesidades principales
 
+• Agendar según su disponibilidad laboral.
+• Evitar viajes y esperas innecesarias.
+• Subir documentos desde el celular en pocos minutos.
+• Recibir recordatorios y avisos de correcciones.
+• Ver el avance de su trámite en cualquier momento.
+
+Objetivos de uso
+Completar la mayor parte del trámite en línea y asistir presencialmente solo cuando sea indispensable.
+
+Dificultades o puntos de frustración
+
+• Falta de horas disponibles o cambios de último minuto.
+• Rechazo de documentos sin saber el motivo.
+• Tener que repetir información que ya entregó.
+• Plataformas que no funcionan bien en el celular.
+• Visitar demasiadas veces el sitio presencial.
+
+Funcionalidades que utilizaría
+Selección de bloque horario, registro de reserva, carga de documentación, línea de tiempo, recordatorio de cita y cancelación de cita.
+
+Dispositivo y contexto probable de acceso
+Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmente. Nivel de experiencia tecnológica estimado: medio-alto.
 
 
 

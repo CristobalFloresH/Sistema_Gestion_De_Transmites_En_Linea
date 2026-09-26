@@ -83,6 +83,21 @@ Necesidades principales de los vecinos:
 •Docente: Usuario encargado de administrar contenidos educativos.
 
 
+#Proto-personas
+
+Proto-persona 1: Vecino trabajador con poco tiempo
+
+Nombre: Diego
+Rol: Vecino
+
+Características generales
+Diego tiene 32 años, trabaja a tiempo completo y necesita obtener su licencia por primera vez para un nuevo empleo. Usa a diario el celular y el computador, y está acostumbrado a hacer trámites bancarios y de compras en línea.
+
+Necesidades principales
+
+
+
+
 # Requerimientos funcionales
 **RF-1 : Selección de bloque horario**
 El sistema desplegará un calendario interactivo que mostrará los días junto a los bloques de horarios disponibles.

@@ -15,3 +15,22 @@ git checkout frontend
 cd frontend
 npm install
 
+### Ejecución
+
+npm run dev
+
+Luego abrir http://localhost:5173 en el navegador.
+
+### Uso
+Por ahora el inicio de sesión es simulado (no hay backend todavía):
+- **Ciudadano:** en *Ingresar*, escribir cualquier RUT y clave y presionar "Ingresar".
+- **Funcionario:** en *Ingresar*, presionar "Ingreso funcionarios".
+
+Las rutas protegidas redirigen al login si no hay sesión, y las rutas de funcionario redirigen al inicio si se entra como ciudadano.
+
+## Tecnologías utilizadas (frontend)
+- [Ionic](https://ionicframework.com/) 9 con React
+- [React](https://react.dev/) 19
+- [React Router](https://reactrouter.com/) 6 (Ionic 9 requiere la versión 6)
+- [Vite](https://vite.dev/) 8
+- JavaScript

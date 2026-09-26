@@ -346,17 +346,20 @@ El sistema permitirá al usuario descargar un comprobante digital en formato PDF
 
 
 # Requerimientos no funcionales
-**RNF-1 : Validación de identidad institucional**
-El sistema validara la identidad de la persona mediante el ingreso de su RUT, número de documento y validación de su ClaveUnica
+**RNF-1 : Validación de formato de identificacion**
+El sistema validará que el RUT ingresado por el usuario cumpla con un formato y dígito verificador correctos antes de asociarlo a una reserva o trámite.
 
 **RNF-2 : Verificación de integridad de archivos**
 El sistema verificará la validez de los documentos mediante comprobación de códigos de verificación y formatos permitidos en todos los archivos.
 
-**RNF-3 : Restricción horaria del módulo de agendamiento**
-El módulo de agendamiento restringe el horario de reservas exclusivamente al rango de 11:00 a 12:00 horas, de lunes a viernes.
+**RNF-3 : Disponibilidad del módulo de agendamiento**
+El módulo de agendamiento estará disponible para reservas de lunes a viernes, en bloques horarios de 08:00 a 17:00 horas, según la disponibilidad definida por el municipio.
 
 **RNF-4 : Escalabilidad  **
-La plataforma web soportara un volumen de hasta 50.000 usuarios interactuando simultáneamente
+La plataforma web deberá soportar un volumen de hasta 300 usuarios interactuando de forma simultánea, sin degradar significativamente los tiempos de respuesta.
+
+**RNF-5 : Accesibilidad de la interfaz**
+Las interfaces cumplirán con un contraste mínimo acorde al estándar WCAG AA y permitirán ajustar el tamaño de la fuente, considerando la presencia de usuarios adultos mayores y con menor alfabetización digital.
 
 
 ## EP 1.4 Arquitectura de navegación

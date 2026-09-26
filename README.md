@@ -129,7 +129,9 @@ Selección de bloque horario, registro de reserva, carga de documentación, lín
 
 #### Dispositivo y contexto probable de acceso
 
-Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmente. Nivel de experiencia tecnológica estimado: medio-alto.
+Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmente. 
+
+Nivel de experiencia tecnológica estimado: medio-alto.
 
 ---
 ### Proto-persona 2: Vecino adulto mayor que renueva su licencia
@@ -168,6 +170,7 @@ Selección de bloque horario, comprobante por correo o WhatsApp, recordatorio de
 #### Dispositivo y contexto probable de acceso
 
 Teléfono móvil, desde su casa y en ocasiones con apoyo de un familiar. 
+
 Nivel de experiencia tecnológica estimado: bajo.
 
 ---
@@ -212,7 +215,10 @@ Agenda diaria, visualización y validación de documentos, búsqueda por RUT, hi
 
 #### Dispositivo y contexto probable de acceso
 
-Computador de escritorio en su puesto de trabajo, durante toda la jornada. Nivel de experiencia tecnológica estimado: medio.
+Computador de escritorio en su puesto de trabajo, durante toda la jornada. 
+
+Nivel de experiencia tecnológica estimado: medio.
+
 ---
 ### Proto-Persona 4:
 

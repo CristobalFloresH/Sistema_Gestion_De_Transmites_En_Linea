@@ -143,3 +143,35 @@ El módulo de agendamiento restringe el horario de reservas exclusivamente al ra
 **RNF-4 : Escalabilidad  **
 La plataforma web soportara un volumen de hasta 50.000 usuarios interactuando simultáneamente
 
+
+## EP 1.4 Arquitectura de navegación
+Rutas principales y secundarias.
+
+| Ruta | Vista | Acceso | Descripción |
+| --- | --- | --- | --- |
+| `/` | Menú principal | Pública | Inicio, accesos rápidos a trámites |
+| `/login` | Login | Pública | Inicio de sesión con RUT y Clave Única |
+| `/tramite-licencia` | Trámite licencia | Privada (Ciudadano o Funcionario) | Tipo de trámite, día y bloque horario, documentos |
+| `/calendario` | Calendario | Privada (Ciudadano o Funcionario) | Más fechas y bloques horarios disponibles |
+| `/tramite-finalizado` | Trámite finalizado | Privada (Ciudadano o Funcionario) | Confirmación de la cita y comprobante |
+| `/mis-tramites` | Mis trámites | Privada (Ciudadano o Funcionario) | Estado y línea de tiempo de los trámites |
+| `/funcionario/agenda` | Agenda | Privada (Funcionario) | Citas del día con búsqueda y filtros |
+| `/funcionario/agenda/proceso` | Proceso del trámite | Privada (Funcionario) | Documentos adjuntos y validación |
+| `/funcionario/agenda/error` | Proceso del trámite (rechazado) | Privada (Funcionario) | Misma vista, con validaciones fallidas |
+
+### Jerarquía de vistas
+
+```
+/, /login                           (públicas)
+/tramite-licencia                   (RF-1, RF-4)
+ ├── /calendario                    (vista hija, más horarios, RF-1)
+ └── /tramite-finalizado            (confirmación, RF-2, RF-15)
+/mis-tramites                       (RF-7, RF-12)
+/funcionario/agenda                 (solo funcionario, RF-10, RF-13)
+ ├── /funcionario/agenda/proceso    (RF-5, RF-6, RF-14)
+ └── /funcionario/agenda/error      (misma vista con validaciones fallidas)
+```
+
+
+
+

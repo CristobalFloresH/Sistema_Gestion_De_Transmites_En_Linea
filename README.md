@@ -37,7 +37,7 @@ En definitiva, el desarrollo de esta plataforma web para la Municipalidad de San
 
 ---
 
-# Usuarios objetivo 
+## Usuarios objetivo 
 
 La aplicación considera principalmente dos grupos de usuarios: vecinos (ciudadanos) y funcionarios municipales. Adicionalmente, se contempla un rol de administración para la gestión general y técnica de la plataforma en la Municipalidad de Santo Domingo.
 
@@ -75,7 +75,7 @@ Necesidades principales de los vecinos:
 - Contar con una navegación consistente y predecible.
 - Disminuir los tiempos de espera y la necesidad de traslados presenciales innecesarios.
 
-# Roles del sistema
+## Roles del sistema
 •Administrador: Usuario encargado de la gestión general de la plataforma.
 
 •Estudiante: Puede crear, editar y eliminar productos.
@@ -83,7 +83,7 @@ Necesidades principales de los vecinos:
 •Docente: Usuario encargado de administrar contenidos educativos.
 
 
-# Proto-personas
+## Proto-personas
 
 Proto-persona 1: Vecino trabajador con poco tiempo
 
@@ -94,7 +94,7 @@ Rol: Vecino
 
 Diego tiene 32 años, trabaja a tiempo completo y necesita obtener su licencia por primera vez para un nuevo empleo. Usa a diario el celular y el computador, y está acostumbrado a hacer trámites bancarios y de compras en línea.
 
-Necesidades principales
+### Necesidades principales
 
 • Agendar según su disponibilidad laboral.
 
@@ -106,11 +106,11 @@ Necesidades principales
 
 • Ver el avance de su trámite en cualquier momento.
 
-Objetivos de uso
+### Objetivos de uso
 
 Completar la mayor parte del trámite en línea y asistir presencialmente solo cuando sea indispensable.
 
-Dificultades o puntos de frustración
+### Dificultades o puntos de frustración
 
 • Falta de horas disponibles o cambios de último minuto.
 
@@ -122,11 +122,11 @@ Dificultades o puntos de frustración
 
 • Visitar demasiadas veces el sitio presencial.
 
-Funcionalidades que utilizaría
+### Funcionalidades que utilizaría
 
 Selección de bloque horario, registro de reserva, carga de documentación, línea de tiempo, recordatorio de cita y cancelación de cita.
 
-Dispositivo y contexto probable de acceso
+### Dispositivo y contexto probable de acceso
 
 Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmente. Nivel de experiencia tecnológica estimado: medio-alto.
 

@@ -183,9 +183,13 @@ Patricia tiene 45 años y trabaja en la unidad de licencias de conducir. Atiende
 #### Necesidades principales
 
 •Ver rápidamente quiénes están agendados cada día.
+
 •Revisar documentos en pantalla sin manipular papeles.
+
 •Aprobar o rechazar documentos dejando el motivo registrado.
+
 •Encontrar un expediente con solo el RUT.
+
 •Actualizar el estado del trámite de forma simple.
 
 #### Objetivos de uso
@@ -195,8 +199,11 @@ Reducir la carga presencial, ordenar el flujo de atención y tener respaldo clar
 #### Dificultades o puntos de frustración
 
 •Documentos ilegibles o incompletos.
+
 •Búsquedas lentas de expedientes.
+
 •Interfaces con demasiados pasos para una acción simple.
+
 •Errores en la agenda que generan aglomeraciones.
 
 #### Funcionalidades que utilizaría

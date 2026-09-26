@@ -75,6 +75,7 @@ Necesidades principales de los vecinos:
 - Contar con una navegación consistente y predecible.
 - Disminuir los tiempos de espera y la necesidad de traslados presenciales innecesarios.
 
+---
 ## Roles del sistema
 •Vecino (ciudadano): agenda, reprograma o cancela su hora, sube sus documentos, consulta el estado de su trámite en la línea de tiempo y descarga su comprobante.
 
@@ -82,7 +83,7 @@ Necesidades principales de los vecinos:
 
 •Administrador: gestiona la plataforma a nivel general y técnico: crea y desactiva cuentas de funcionarios, configura los bloques horarios disponibles y supervisa el funcionamiento del sistema.
 
-
+---
 ## Proto-personas
 
 ### Proto-persona 1: Vecino trabajador con poco tiempo
@@ -90,11 +91,11 @@ Necesidades principales de los vecinos:
 Nombre: Diego
 Rol: Vecino
 
-### Características generales
+#### Características generales
 
 Diego tiene 32 años, trabaja a tiempo completo y necesita obtener su licencia por primera vez para un nuevo empleo. Usa a diario el celular y el computador, y está acostumbrado a hacer trámites bancarios y de compras en línea.
 
-### Necesidades principales
+#### Necesidades principales
 
 • Agendar según su disponibilidad laboral.
 
@@ -106,11 +107,11 @@ Diego tiene 32 años, trabaja a tiempo completo y necesita obtener su licencia p
 
 • Ver el avance de su trámite en cualquier momento.
 
-### Objetivos de uso
+#### Objetivos de uso
 
 Completar la mayor parte del trámite en línea y asistir presencialmente solo cuando sea indispensable.
 
-### Dificultades o puntos de frustración
+#### Dificultades o puntos de frustración
 
 • Falta de horas disponibles o cambios de último minuto.
 
@@ -122,24 +123,25 @@ Completar la mayor parte del trámite en línea y asistir presencialmente solo c
 
 • Visitar demasiadas veces el sitio presencial.
 
-### Funcionalidades que utilizaría
+#### Funcionalidades que utilizaría
 
 Selección de bloque horario, registro de reserva, carga de documentación, línea de tiempo, recordatorio de cita y cancelación de cita.
 
-### Dispositivo y contexto probable de acceso
+#### Dispositivo y contexto probable de acceso
 
 Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmente. Nivel de experiencia tecnológica estimado: medio-alto.
 
+---
 ### Proto-persona 2: Vecino adulto mayor que renueva su licencia
 
 Nombre: Maria Elsa 
 Rol: Vecino
 
-### Características generales
+#### Características generales
 
 Rosa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el teléfono móvil para WhatsApp y llamadas, pero tiene poca experiencia con trámites en línea. Suele pedir ayuda a sus hijos cuando debe usar plataformas del Estado.
 
-### Necesidades principales
+#### Necesidades principales
 
 •Instrucciones concretas y breves en cada paso.
 •Letra clara, botones grandes y buen contraste.
@@ -147,11 +149,11 @@ Rosa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el
 •Conocer el estado de su trámite sin tener que ir al municipio ni llamar.
 •Poder cancelar o cambiar su hora si tiene un imprevisto de salud.
 
-### Objetivos de uso
+#### Objetivos de uso
 
 Agendar su hora sin hacer fila, saber qué debe llevar o facilidad para subir documentos y enterarse cuando su licencia esté lista para retiro.
 
-### Dificultades o puntos de frustración
+#### Dificultades o puntos de frustración
 
 •Pantallas con demasiada información a la vez.
 •Términos técnicos o poco claros.
@@ -159,15 +161,17 @@ Agendar su hora sin hacer fila, saber qué debe llevar o facilidad para subir do
 •No saber si la acción que hizo quedó registrada.
 •Dificultad para escanear o subir documentos.
 
-### Funcionalidades que utilizaría
+#### Funcionalidades que utilizaría
 
 Selección de bloque horario, comprobante por correo o WhatsApp, recordatorio de cita, carga de documentos, línea de tiempo del trámite, cancelación de cita y notificación de licencia lista.
 
-### Dispositivo y contexto probable de acceso
+#### Dispositivo y contexto probable de acceso
 
 Teléfono móvil, desde su casa y en ocasiones con apoyo de un familiar. 
 Nivel de experiencia tecnológica estimado: bajo.
 
+---
+### Proto-persona 3:
 
 # Requerimientos funcionales
 **RF-1 : Selección de bloque horario**

@@ -128,11 +128,11 @@ Diego tiene 32 años, trabaja a tiempo completo y necesita obtener su licencia p
 
 #### Necesidades principales
 
-• Agendar según su disponibilidad laboral.
-• Evitar viajes y esperas innecesarias.
-• Subir documentos desde el celular en pocos minutos.
-• Recibir recordatorios y avisos de correcciones.
-• Ver el avance de su trámite en cualquier momento.
+- Agendar según su disponibilidad laboral.
+- Evitar viajes y esperas innecesarias.
+- Subir documentos desde el celular en pocos minutos.
+- Recibir recordatorios y avisos de correcciones.
+- Ver el avance de su trámite en cualquier momento.
 
 #### Objetivos de uso
 
@@ -140,20 +140,20 @@ Completar la mayor parte del trámite en línea y asistir presencialmente solo c
 
 #### Dificultades o puntos de frustración
 
-• Falta de horas disponibles o cambios de último minuto.
-• Rechazo de documentos sin saber el motivo.
-• Tener que repetir información que ya entregó.
-• Plataformas que no funcionan bien en el celular.
-• Visitar demasiadas veces el sitio presencial.
+- Falta de horas disponibles o cambios de último minuto.
+- Rechazo de documentos sin saber el motivo.
+- Tener que repetir información que ya entregó.
+- Plataformas que no funcionan bien en el celular.
+- Visitar demasiadas veces el sitio presencial.
 
 #### Funcionalidades que utilizaría
 
-•Selección de bloque horario.
-•Registro de reserva.
-•Carga de documentación.
-•Línea de tiempo.
-•Recordatorio de cita.
-•Cancelación de cita.
+- Selección de bloque horario.
+- Registro de reserva.
+- Carga de documentación.
+- Línea de tiempo.
+- Recordatorio de cita.
+- Cancelación de cita.
 
 #### Dispositivo y contexto probable de acceso
 
@@ -174,11 +174,11 @@ Rosa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el
 
 #### Necesidades principales
 
-•Instrucciones concretas y breves en cada paso.
-•Letra clara, botones grandes y buen contraste.
-•Saber de antemano qué documentos y exámenes necesita.
-•Conocer el estado de su trámite sin tener que ir al municipio ni llamar.
-•Poder cancelar o cambiar su hora si tiene un imprevisto de salud.
+- Instrucciones concretas y breves en cada paso.
+- Letra clara, botones grandes y buen contraste.
+- Saber de antemano qué documentos y exámenes necesita.
+- Conocer el estado de su trámite sin tener que ir al municipio ni llamar.
+- Poder cancelar o cambiar su hora si tiene un imprevisto de salud.
 
 #### Objetivos de uso
 
@@ -186,21 +186,21 @@ Agendar su hora sin hacer fila, saber qué debe llevar o facilidad para subir do
 
 #### Dificultades o puntos de frustración
 
-•Pantallas con demasiada información a la vez.
-•Términos técnicos o poco claros.
-•Formularios largos o sin mensajes de error comprensibles.
-•No saber si la acción que hizo quedó registrada.
-•Dificultad para escanear o subir documentos.
+- Pantallas con demasiada información a la vez.
+- Términos técnicos o poco claros.
+- Formularios largos o sin mensajes de error comprensibles.
+- No saber si la acción que hizo quedó registrada.
+- Dificultad para escanear o subir documentos.
 
 #### Funcionalidades que utilizaría
 
-•Selección de bloque horario.
-•Comprobante por correo o WhatsApp.
-•Recordatorio de cita.
-•Carga de documentos.
-•Línea de tiempo del trámite.
-•Cancelación de cita.
-•Notificación de licencia lista.
+- Selección de bloque horario.
+- Comprobante por correo o WhatsApp.
+- Recordatorio de cita.
+- Carga de documentos.
+- Línea de tiempo del trámite.
+- Cancelación de cita.
+- Notificación de licencia lista.
 
 #### Dispositivo y contexto probable de acceso
 
@@ -221,11 +221,11 @@ Patricia tiene 45 años y trabaja en la unidad de licencias de conducir. Atiende
 
 #### Necesidades principales
 
-•Ver rápidamente quiénes están agendados cada día.
-•Revisar documentos en pantalla sin manipular papeles.
-•Aprobar o rechazar documentos dejando el motivo registrado.
-•Encontrar un expediente con solo el RUT.
-•Actualizar el estado del trámite de forma simple.
+- Ver rápidamente quiénes están agendados cada día.
+- Revisar documentos en pantalla sin manipular papeles.
+- Aprobar o rechazar documentos dejando el motivo registrado.
+- Encontrar un expediente con solo el RUT.
+- Actualizar el estado del trámite de forma simple.
 
 #### Objetivos de uso
 
@@ -233,19 +233,18 @@ Reducir la carga presencial, ordenar el flujo de atención y tener respaldo clar
 
 #### Dificultades o puntos de frustración
 
-•Documentos ilegibles o incompletos.
-•Búsquedas lentas de expedientes.
-•Interfaces con demasiados pasos para una acción simple.
-•Errores en la agenda que generan aglomeraciones.
+- Documentos ilegibles o incompletos.
+- Búsquedas lentas de expedientes.
+- Interfaces con demasiados pasos para una acción simple.
+- Errores en la agenda que generan aglomeraciones.
 
 #### Funcionalidades que utilizaría
 
-•Agenda diaria.
-
-•Visualización y validación de documentos.
-•Búsqueda por RUT. 
-•Historial de trámites.
-•Actualización de estados.
+- Agenda diaria.
+- Visualización y validación de documentos.
+- Búsqueda por RUT. 
+- Historial de trámites.
+- Actualización de estados.
 
 #### Dispositivo y contexto probable de acceso
 
@@ -266,11 +265,11 @@ Matías trabaja como repartidor y depende de su licencia de conducir para movili
 
 #### Necesidades principales
 
-•Entender rápido qué trámite le corresponde (reimpresión por pérdida o robo, no renovación).
-•Saber si necesita denuncia policial u otro documento antes de agendar.
-•Agendar una hora lo antes posible, porque necesita la licencia para trabajar.
-•Evitar rehacer exámenes que ya aprobó anteriormente, si no corresponde.
-•Seguir el estado del trámite para volver a manejar cuanto antes.
+- Entender rápido qué trámite le corresponde (reimpresión por pérdida o robo, no renovación).
+- Saber si necesita denuncia policial u otro documento antes de agendar.
+- Agendar una hora lo antes posible, porque necesita la licencia para trabajar.
+- Evitar rehacer exámenes que ya aprobó anteriormente, si no corresponde.
+- Seguir el estado del trámite para volver a manejar cuanto antes.
 
 #### Objetivos de uso
 
@@ -278,19 +277,19 @@ Resolver la pérdida de su licencia de forma rápida y con la menor cantidad de 
 
 #### Dificultades o puntos de frustración
 
-•No encontrar claramente la opción de "reimpresión por robo o pérdida" entre otros trámites similares.
-•Desconocer qué documentos exactos debe adjuntar (por ejemplo, la constancia de Carabineros).
-•Procesos que no distinguen su caso del de una renovación común y le piden pasos innecesarios.
-•Demoras que afectan directamente su fuente de ingreso.
-•Falta de información sobre cuánto tiempo tomará el trámite.
+- No encontrar claramente la opción de "reimpresión por robo o pérdida" entre otros trámites similares.
+- Desconocer qué documentos exactos debe adjuntar (por ejemplo, la constancia de Carabineros).
+- Procesos que no distinguen su caso del de una renovación común y le piden pasos innecesarios.
+- Demoras que afectan directamente su fuente de ingreso.
+- Falta de información sobre cuánto tiempo tomará el trámite.
 
 #### Funcionalidades de la aplicación que utilizaría
 
-•Selección de bloque horario.
-•Carga de documentación, incluyendo la constancia de denuncia.
-•Línea de tiempo del trámite.
-•Notificación de licencia lista para retiro.
-•Descarga de comprobante en PDF.
+- Selección de bloque horario.
+- Carga de documentación, incluyendo la constancia de denuncia.
+- Línea de tiempo del trámite.
+- Notificación de licencia lista para retiro.
+- Descarga de comprobante en PDF.
 
 #### Dispositivo y contexto probable de acceso
 

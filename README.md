@@ -41,7 +41,7 @@ En definitiva, el desarrollo de esta plataforma web para la Municipalidad de San
 
 La aplicación considera principalmente dos grupos de usuarios: vecinos (ciudadanos) y funcionarios municipales. Adicionalmente, se contempla un rol de administración para la gestión general y técnica de la plataforma en la Municipalidad de Santo Domingo.
 
-###Vecinos (Ciudadanos)
+### Vecinos (Ciudadanos)
 
 Los vecinos corresponden a los usuarios finales y principales beneficiarios de la plataforma. Se considera que constituyen un grupo diverso respecto a su edad, familiaridad con la tecnología, disponibilidad de tiempo y necesidades de accesibilidad para realizar trámites presenciales o digitales.
 
@@ -82,28 +82,28 @@ Los funcionarios municipales corresponden al personal de la Municipalidad de San
 
 Dentro de este grupo pueden existir funcionarios que:
 
--Atienden un alto volumen de solicitudes y expedientes durante el día.
--Necesitan visualizar rápidamente la agenda de citas de cada jornada.
--Revisan documentos digitales que antes recibían en papel, por lo que requieren que la visualización en pantalla sea clara y confiable.
--Deben validar la veracidad y el cumplimiento normativo de los documentos adjuntados por los vecinos.
--Requieren ubicar expedientes específicos de forma rápida, sin depender de archivos físicos.
--Necesitan mantener actualizado el estado del trámite en cada etapa del proceso.
--Presentan distintos niveles de experiencia con sistemas digitales, ya que algunos provienen de procesos manuales o semidigitalizados.
--Requieren que el sistema entregue retroalimentación clara ante cada acción realizada (aprobar, rechazar, actualizar estado).
--Necesitan minimizar el tiempo dedicado a tareas repetitivas para poder atender más casos.
+- Atienden un alto volumen de solicitudes y expedientes durante el día.
+- Necesitan visualizar rápidamente la agenda de citas de cada jornada.
+- Revisan documentos digitales que antes recibían en papel, por lo que requieren que la visualización en pantalla sea clara y confiable.
+- Deben validar la veracidad y el cumplimiento normativo de los documentos adjuntados por los vecinos.
+- Requieren ubicar expedientes específicos de forma rápida, sin depender de archivos físicos.
+- Necesitan mantener actualizado el estado del trámite en cada etapa del proceso.
+- Presentan distintos niveles de experiencia con sistemas digitales, ya que algunos provienen de procesos manuales o semidigitalizados.
+- Requieren que el sistema entregue retroalimentación clara ante cada acción realizada (aprobar, rechazar, actualizar estado).
+- Necesitan minimizar el tiempo dedicado a tareas repetitivas para poder atender más casos.
 
 La plataforma deberá considerar que los funcionarios no solo consumen información, como los vecinos, sino que además la generan y validan. Por ello, la interfaz para este rol debe priorizar la rapidez operativa, la trazabilidad de las acciones y la reducción de errores humanos en la gestión de expedientes.
 
 Necesidades principales de los funcionarios:
 
--Visualizar la agenda diaria de citas de forma clara y ordenada.
--Revisar en línea los documentos adjuntados por los vecinos sin necesidad de imprimirlos.
--Aprobar o rechazar documentos dejando registro del motivo.
--Buscar expedientes y solicitudes ingresando el RUT del ciudadano.
--Consultar el historial completo de trámites de un vecino.
--Actualizar el estado del trámite conforme avanza en sus distintas etapas.
--Contar con una interfaz eficiente que reduzca los pasos necesarios para completar cada acción.
--Recibir confirmación visual clara de que una acción quedó correctamente registrada.
+- Visualizar la agenda diaria de citas de forma clara y ordenada.
+- Revisar en línea los documentos adjuntados por los vecinos sin necesidad de imprimirlos.
+- Aprobar o rechazar documentos dejando registro del motivo.
+- Buscar expedientes y solicitudes ingresando el RUT del ciudadano.
+- Consultar el historial completo de trámites de un vecino.
+- Actualizar el estado del trámite conforme avanza en sus distintas etapas.
+- Contar con una interfaz eficiente que reduzca los pasos necesarios para completar cada acción.
+- Recibir confirmación visual clara de que una acción quedó correctamente registrada.
 
 ---
 ## Roles del sistema

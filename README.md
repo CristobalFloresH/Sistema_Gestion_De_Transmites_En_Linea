@@ -85,7 +85,7 @@ Necesidades principales de los vecinos:
 
 ## Proto-personas
 
-Proto-persona 1: Vecino trabajador con poco tiempo
+### Proto-persona 1: Vecino trabajador con poco tiempo
 
 Nombre: Diego
 Rol: Vecino
@@ -130,6 +130,19 @@ Selección de bloque horario, registro de reserva, carga de documentación, lín
 
 Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmente. Nivel de experiencia tecnológica estimado: medio-alto.
 
+### Proto-persona 2: Vecino adulto mayor que renueva su licencia
+
+Nombre: Maria Elsa 
+Rol: Vecino
+
+### Características generales
+
+Rosa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el teléfono móvil para WhatsApp y llamadas, pero tiene poca experiencia con trámites en línea. Suele pedir ayuda a sus hijos cuando debe usar plataformas del Estado.
+
+### Necesidades principales
+
+•Instrucciones concretas y breves en cada paso.
+•Letra clara, botones grandes y buen contraste.
 
 
 # Requerimientos funcionales

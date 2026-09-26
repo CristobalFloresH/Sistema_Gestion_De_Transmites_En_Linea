@@ -171,8 +171,45 @@ Teléfono móvil, desde su casa y en ocasiones con apoyo de un familiar.
 Nivel de experiencia tecnológica estimado: bajo.
 
 ---
-### Proto-persona 3:
+### Proto-persona 3: Funcionaria de atención de licencias
 
+Nombre: Patricia
+Rol: Funcionario municipal
+
+#### Características generales
+
+Patricia tiene 45 años y trabaja en la unidad de licencias de conducir. Atiende público durante todo el día y maneja expedientes en papel y planillas. Tiene experiencia básica en herramientas digitales, pero poca en sistemas nuevos.
+
+#### Necesidades principales
+
+•Ver rápidamente quiénes están agendados cada día.
+•Revisar documentos en pantalla sin manipular papeles.
+•Aprobar o rechazar documentos dejando el motivo registrado.
+•Encontrar un expediente con solo el RUT.
+•Actualizar el estado del trámite de forma simple.
+
+#### Objetivos de uso
+
+Reducir la carga presencial, ordenar el flujo de atención y tener respaldo claro de cada trámite.
+
+#### Dificultades o puntos de frustración
+
+•Documentos ilegibles o incompletos.
+•Búsquedas lentas de expedientes.
+•Interfaces con demasiados pasos para una acción simple.
+•Errores en la agenda que generan aglomeraciones.
+
+#### Funcionalidades que utilizaría
+
+Agenda diaria, visualización y validación de documentos, búsqueda por RUT, historial de trámites y actualización de estados.
+
+#### Dispositivo y contexto probable de acceso
+
+Computador de escritorio en su puesto de trabajo, durante toda la jornada. Nivel de experiencia tecnológica estimado: medio.
+---
+### Proto-Persona 4:
+
+---
 # Requerimientos funcionales
 **RF-1 : Selección de bloque horario**
 El sistema desplegará un calendario interactivo que mostrará los días junto a los bloques de horarios disponibles.

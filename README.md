@@ -89,6 +89,7 @@ Necesidades principales de los vecinos:
 ### Proto-persona 1: Vecino trabajador con poco tiempo
 
 Nombre: Diego
+
 Rol: Vecino
 
 #### Características generales
@@ -136,7 +137,8 @@ Nivel de experiencia tecnológica estimado: medio-alto.
 ---
 ### Proto-persona 2: Vecino adulto mayor que renueva su licencia
 
-Nombre: Maria Elsa 
+Nombre: Maria Elsa
+
 Rol: Vecino
 
 #### Características generales
@@ -224,8 +226,8 @@ Nivel de experiencia tecnológica estimado: medio.
 ### Proto-Persona 4:Joven que solicita reimpresión de licencia por robo
 
 Nombre: Matías Delgado.
+
 Rol: Vecino.
-Edad: 26 años.
 
 #### Características generales
 
@@ -233,11 +235,15 @@ Matías trabaja como repartidor y depende de su licencia de conducir para movili
 
 #### Necesidades principales
 
-Entender rápido qué trámite le corresponde (reimpresión por pérdida o robo, no renovación).
-Saber si necesita denuncia policial u otro documento antes de agendar.
-Agendar una hora lo antes posible, porque necesita la licencia para trabajar.
-Evitar rehacer exámenes que ya aprobó anteriormente, si no corresponde.
-Seguir el estado del trámite para volver a manejar cuanto antes.
+•Entender rápido qué trámite le corresponde (reimpresión por pérdida o robo, no renovación).
+
+•Saber si necesita denuncia policial u otro documento antes de agendar.
+
+•Agendar una hora lo antes posible, porque necesita la licencia para trabajar.
+
+•Evitar rehacer exámenes que ya aprobó anteriormente, si no corresponde.
+
+•Seguir el estado del trámite para volver a manejar cuanto antes.
 
 #### Objetivos de uso
 

@@ -172,6 +172,34 @@ Rutas principales y secundarias.
  └── /funcionario/agenda/error      (misma vista con validaciones fallidas)
 ```
 
+Todas las vistas comparten la barra de navegación superior (`NavBar`), que muestra "Ingresar" sin sesión o el menú "Hola ..." con sesión (con "Mis trámites" y "Cerrar sesión"); el funcionario ve además el enlace "Agenda".
 
+### Flujo de navegación entre funcionalidades
+
+- Desde el **menú principal** se accede a Trámite licencia ("Ver trámites" o las tarjetas de Accesos rápidos) y a Mis trámites ("Seguir mis trámites").
+- El agendamiento avanza en orden: Trámite licencia → (opcional) Calendario → Trámite finalizado → "Volver al inicio".
+- El funcionario entra a la Agenda desde la barra superior y vuelve a ella desde el detalle del trámite mediante la ruta de navegación "Agenda > Proceso del trámite".
+
+### Diferenciación de acceso por rol
+
+| Segmento de rutas | Rol requerido | Mecanismo |
+| --- | --- | --- |
+| `/`, `/login` | Público | Sin protección |
+| `/tramite-licencia`, `/calendario`, `/tramite-finalizado`, `/mis-tramites` | Ciudadano o Funcionario | `ProtectedRoute` verifica que exista sesión; si no, redirige a `/login` |
+| `/funcionario/*` | Solo Funcionario | `ProtectedRoute` con `rol="funcionario"`; sin sesión redirige a `/login` y con otro rol redirige a `/` |
+
+La sesión se obtiene desde `services/authService.js`. En esta entrega es simulada (guarda solo el rol); en la Entrega 2 se reemplaza por autenticación con JWT sin modificar las vistas.
+
+
+### Flujo de tareas principales (task flows)
+
+**Task flow 1 — Agendar hora para la licencia (Ciudadano):**
+`/` → "Ver trámites" (si no hay sesión, `/login`) → `/tramite-licencia` → elegir tipo de trámite → elegir día y bloque horario (RF-1) o "¿Buscas más horarios?" → `/calendario` → "Continuar" → `/tramite-finalizado` con el resumen de la cita (RF-2) → "Descargar comprobante" (RF-15).
+
+**Task flow 2 — Seguir el estado de un trámite (Ciudadano):**
+`/` → "Seguir mis trámites" (o menú "Hola ..." → "Mis trámites") → `/mis-tramites` → revisar la tarjeta del trámite con su estado y línea de tiempo (RF-7) → acciones disponibles como "Cancelar cita" (RF-12).
+
+**Task flow 3 — Validar un trámite (Funcionario):**
+`/login` → "Ingreso funcionarios" → "Agenda" en la barra superior → `/funcionario/agenda` (RF-10) → buscar por RUT o nombre y filtrar por estado o trámite (RF-13) → "Ver proceso del trámite" → revisar documentos adjuntos (RF-5) → "Aprobar" o "Rechazar" (RF-6).
 
 

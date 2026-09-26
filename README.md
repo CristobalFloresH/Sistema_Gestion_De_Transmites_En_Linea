@@ -320,7 +320,7 @@ El sistema permitirá a los funcionarios aprobar o rechazar los documentos adjun
 **RF-7 : Visualización de la línea de tiempo del trámite**
 El sistema mostrará en el panel de los usuario y funcionarios una línea de tiempo actualizada que refleja todas las fases del trámite (Cita Reservada, Examen Teórico Aprobado, Examen Psicotécnico Aprobado, Fotografía Capturada, Licencia en Impresión y Lista para Retiro).
 
-**RF-8 : Redirección por roles de usuario
+**RF-8 : Redirección por roles de usuario**
 El sistema identificará el rol del usuario al momento de autenticarse redirigiendo de manera automática a su interfaz según correspondan sus permisos de acceso.
 
 **RF-9 : Notificación de licencia lista**

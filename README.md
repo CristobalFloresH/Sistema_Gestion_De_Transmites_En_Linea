@@ -202,4 +202,23 @@ La sesión se obtiene desde `services/authService.js`. En esta entrega es simula
 **Task flow 3 — Validar un trámite (Funcionario):**
 `/login` → "Ingreso funcionarios" → "Agenda" en la barra superior → `/funcionario/agenda` (RF-10) → buscar por RUT o nombre y filtrar por estado o trámite (RF-13) → "Ver proceso del trámite" → revisar documentos adjuntos (RF-5) → "Aprobar" o "Rechazar" (RF-6).
 
+### Puntos críticos de interacción
+
+- **Redirección obligatoria de login:** cualquier ruta privada sin sesión activa redirige a `/login`, y las rutas de funcionario no son accesibles para el ciudadano.
+- **Validación del formulario de login:** cada campo (`IonInput`) muestra su propio error (borde rojo y mensaje) y el RUT indica el formato esperado.
+- **Selección de fecha y bloque horario:** el calendario (`IonDatetime`) no permite fechas pasadas, se muestra un resumen de lo seleccionado y "Continuar" queda deshabilitado hasta elegir un bloque.
+- **Feedback al aprobar o rechazar:** el funcionario recibe un aviso inmediato (`IonToast`) verde o rojo según la acción.
+- **Cierre de sesión:** como Ionic mantiene las páginas visitadas en memoria, la sesión se vuelve a verificar al entrar a cada página, evitando ver vistas privadas con la flecha "atrás" después de cerrar sesión.
+
+### Coherencia entre dispositivos
+
+- La aplicación es una sola para web y móvil: las mismas rutas, vistas y flujos en ambos.
+- Los componentes de Ionic utilizados (`IonButton`, `IonInput`, `IonSelect`, `IonSearchbar`, `IonDatetime`, `IonCard`, `IonToast`) se adaptan al dispositivo (interacción táctil y estilo de cada plataforma).
+- En **móvil**, la navegación principal se trasladará a una barra inferior (`IonTabs`) o un menú lateral (`IonMenu`), según el prototipo de Figma, y las vistas de varias columnas se apilarán verticalmente; en **web** se mantiene la barra superior actual.
+
+### Justificación técnica de las decisiones
+
+- **Ionic React + React Router 6:** `IonReactRouter` e `IonRouterOutlet` entregan navegación tipo aplicación (transiciones, historial y botón "atrás") mientras React Router maneja el enrutamiento declarativo. Se usa la versión 6 porque es la compatible con Ionic 9.
+- **Rutas agrupadas por rol:** las vistas del funcionario comparten el prefijo `/funcionario`, lo que hace clara la estructura y permite aplicar la protección de rol de forma uniforme con `ProtectedRoute`.
+- **Estructura modular (pages/components/routes/services):** separa vistas, componentes reutilizables (`NavBar`, `ProgressBar`), protección de rutas y lógica de sesión, lo que facilita escalar el proyecto en la próxima entrega: la capa de `services` puede reemplazar la sesión simulada por llamadas reales a la API sin tocar las vistas.
 

@@ -76,11 +76,11 @@ Necesidades principales de los vecinos:
 - Disminuir los tiempos de espera y la necesidad de traslados presenciales innecesarios.
 
 ## Roles del sistema
-•Administrador: Usuario encargado de la gestión general de la plataforma.
+•Vecino (ciudadano): agenda, reprograma o cancela su hora, sube sus documentos, consulta el estado de su trámite en la línea de tiempo y descarga su comprobante.
 
-•Estudiante: Puede crear, editar y eliminar productos.
+•Funcionario municipal: revisa la agenda diaria, visualiza y valida (aprueba o rechaza) los documentos, busca expedientes por RUT, actualiza el estado del trámite y consulta el historial de cada ciudadano.
 
-•Docente: Usuario encargado de administrar contenidos educativos.
+•Administrador: gestiona la plataforma a nivel general y técnico: crea y desactiva cuentas de funcionarios, configura los bloques horarios disponibles y supervisa el funcionamiento del sistema.
 
 
 ## Proto-personas

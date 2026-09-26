@@ -91,6 +91,7 @@ Nombre: Diego
 Rol: Vecino
 
 Características generales
+
 Diego tiene 32 años, trabaja a tiempo completo y necesita obtener su licencia por primera vez para un nuevo empleo. Usa a diario el celular y el computador, y está acostumbrado a hacer trámites bancarios y de compras en línea.
 
 Necesidades principales
@@ -106,6 +107,7 @@ Necesidades principales
 • Ver el avance de su trámite en cualquier momento.
 
 Objetivos de uso
+
 Completar la mayor parte del trámite en línea y asistir presencialmente solo cuando sea indispensable.
 
 Dificultades o puntos de frustración
@@ -121,9 +123,11 @@ Dificultades o puntos de frustración
 • Visitar demasiadas veces el sitio presencial.
 
 Funcionalidades que utilizaría
+
 Selección de bloque horario, registro de reserva, carga de documentación, línea de tiempo, recordatorio de cita y cancelación de cita.
 
 Dispositivo y contexto probable de acceso
+
 Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmente. Nivel de experiencia tecnológica estimado: medio-alto.
 
 

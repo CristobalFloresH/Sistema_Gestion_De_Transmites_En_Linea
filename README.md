@@ -320,8 +320,8 @@ El sistema permitirá a los funcionarios aprobar o rechazar los documentos adjun
 **RF-7 : Visualización de la línea de tiempo del trámite**
 El sistema mostrará en el panel de los usuario y funcionarios una línea de tiempo actualizada que refleja todas las fases del trámite (Cita Reservada, Examen Teórico Aprobado, Examen Psicotécnico Aprobado, Fotografía Capturada, Licencia en Impresión y Lista para Retiro).
 
-**RF-8 : Redirección por roles de usuario**
-El sistema identificará el rol del usuario al momento de autenticarse redirigiendo de manera automática a su interfaz según correspondan sus permisos de acceso.
+**RF-8 : Gestión de cuentas de funcionarios**
+El sistema permitirá al administrador crear, editar y desactivar cuentas de funcionarios municipales, asignando el rol correspondiente para su acceso a la plataforma.
 
 **RF-9 : Notificación de licencia lista**
 El sistema enviará una notificación automática vía correo electrónico al usuario cuando el estado de su licencia cambie a “Lista para Retiro”.
@@ -343,6 +343,9 @@ El sistema permitirá a los funcionarios consultar un registro de todos los trá
 
 **RF-15 : Emision de comprobante**
 El sistema permitirá al usuario descargar un comprobante digital en formato PDF al finalizar el proceso escogido, este incluirá el resumen del tramite junto a la información soliticada.
+
+**RF-16 : Configuración de bloques horarios**
+El sistema permitirá al administrador definir y modificar los días y bloques horarios disponibles para el agendamiento de citas, los cuales se reflejarán automáticamente en el calendario visualizado por los vecinos.
 
 
 # Requerimientos no funcionales

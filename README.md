@@ -156,7 +156,17 @@ Completar la mayor parte del trámite en línea y asistir presencialmente solo c
 
 #### Funcionalidades que utilizaría
 
-Selección de bloque horario, registro de reserva, carga de documentación, línea de tiempo, recordatorio de cita y cancelación de cita.
+•Selección de bloque horario.
+
+•Registro de reserva.
+
+•Carga de documentación.
+
+•Línea de tiempo.
+
+•Recordatorio de cita.
+
+•Cancelación de cita.
 
 #### Dispositivo y contexto probable de acceso
 
@@ -178,9 +188,13 @@ Rosa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el
 #### Necesidades principales
 
 •Instrucciones concretas y breves en cada paso.
+
 •Letra clara, botones grandes y buen contraste.
+
 •Saber de antemano qué documentos y exámenes necesita.
+
 •Conocer el estado de su trámite sin tener que ir al municipio ni llamar.
+
 •Poder cancelar o cambiar su hora si tiene un imprevisto de salud.
 
 #### Objetivos de uso
@@ -190,14 +204,30 @@ Agendar su hora sin hacer fila, saber qué debe llevar o facilidad para subir do
 #### Dificultades o puntos de frustración
 
 •Pantallas con demasiada información a la vez.
+
 •Términos técnicos o poco claros.
+
 •Formularios largos o sin mensajes de error comprensibles.
+
 •No saber si la acción que hizo quedó registrada.
+
 •Dificultad para escanear o subir documentos.
 
 #### Funcionalidades que utilizaría
 
-Selección de bloque horario, comprobante por correo o WhatsApp, recordatorio de cita, carga de documentos, línea de tiempo del trámite, cancelación de cita y notificación de licencia lista.
+•Selección de bloque horario.
+
+•Comprobante por correo o WhatsApp.
+
+•Recordatorio de cita.
+
+•Carga de documentos.
+
+•Línea de tiempo del trámite.
+
+•Cancelación de cita.
+
+•Notificación de licencia lista.
 
 #### Dispositivo y contexto probable de acceso
 
@@ -244,7 +274,15 @@ Reducir la carga presencial, ordenar el flujo de atención y tener respaldo clar
 
 #### Funcionalidades que utilizaría
 
-Agenda diaria, visualización y validación de documentos, búsqueda por RUT, historial de trámites y actualización de estados.
+•Agenda diaria.
+
+•Visualización y validación de documentos.
+
+•Búsqueda por RUT. 
+
+•Historial de trámites.
+
+•Actualización de estados.
 
 #### Dispositivo y contexto probable de acceso
 

@@ -83,7 +83,7 @@ Necesidades principales de los vecinos:
 •Docente: Usuario encargado de administrar contenidos educativos.
 
 
-#Proto-personas
+# Proto-personas
 
 Proto-persona 1: Vecino trabajador con poco tiempo
 

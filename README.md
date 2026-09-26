@@ -355,7 +355,7 @@ El sistema verificará la validez de los documentos mediante comprobación de c�
 **RNF-3 : Disponibilidad del módulo de agendamiento**
 El módulo de agendamiento estará disponible para reservas de lunes a viernes, en bloques horarios de 08:00 a 17:00 horas, según la disponibilidad definida por el municipio.
 
-**RNF-4 : Escalabilidad  **
+**RNF-4 : Escalabilidad**
 La plataforma web deberá soportar un volumen de hasta 300 usuarios interactuando de forma simultánea, sin degradar significativamente los tiempos de respuesta.
 
 **RNF-5 : Accesibilidad de la interfaz**

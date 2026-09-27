@@ -1,23 +1,21 @@
 ## Nombre de proyecto
 Sistema de gestion de tramites en linea
 
-## Integrantes
-Diego Cortez
+## Integrantes del equipo 
 
-Rafael Valdes
+| Nombre | Rol en el proyecto |
+|---|---|
+| Diego Cortez | Frontend / Wireframes PC |
+| Rafael Valdes | Frontend / Wireframes móvil |
+| Mauricio Morales | Documentación |
+| Cristobal Flores | Frontend / Ionic + React |
 
-Mauricio Morales
+## Distribucion de responsabilidades 
 
-Cristobal Flores
-
-## Distribucion
-Diego Cortez : Frontend / wireframes-pc
-
-Rafael Valdes : Frontend / wireframes-movil
-
-Mauricio Morales : Documentacion
-
-Cristobal Flores : Frontend / Ionic + React
+- Frontend (Ionic + React):** estructura de vistas, componentes reutilizables (NavBar, ProgressBar), navegación y rutas protegidas con React Router.
+- UI/UX y Figma:** mockups web y móvil, flujo de navegación del ciudadano y del funcionario, jerarquía visual.
+- Documentación y gestión:** README, manejo de ramas, control de versiones y evidencia de avance.
+- Backend (a desarrollar en EP2):** API REST, base de datos relacional y autenticación.
 
 ## Descripcion general del sistema
 El sistema propuesto busca digitalizar y optimizar la gestión de distintos trámites municipales. Para ello, se desarrolló una plataforma cuyo objetivo es centralizar los procesos de obtención de licencias de conducir, abarcando distintas modalidades como la primera emisión, la renovación y la reimpresión.

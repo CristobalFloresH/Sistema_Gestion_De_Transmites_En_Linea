@@ -64,3 +64,7 @@ Las rutas protegidas redirigen al login si no hay sesión, y las rutas de funcio
 - [React Router](https://reactrouter.com/) 6 (Ionic 9 requiere la versión 6)
 - [Vite](https://vite.dev/) 8
 - JavaScript
+
+## Hypervínculos
+
+[Figma]https://www.figma.com/design/GfTP09qFYtAsPHPTJxQtor/mockups?node-id=0-1&t=2XZMfuvjLfRCh2wf-1

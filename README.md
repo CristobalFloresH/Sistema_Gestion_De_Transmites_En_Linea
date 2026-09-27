@@ -5,8 +5,8 @@ Sistema de gestion de tramites en linea
 
 | Nombre | Rol en el proyecto |
 |---|---|
-| Diego Cortez | Frontend / Wireframes PC |
-| Rafael Valdes | Frontend / Wireframes móvil |
+| Diego Cortez | Frontend (UI/UX y Figma) / Wireframes PC |
+| Rafael Valdes | Frontend (UI/UX y Figma) / Wireframes móvil |
 | Mauricio Morales | Documentación |
 | Cristobal Flores | Frontend / Ionic + React |
 

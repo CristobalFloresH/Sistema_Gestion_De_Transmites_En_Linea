@@ -5,14 +5,14 @@
 2. [Usuarios](#usuarios-objetivo)
    - [Roles](#roles-del-sistema)
    - [Proto-personas](#proto-personas)
-3. [Requerimientos](#requerimientos)
-4. [Arquitectura de navegación](#Arquitectura-de-navegación)
+3. [Requerimientos funcionales](#requerimientos-funcionales)
+4. [Requerimientos no funcionales](#requerimientos-no-funcionales)
+5. [Arquitectura de navegación](#Arquitectura-de-navegación)
    - [Diferenciación de acceso por rol](#diferenciación-de-acceso-por-rol)
    - [Flujo de tareas principales](#flujo-de-tareas-principales-task-flows)
    - [Puntos críticos de interacción](#puntos-críticos-de-interacción)
    - [Justificación técnica de las decisiones](#justificación-técnica-de-las-decisiones)
-5. [Bocetos UX/UI](#bocetos-uxui)
-6. [Frontend con Ionic-React](#frontend-con-ionic-react)
+6. [Figma](#Figma)
 
 ---
 
@@ -463,3 +463,6 @@ La sesión se obtiene desde `services/authService.js`. En esta entrega es simula
 - **Rutas agrupadas por rol:** las vistas del funcionario comparten el prefijo `/funcionario`, lo que hace clara la estructura y permite aplicar la protección de rol de forma uniforme con `ProtectedRoute`.
 - **Estructura modular (pages/components/routes/services):** separa vistas, componentes reutilizables (`NavBar`, `ProgressBar`), protección de rutas y lógica de sesión, lo que facilita escalar el proyecto en la próxima entrega: la capa de `services` puede reemplazar la sesión simulada por llamadas reales a la API sin tocar las vistas.
 
+## Figma
+
+[Figma](https://www.figma.com/design/GfTP09qFYtAsPHPTJxQtor/mockups?node-id=0-1&t=2XZMfuvjLfRCh2wf-1)

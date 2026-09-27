@@ -12,10 +12,10 @@ Sistema de gestion de tramites en linea
 
 ## Distribucion de responsabilidades 
 
-- Frontend (Ionic + React):** estructura de vistas, componentes reutilizables (NavBar, ProgressBar), navegación y rutas protegidas con React Router.
-- UI/UX y Figma:** mockups web y móvil, flujo de navegación del ciudadano y del funcionario, jerarquía visual.
-- Documentación y gestión:** README, manejo de ramas, control de versiones y evidencia de avance.
-- Backend (a desarrollar en EP2):** API REST, base de datos relacional y autenticación.
+- Frontend (Ionic + React): estructura de vistas, componentes reutilizables (NavBar, ProgressBar), navegación y rutas protegidas con React Router.
+- UI/UX y Figma: mockups web y móvil, flujo de navegación del ciudadano y del funcionario, jerarquía visual.
+- Documentación y gestión: README, manejo de ramas, control de versiones y evidencia de avance.
+
 
 ## Descripcion general del sistema
 El sistema propuesto busca digitalizar y optimizar la gestión de distintos trámites municipales. Para ello, se desarrolló una plataforma cuyo objetivo es centralizar los procesos de obtención de licencias de conducir, abarcando distintas modalidades como la primera emisión, la renovación y la reimpresión.

@@ -33,11 +33,11 @@ Gestión de los 3 tipos de tramites, sistema de agendamiento, trazabilidad del t
 El código del frontend está en la rama frontend, dentro de la carpeta frontend/.
 
 
-git clone https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git
-cd Sistema_Gestion_De_Transmites_En_Linea
-git checkout frontend
-cd frontend
-npm install
+- git clone https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git
+- cd Sistema_Gestion_De_Transmites_En_Linea
+- git checkout frontend
+- cd frontend
+- npm install
 
 ### Ejecución
 

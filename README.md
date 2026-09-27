@@ -20,10 +20,10 @@ Mauricio Morales : Documentacion
 Cristobal Flores : Frontend / Ionic + React
 
 ## Descripcion general del sistema
-El sistema propuesto busca digitalizar y optimizar la gestion de distintos tramites por lo que se creo un plataforma que centraliza el tramite de licencias de conducir (primera vez, renovacion y reimpresion).
+El sistema propuesto busca digitalizar y optimizar la gestión de distintos trámites municipales. Para ello, se desarrolló una plataforma cuyo objetivo es centralizar los procesos de obtención de licencias de conducir, abarcando distintas modalidades como la primera emisión, la renovación y la reimpresión.
 
 ## Objetivos del proyecto
-Desarrollar e implementar un sistema de agendamiento y gestión de tramites para licencias de conducir para que los ciudadanos de Santo domingo puedan realizar sus solicitudes de forma remota y así reducir los tiempos de espera.
+Desarrollar e implementar un sistema de agendamiento y gestión de trámites de licencias de conducir que permita a los ciudadanos de Santo Domingo realizar sus solicitudes de forma remota, reduciendo así los tiempos de espera y la carga de atención presencial en la municipalidad.
 
 ## Principales funcionalidades
 Gestión de los 3 tipos de tramites, sistema de agendamiento, trazabilidad del tramite.

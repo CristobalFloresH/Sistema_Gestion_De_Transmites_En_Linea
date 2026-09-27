@@ -1,3 +1,35 @@
+## Nombre de proyecto
+Sistema de gestion de tramites en linea
+
+## Integrantes
+Diego Cortez
+Rafael Valdes
+Mauricio Morales
+Cristobal Flores
+
+## Distribucion
+Diego Cortez : Frontend / wireframes-pc
+Rafael Valdes : Frontend / wireframes-movil
+Mauricio Morales : Documentacion
+Cristobal Flores : Frontend / Ionic + React
+
+
+## Descripcion general del sistema
+
+
+
+## Objetivos del proyecto
+
+
+
+## Principales funcionalidades
+
+
+## Media
+
+
+
+
 ## Instalación y ejecución
 
 ### Requisitos

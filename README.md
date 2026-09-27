@@ -25,7 +25,7 @@ Una de las principales dificultades radica en que la implementación tecnológic
 
 Además, el primer Estudio de Madurez Digital de Municipalidades (realizado por Movistar Empresas, Fundación País Digital y Fortinet) revela áreas críticas que frenan este proceso. Entre ellas destacan la falta de planificación estratégica (apenas un 6 % cuenta con un plan definido), el déficit en la capacitación del personal en competencias digitales (solo un 16 %), las limitaciones en interoperabilidad y gestión documental (menos del 20 %), y la urgencia de fortalecer los protocolos de ciberseguridad.
 
-En este escenario, uno de los cuellos de botella más evidentes a nivel municipal es la gestión del proceso de licencias de conducir. Actualmente, la baja disponibilidad de agendamiento online para este trámite genera aglomeraciones, largas filas y una alta congestión en la atención presencial. En el caso específico de la Municipalidad de Santo Domingo, la falta de un sistema digital integrado dificulta la toma de horas, el seguimiento del estado de los trámites y la recepción segura de documentos, afectando la experiencia de los vecinos y sobrecargando al personal interno.
+En este escenario, uno de los cuellos de botella más evidentes a nivel municipal es la gestión del proceso de licencias de conducir. Actualmente, la baja disponibilidad de agendamiento online para este trámite genera aglomeraciones, largas filas y una alta congestión en la atención presencial. En el caso específico de la Municipalidad de Santo Domingo, la falta de un sistema digital integrado dificulta la toma de horas, el seguimiento del estado de los trámites y la recepción segura de documentos, afectando la experiencia de los ciudadanos y sobrecargando al personal interno.
 
 Por lo tanto, el problema abordado por el proyecto corresponde a la brecha digital y operativa en la gestión de licencias de conducir de la Municipalidad de Santo Domingo, la cual dificulta la eficiencia del servicio y la vinculación ágil con la ciudadanía, alejando al municipio de los estándares requeridos por la Ley 21.180.
 
@@ -39,11 +39,11 @@ En definitiva, el desarrollo de esta plataforma web para la Municipalidad de San
 
 ## Usuarios objetivo 
 
-La aplicación considera principalmente dos grupos de usuarios: vecinos (ciudadanos) y funcionarios municipales. Adicionalmente, se contempla un rol de administración para la gestión general y técnica de la plataforma en la Municipalidad de Santo Domingo.
+La aplicación considera principalmente dos grupos de usuarios: ciudadanos y funcionarios municipales. Adicionalmente, se contempla un rol de administración para la gestión general y técnica de la plataforma en la Municipalidad de Santo Domingo.
 
-### Vecinos (Ciudadanos)
+### Ciudadanos
 
-Los vecinos corresponden a los usuarios finales y principales beneficiarios de la plataforma. Se considera que constituyen un grupo diverso respecto a su edad, familiaridad con la tecnología, disponibilidad de tiempo y necesidades de accesibilidad para realizar trámites presenciales o digitales.
+Los ciudadanos corresponden a los usuarios finales y principales beneficiarios de la plataforma. Se considera que constituyen un grupo diverso respecto a su edad, familiaridad con la tecnología, disponibilidad de tiempo y necesidades de accesibilidad para realizar trámites presenciales o digitales.
 
 Dentro de este grupo pueden existir ciudadanos que:
 
@@ -62,7 +62,7 @@ La población objetivo considera también a adultos mayores y personas con menor
 
 La plataforma deberá evitar asumir que todos los usuarios poseen el mismo dominio tecnológico. En su lugar, ofrecerá alternativas claras de navegación, soporte visual y accesibilidad multiplataforma.
 
-Necesidades principales de los vecinos:
+Necesidades principales de los ciudadanos:
 
 - Agendar horas de atención para licencias de conducir de forma rápida y sin filas.
 - Consultar en tiempo real el estado en el que se encuentra su trámite.
@@ -78,36 +78,36 @@ Necesidades principales de los vecinos:
 
 ### Funcionarios Municipales
 
-Los funcionarios municipales corresponden al personal de la Municipalidad de Santo Domingo encargado de gestionar, revisar y dar curso a los trámites de licencias de conducir. A diferencia de los vecinos, este grupo utiliza la plataforma de manera intensiva y continua durante su jornada laboral, por lo que sus necesidades están orientadas a la eficiencia, el orden y el control del flujo de trabajo diario.
+Los funcionarios municipales corresponden al personal de la Municipalidad de Santo Domingo encargado de gestionar, revisar y dar curso a los trámites de licencias de conducir. A diferencia de los ciudadanos, este grupo utiliza la plataforma de manera intensiva y continua durante su jornada laboral, por lo que sus necesidades están orientadas a la eficiencia, el orden y el control del flujo de trabajo diario.
 
 Dentro de este grupo pueden existir funcionarios que:
 
 - Atienden un alto volumen de solicitudes y expedientes durante el día.
 - Necesitan visualizar rápidamente la agenda de citas de cada jornada.
 - Revisan documentos digitales que antes recibían en papel, por lo que requieren que la visualización en pantalla sea clara y confiable.
-- Deben validar la veracidad y el cumplimiento normativo de los documentos adjuntados por los vecinos.
+- Deben validar la veracidad y el cumplimiento normativo de los documentos adjuntados por los ciudadanos.
 - Requieren ubicar expedientes específicos de forma rápida, sin depender de archivos físicos.
 - Necesitan mantener actualizado el estado del trámite en cada etapa del proceso.
 - Presentan distintos niveles de experiencia con sistemas digitales, ya que algunos provienen de procesos manuales o semidigitalizados.
 - Requieren que el sistema entregue retroalimentación clara ante cada acción realizada (aprobar, rechazar, actualizar estado).
 - Necesitan minimizar el tiempo dedicado a tareas repetitivas para poder atender más casos.
 
-La plataforma deberá considerar que los funcionarios no solo consumen información, como los vecinos, sino que además la generan y validan. Por ello, la interfaz para este rol debe priorizar la rapidez operativa, la trazabilidad de las acciones y la reducción de errores humanos en la gestión de expedientes.
+La plataforma deberá considerar que los funcionarios no solo consumen información, como los ciudadanos, sino que además la generan y validan. Por ello, la interfaz para este rol debe priorizar la rapidez operativa, la trazabilidad de las acciones y la reducción de errores humanos en la gestión de expedientes.
 
 Necesidades principales de los funcionarios:
 
 - Visualizar la agenda diaria de citas de forma clara y ordenada.
-- Revisar en línea los documentos adjuntados por los vecinos sin necesidad de imprimirlos.
+- Revisar en línea los documentos adjuntados por los ciudadanos sin necesidad de imprimirlos.
 - Aprobar o rechazar documentos dejando registro del motivo.
 - Buscar expedientes y solicitudes ingresando el RUT del ciudadano.
-- Consultar el historial completo de trámites de un vecino.
+- Consultar el historial completo de trámites de un ciudadano.
 - Actualizar el estado del trámite conforme avanza en sus distintas etapas.
 - Contar con una interfaz eficiente que reduzca los pasos necesarios para completar cada acción.
 - Recibir confirmación visual clara de que una acción quedó correctamente registrada.
 
 ---
 ## Roles del sistema
-•Vecino (ciudadano): agenda, reprograma o cancela su hora, sube sus documentos, consulta el estado de su trámite en la línea de tiempo y descarga su comprobante.
+•Ciudadano: agenda, reprograma o cancela su hora, sube sus documentos, consulta el estado de su trámite en la línea de tiempo y descarga su comprobante.
 
 •Funcionario municipal: revisa la agenda diaria, visualiza y valida (aprueba o rechaza) los documentos, busca expedientes por RUT, actualiza el estado del trámite y consulta el historial de cada ciudadano.
 
@@ -116,11 +116,11 @@ Necesidades principales de los funcionarios:
 ---
 ## Proto-personas
 
-### Proto-persona 1: Vecino trabajador con poco tiempo
+### Proto-persona 1: Ciudadano trabajador con poco tiempo
 
 Nombre: Diego
 
-Rol: Vecino
+Rol: Ciudadano
 
 #### Características generales
 
@@ -162,11 +162,11 @@ Teléfono móvil durante pausas laborales o traslados, y computador ocasionalmen
 Nivel de experiencia tecnológica estimado: medio-alto.
 
 ---
-### Proto-persona 2: Vecino adulto mayor que renueva su licencia
+### Proto-persona 2: Ciudadano  adulto mayor que renueva su licencia
 
 Nombre: Maria Elsa
 
-Rol: Vecino
+Rol: Ciudadano 
 
 #### Características generales
 
@@ -257,7 +257,7 @@ Nivel de experiencia tecnológica estimado: medio.
 
 Nombre: Matías Delgado.
 
-Rol: Vecino.
+Rol: Ciudadano.
 
 #### Características generales
 
@@ -345,7 +345,7 @@ El sistema permitirá a los funcionarios consultar un registro de todos los trá
 El sistema permitirá al usuario descargar un comprobante digital en formato PDF al finalizar el proceso escogido, este incluirá el resumen del tramite junto a la información soliticada.
 
 **RF-16 : Configuración de bloques horarios**
-El sistema permitirá al administrador definir y modificar los días y bloques horarios disponibles para el agendamiento de citas, los cuales se reflejarán automáticamente en el calendario visualizado por los vecinos.
+El sistema permitirá al administrador definir y modificar los días y bloques horarios disponibles para el agendamiento de citas, los cuales se reflejarán automáticamente en el calendario visualizado por los ciudadanos.
 
 **RF-17 : Gestión de cuentas de funcionarios**
 El sistema permitirá al administrador crear, editar y desactivar cuentas de funcionarios municipales, asignando el rol correspondiente para su acceso a la plataforma.

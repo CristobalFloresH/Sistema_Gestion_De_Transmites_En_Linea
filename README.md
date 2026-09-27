@@ -1,9 +1,8 @@
 # Proyecto_Final_INF3245
-# Proyecto_Final_INF3245
 
 ## Índice
 1. [Justificación del problema](#justificación-del-problema)
-2. [Usuarios](#usuarios)
+2. [Usuarios](Usuarios-objetivo)
    - [Roles](#roles)
    - [Proto-personas](#proto-personas)
 3. [Requerimientos](#requerimientos)
@@ -38,6 +37,8 @@ En definitiva, el desarrollo de esta plataforma web para la Municipalidad de San
 ---
 
 ## Usuarios objetivo 
+
+La caracterización de usuarios y las proto-personas de este documento corresponden a una caracterización preliminar, elaborada a partir de fuentes secundarias (Ley 21.180 y Estudio de Madurez Digital de Municipalidades) y de supuestos razonados del equipo. No corresponden a resultados obtenidos de entrevistas ni de usuarios reales.
 
 La aplicación considera principalmente dos grupos de usuarios: ciudadanos y funcionarios municipales. Adicionalmente, se contempla un rol de administración para la gestión general y técnica de la plataforma en la Municipalidad de Santo Domingo.
 
@@ -104,6 +105,13 @@ Necesidades principales de los funcionarios:
 - Actualizar el estado del trámite conforme avanza en sus distintas etapas.
 - Contar con una interfaz eficiente que reduzca los pasos necesarios para completar cada acción.
 - Recibir confirmación visual clara de que una acción quedó correctamente registrada.
+
+Necesidades de seguridad y privacidad
+
+- Los vecinos entregan datos personales sensibles (RUT, certificados, antecedentes), por lo que necesitan confianza en que solo el personal autorizado podrá verlos.
+- Los funcionarios solo deben acceder a los expedientes que corresponden a su función, y cada acción (aprobar, rechazar) debe quedar registrada.
+- Se solicitarán únicamente los datos necesarios para realizar el trámite.
+
 
 ---
 ## Roles del sistema
@@ -296,6 +304,16 @@ Resolver la pérdida de su licencia de forma rápida y con la menor cantidad de 
 Teléfono móvil, en cualquier momento del día entre turnos de trabajo.
 
 Nivel de experiencia tecnológica estimado: medio-alto.
+
+#### Supuestos utilizados
+
+- Los vecinos cuentan con al menos un teléfono móvil con acceso a internet.
+- Parte importante de quienes renuevan su licencia son adultos mayores con baja experiencia en trámites digitales.
+- Los vecinos pueden obtener sus documentos en formato PDF, ya sea escaneándolos o con una aplicación del celular.
+- Los vecinos prefieren resolver el trámite en línea para evitar filas y traslados.
+- Los funcionarios trabajan en un computador de escritorio durante toda su jornada.
+- Los funcionarios tienen experiencia digital básica o media, ya que provienen de procesos en papel y planillas.
+- Los nombres, edades y situaciones de las proto-personas son ficticios.
 
 ---
 # Requerimientos funcionales

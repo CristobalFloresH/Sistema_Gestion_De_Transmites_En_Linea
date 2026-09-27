@@ -34,13 +34,13 @@ Con el fin de cumplir el objetivo general, el proyecto se desglosa en los siguie
 ## Principales funcionalidades
 | ID | Rol | Funcionalidad |
 | --- | --- | --- |
-| RF-01 | Ciudadano | Selección de bloque horario para agendar cita |
-| RF-04 | Ciudadano | Carga de documentación en formato PDF |
-| RF-07 | Ciudadano / Funcionario | Visualización de la línea de tiempo del trámite |
-| RF-06 | Funcionario | Validación (aprobación/rechazo) de documentos |
-| RF-10 | Funcionario | Despliegue de la agenda diaria de citas |
-| RF-13 | Funcionario | Búsqueda de expedientes por RUT |
-| RF-16 | Administrador | Configuración de bloques horarios disponibles |
+| RF-01 | Ciudadano | Agendar cita con distintos bloques de horario|
+| RF-04 | Ciudadano | Poder subir los documentos exigidos en formato PDF |
+| RF-07 | Ciudadano / Funcionario | Se podra ver en que etapa va cada tramite |
+| RF-06 | Funcionario | Validar los documentos de los ciudadanos|
+| RF-10 | Funcionario | Podran ver una agenda con todas las citas (aprobadas|denegadas) |
+| RF-13 | Funcionario | Busqueda por RUT |
+| RF-16 | Administrador | Administrar bloques de horarios |
 
 ## Media
 

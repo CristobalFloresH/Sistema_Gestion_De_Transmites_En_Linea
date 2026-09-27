@@ -2,8 +2,8 @@
 
 ## Índice
 1. [Justificación del problema](#justificación-del-problema)
-2. [Usuarios](Usuarios-objetivo)
-   - [Roles](#roles)
+2. [Usuarios](#usuarios-objetivo)
+   - [Roles](#roles-del-sistema)
    - [Proto-personas](#proto-personas)
 3. [Requerimientos](#requerimientos)
 4. [Arquitectura de navegación](#Arquitectura-de-navegación)

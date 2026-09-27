@@ -20,6 +20,12 @@ Sistema de gestion de tramites en linea
 ## Descripcion general del sistema
 El sistema propuesto busca digitalizar y optimizar la gestión de distintos trámites municipales. Para ello, se desarrolló una plataforma cuyo objetivo es centralizar los procesos de obtención de licencias de conducir, abarcando distintas modalidades como la primera emisión, la renovación y la reimpresión.
 
+## Problema o necesidad que aborda
+
+Según el [Estudio de Madurez Digital de Municipalidades](https://ww2.movistar.cl/empresas/comunidad/Informe-Municipios-TL-REV.pdf), solo el 19 % de las municipalidades de Chile permite reservar en línea la hora para la licencia de conducir, lo que genera filas, aglomeraciones y sobrecarga en la atención presencial. A esto se suma que la Ley 21.180 exige que los procedimientos administrativos sean electrónicos a más tardar en 2027.
+
+En la Municipalidad de Santo Domingo, la falta de un sistema integrado dificulta la toma de horas, el seguimiento de los trámites y la recepción de documentos.
+
 ## Objetivos del proyecto
 Desarrollar e implementar un sistema de agendamiento y gestión de trámites de licencias de conducir que permita a los ciudadanos de Santo Domingo realizar sus solicitudes de forma remota, reduciendo así los tiempos de espera y la carga de atención presencial en la municipalidad.
 

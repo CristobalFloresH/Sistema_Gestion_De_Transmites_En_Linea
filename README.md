@@ -178,7 +178,7 @@ Rol: Ciudadano
 
 #### Características generales
 
-Rosa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el teléfono móvil para WhatsApp y llamadas, pero tiene poca experiencia con trámites en línea. Suele pedir ayuda a sus hijos cuando debe usar plataformas del Estado.
+Maria Elsa tiene 68 años y renueva su licencia de conducir cada cierto tiempo. Usa el teléfono móvil para WhatsApp y llamadas, pero tiene poca experiencia con trámites en línea. Suele pedir ayuda a sus hijos cuando debe usar plataformas del Estado.
 
 #### Necesidades principales
 
@@ -323,8 +323,8 @@ El sistema desplegará un calendario interactivo que mostrará los días junto a
 **RF-2 : Registro de reserva de cita**
 El sistema registrará y almacenará en la base de datos la reserva de la cita seleccionada por el usuario asociando directamente a su RUT.
 
-**RF-3 : Envío de comprobante por correo**
-El sistema enviará un correo de confirmación de forma automática al usuario luego de agendar su cita..
+**RF-3 : Envío de comprobante de la cita**
+El sistema enviará automáticamente un comprobante de confirmación al usuario luego de agendar su cita, a través del canal que este elija: correo electrónico o WhatsApp.
 
 **RF-4 : Carga de documentación** 
 La plataforma web permitirá al usuario adjuntar y cargar los documentos requeridos, los cuales deberán ser enviados exclusivamente en formato PDF.
@@ -333,7 +333,7 @@ La plataforma web permitirá al usuario adjuntar y cargar los documentos requeri
 El sistema permitirá a los funcionarios municipales,  visualizar en línea los documentos adjuntados por los usuario para revisar el contenido del archivo.
 
 **RF-6 : Validación de veracidad documental**
-El sistema permitirá a los funcionarios aprobar o rechazar los documentos adjuntados por los usuarios tras verificar su veracidad y cumplimiento normativo.
+El sistema permitirá a los funcionarios aprobar o rechazar los documentos adjuntados por los usuarios tras verificar su veracidad y cumplimiento normativo, indicando el motivo en caso de rechazo.
 
 **RF-7 : Visualización de la línea de tiempo del trámite**
 El sistema mostrará en el panel de los usuario y funcionarios una línea de tiempo actualizada que refleja todas las fases del trámite (Cita Reservada, Examen Teórico Aprobado, Examen Psicotécnico Aprobado, Fotografía Capturada, Licencia en Impresión y Lista para Retiro).

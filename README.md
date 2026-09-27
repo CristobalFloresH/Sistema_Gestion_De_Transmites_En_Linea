@@ -67,4 +67,4 @@ Las rutas protegidas redirigen al login si no hay sesión, y las rutas de funcio
 
 ## Hypervínculos
 
-[Figma]https://www.figma.com/design/GfTP09qFYtAsPHPTJxQtor/mockups?node-id=0-1&t=2XZMfuvjLfRCh2wf-1
+[Figma](https://www.figma.com/design/GfTP09qFYtAsPHPTJxQtor/mockups?node-id=0-1&t=2XZMfuvjLfRCh2wf-1)

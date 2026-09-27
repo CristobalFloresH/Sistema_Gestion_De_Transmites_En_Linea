@@ -7,11 +7,11 @@
    - [Roles](#roles)
    - [Proto-personas](#proto-personas)
 3. [Requerimientos](#requerimientos)
-4. [Arquitectura de la información/Ux](#arquitectura-de-la-informacionux)
-   - [Diferenciación x roles](#diferenciación-x-roles)
-   - [Flujos principales Tareas](#flujos-principales-tareas)
+4. [EP 1.4 Arquitectura de navegación](#ep-14-arquitectura-de-navegación)
+   - [Diferenciación de acceso por rol](#diferenciación-de-acceso-por-rol)
+   - [Flujo de tareas principales](#flujo-de-tareas-principales-task-flows)
    - [Puntos críticos de interacción](#puntos-críticos-de-interacción)
-   - [Justificación Técnica](#justificación-técnica)
+   - [Justificación técnica de las decisiones](#justificación-técnica-de-las-decisiones)
 5. [Bocetos UX/UI](#bocetos-uxui)
 6. [Frontend con Ionic-React](#frontend-con-ionic-react)
 
@@ -367,7 +367,7 @@ La plataforma web deberá soportar un volumen de hasta 300 usuarios interactuand
 Las interfaces cumplirán con un contraste mínimo acorde al estándar WCAG AA y permitirán ajustar el tamaño de la fuente, considerando la presencia de usuarios adultos mayores y con menor alfabetización digital.
 
 
-## EP 1.4 Arquitectura de navegación
+## Arquitectura de navegación
 Rutas principales y secundarias.
 
 | Ruta | Vista | Acceso | Descripción |
@@ -395,7 +395,7 @@ Rutas principales y secundarias.
  └── /funcionario/agenda/error      (misma vista con validaciones fallidas)
 ```
 
-Todas las vistas comparten la barra de navegación superior (`NavBar`), que muestra "Ingresar" sin sesión o el menú "Hola ..." con sesión (con "Mis trámites" y "Cerrar sesión"); el funcionario ve además el enlace "Agenda".
+Todas las vistas comparten la barra de navegación superior (`NavBar`), que muestra "Ingresar" sin sesión o el menú "Hola XXXX" con sesión (con "Mis trámites" y "Cerrar sesión"), el funcionario ve además el enlace "Agenda".
 
 ### Flujo de navegación entre funcionalidades
 
@@ -411,7 +411,7 @@ Todas las vistas comparten la barra de navegación superior (`NavBar`), que mues
 | `/tramite-licencia`, `/calendario`, `/tramite-finalizado`, `/mis-tramites` | Ciudadano o Funcionario | `ProtectedRoute` verifica que exista sesión; si no, redirige a `/login` |
 | `/funcionario/*` | Solo Funcionario | `ProtectedRoute` con `rol="funcionario"`; sin sesión redirige a `/login` y con otro rol redirige a `/` |
 
-La sesión se obtiene desde `services/authService.js`. En esta entrega es simulada (guarda solo el rol); en la Entrega 2 se reemplaza por autenticación con JWT sin modificar las vistas.
+La sesión se obtiene desde `services/authService.js`. En esta entrega es simulada (guarda solo el rol), en la Entrega 2 se reemplaza por autenticación con JWT sin modificar las vistas.
 
 
 ### Flujo de tareas principales (task flows)
@@ -437,7 +437,7 @@ La sesión se obtiene desde `services/authService.js`. En esta entrega es simula
 
 - La aplicación es una sola para web y móvil: las mismas rutas, vistas y flujos en ambos.
 - Los componentes de Ionic utilizados (`IonButton`, `IonInput`, `IonSelect`, `IonSearchbar`, `IonDatetime`, `IonCard`, `IonToast`) se adaptan al dispositivo (interacción táctil y estilo de cada plataforma).
-- En **móvil**, la navegación principal se trasladará a una barra inferior (`IonTabs`) o un menú lateral (`IonMenu`), según el prototipo de Figma, y las vistas de varias columnas se apilarán verticalmente; en **web** se mantiene la barra superior actual.
+- En **móvil**, la navegación principal se trasladará a una barra inferior (`IonTabs`) o un menú lateral (`IonMenu`), según el prototipo de Figma, y las vistas de varias columnas se apilarán verticalmente, en **web** se mantiene la barra superior actual.
 
 ### Justificación técnica de las decisiones
 

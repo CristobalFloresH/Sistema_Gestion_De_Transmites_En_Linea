@@ -32,7 +32,15 @@ Con el fin de cumplir el objetivo general, el proyecto se desglosa en los siguie
 - Proveer a los funcionarios municipales una agenda para revisar solicitudes, filtrarlas por estado y tipo de trámite, y validar la documentación adjunta.
 
 ## Principales funcionalidades
-Gestión de los 3 tipos de tramites, sistema de agendamiento, trazabilidad del tramite.
+| ID | Rol | Funcionalidad |
+| --- | --- | --- |
+| RF-01 | Ciudadano | Selección de bloque horario para agendar cita |
+| RF-04 | Ciudadano | Carga de documentación en formato PDF |
+| RF-07 | Ciudadano / Funcionario | Visualización de la línea de tiempo del trámite |
+| RF-06 | Funcionario | Validación (aprobación/rechazo) de documentos |
+| RF-10 | Funcionario | Despliegue de la agenda diaria de citas |
+| RF-13 | Funcionario | Búsqueda de expedientes por RUT |
+| RF-16 | Administrador | Configuración de bloques horarios disponibles |
 
 ## Media
 

@@ -7,7 +7,7 @@
    - [Roles](#roles)
    - [Proto-personas](#proto-personas)
 3. [Requerimientos](#requerimientos)
-4. [EP 1.4 Arquitectura de navegación](#ep-14-arquitectura-de-navegación)
+4. [Arquitectura de navegación](#Arquitectura-de-navegación)
    - [Diferenciación de acceso por rol](#diferenciación-de-acceso-por-rol)
    - [Flujo de tareas principales](#flujo-de-tareas-principales-task-flows)
    - [Puntos críticos de interacción](#puntos-críticos-de-interacción)

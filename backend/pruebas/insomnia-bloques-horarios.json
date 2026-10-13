@@ -1,0 +1,206 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_tramites",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Bloques horarios",
+      "description": "",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_01",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "01 Listar bloques",
+      "method": "GET",
+      "url": "http://localhost:3000/api/bloques_horarios",
+      "metaSortKey": 1,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_02",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "02 Filtrar por fecha",
+      "method": "GET",
+      "url": "http://localhost:3000/api/bloques_horarios?fecha=2026-10-19",
+      "metaSortKey": 2,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_03",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "03 Error: fecha que no existe (400)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/bloques_horarios?fecha=2026-02-30",
+      "metaSortKey": 3,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_04",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "04 Obtener bloque 1",
+      "method": "GET",
+      "url": "http://localhost:3000/api/bloques_horarios/1",
+      "metaSortKey": 4,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_05",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "05 Error: bloque que no existe (404)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/bloques_horarios/999",
+      "metaSortKey": 5,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_06",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "06 Crear bloque (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/bloques_horarios",
+      "metaSortKey": 6,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fecha\": \"2026-10-21\",\n  \"hora_inicio\": \"10:00\",\n  \"hora_fin\": \"10:30\",\n  \"cupos\": 3\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_07",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "07 Error: crear el mismo bloque otra vez (409)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/bloques_horarios",
+      "metaSortKey": 7,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fecha\": \"2026-10-21\",\n  \"hora_inicio\": \"10:00\",\n  \"hora_fin\": \"10:30\",\n  \"cupos\": 3\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_08",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "08 Error: datos inválidos (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/bloques_horarios",
+      "metaSortKey": 8,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fecha\": \"x\",\n  \"hora_inicio\": \"11:00\",\n  \"hora_fin\": \"10:30\",\n  \"cupos\": 0\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_09",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "09 Reemplazar bloque 4 (PUT)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/bloques_horarios/4",
+      "metaSortKey": 9,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fecha\": \"2026-10-22\",\n  \"hora_inicio\": \"08:00\",\n  \"hora_fin\": \"08:30\",\n  \"cupos\": 5,\n  \"activo\": true\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_10",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "10 Desactivar bloque 4 (PATCH)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/bloques_horarios/4",
+      "metaSortKey": 10,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"activo\": false\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_11",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "11 Error: PATCH vacío (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/bloques_horarios/4",
+      "metaSortKey": 11,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_12",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "12 Eliminar bloque 4 (200)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/bloques_horarios/4",
+      "metaSortKey": 12,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_13",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "13 Error: eliminar otra vez (404)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/bloques_horarios/4",
+      "metaSortKey": 13,
+      "body": {},
+      "headers": []
+    }
+  ]
+}

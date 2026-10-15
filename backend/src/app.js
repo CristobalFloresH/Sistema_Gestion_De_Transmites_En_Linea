@@ -5,6 +5,11 @@ import helmet from "helmet";
 import { requestLogger } from "./middlewares/request-logger.js";
 import { pool } from "./config/db.js";
 import bloqueHorarioRoutes from "./routes/bloqueHorarioRoutes.js"; // rutas de los bloques horarios
+import tramiteRoutes from "./routes/tramiteRoutes.js"; // rutas de los trámites
+import citaRoutes from "./routes/citaRoutes.js"; // rutas de las citas
+import documentoRoutes from "./routes/documentoRoutes.js"; // rutas de los documentos
+import usuarioRoutes from "./routes/usuarioRoutes.js"; // rutas de los usuarios
+import catalogoRoutes from "./routes/catalogoRoutes.js"; // rutas de los catálogos (solo lectura)
 
 const app = express();
 const PORT = 3000;
@@ -25,6 +30,11 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/bloques_horarios", bloqueHorarioRoutes); // todas las peticiones a /api/bloques_horarios las atienden estas rutas
+app.use("/api/tramites", tramiteRoutes); // todas las peticiones a /api/tramites las atienden estas rutas
+app.use("/api/citas", citaRoutes); // todas las peticiones a /api/citas las atienden estas rutas
+app.use("/api/documentos", documentoRoutes); // todas las peticiones a /api/documentos las atienden estas rutas
+app.use("/api/usuarios", usuarioRoutes); // todas las peticiones a /api/usuarios las atienden estas rutas
+app.use("/api", catalogoRoutes); // catálogos: /api/tipos_tramite, /api/estados_tramite, /api/metodos_notificacion, etc.
 
 app.use((req, res) => {
   res.status(404).json({

@@ -1,0 +1,369 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_tramites_citas",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Citas",
+      "description": "Los id suponen la base recién cargada con licencias.sql y que antes se ejecutó la colección de trámites (queda el trámite 1). Las primeras peticiones crean los trámites 4 y 5. Si la base tiene otros datos, ajusta los números.",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_cita_01",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "01 Preparar: crear trámite 4 (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 1,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"20123456-5\",\n  \"id_tipo_tramite\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_02",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "02 Preparar: crear trámite 5 (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 2,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"20123456-5\",\n  \"id_tipo_tramite\": 3\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_03",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "03 Listar citas",
+      "method": "GET",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 3,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_cita_04",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "04 Reservar cita del trámite 1 en el bloque 1 (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 4,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_bloque_horario\": 1,\n  \"id_metodo_notificacion\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_05",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "05 Reservar cita del trámite 4 en el bloque 1 (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 5,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 4,\n  \"id_bloque_horario\": 1,\n  \"id_metodo_notificacion\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_06",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "06 Error: el trámite ya tiene cita vigente (409)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 6,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_bloque_horario\": 2,\n  \"id_metodo_notificacion\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_07",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "07 Error: bloque sin cupos (409)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 7,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 5,\n  \"id_bloque_horario\": 1,\n  \"id_metodo_notificacion\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_08",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "08 Error: datos inválidos (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 8,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": \"uno\",\n  \"id_bloque_horario\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_09",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "09 Error: método de notificación que no existe (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 9,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 5,\n  \"id_bloque_horario\": 2,\n  \"id_metodo_notificacion\": 9\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_10",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "10 Filtrar por fecha y vigentes",
+      "method": "GET",
+      "url": "http://localhost:3000/api/citas?fecha=2026-10-19&vigente=true",
+      "metaSortKey": 10,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_cita_11",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "11 Filtrar por ciudadano",
+      "method": "GET",
+      "url": "http://localhost:3000/api/citas?rut_ciudadano=20123456-5",
+      "metaSortKey": 11,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_cita_12",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "12 Obtener cita 1",
+      "method": "GET",
+      "url": "http://localhost:3000/api/citas/1",
+      "metaSortKey": 12,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_cita_13",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "13 Error: cita que no existe (404)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/citas/999",
+      "metaSortKey": 13,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_cita_14",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "14 Reagendar cita 1 al bloque 2 (PATCH)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/citas/1",
+      "metaSortKey": 14,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_bloque_horario\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_15",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "15 Error: reagendar a un bloque que no existe (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/citas/1",
+      "metaSortKey": 15,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_bloque_horario\": 999\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_16",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "16 Cancelar cita 2 (PATCH)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/citas/2",
+      "metaSortKey": 16,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"vigente\": false\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_17",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "17 Error: PATCH vacío (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/citas/2",
+      "metaSortKey": 17,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_18",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "18 Reemplazar cita 2 (PUT)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/citas/2",
+      "metaSortKey": 18,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_bloque_horario\": 3,\n  \"id_metodo_notificacion\": 1,\n  \"vigente\": true\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_19",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "19 Error: PUT incompleto (400)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/citas/2",
+      "metaSortKey": 19,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"vigente\": true\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_cita_20",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "20 Error: eliminar trámite con citas (409)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 20,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_cita_21",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "21 Eliminar cita 2 (200)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/citas/2",
+      "metaSortKey": 21,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_cita_22",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "22 Error: eliminar otra vez (404)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/citas/2",
+      "metaSortKey": 22,
+      "body": {},
+      "headers": []
+    }
+  ]
+}

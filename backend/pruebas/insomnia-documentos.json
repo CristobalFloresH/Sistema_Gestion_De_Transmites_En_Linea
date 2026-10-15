@@ -1,0 +1,320 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_tramites_documentos",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Documentos",
+      "description": "Los id suponen la base recién cargada con licencias.sql y que antes se ejecutaron las colecciones de trámites y citas (quedan los trámites 1, 4 y 5). Si la base tiene otros datos, ajusta los números.",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_documento_01",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "01 Listar documentos",
+      "method": "GET",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 1,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_documento_02",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "02 Registrar cédula del trámite 1 (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 2,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 1,\n  \"nombre_archivo\": \"cedula.pdf\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_03",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "03 Registrar certificado de residencia del trámite 1 (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 3,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 2,\n  \"nombre_archivo\": \"residencia.pdf\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_04",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "04 Error: documento que no se pide para ese trámite (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 4,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 4,\n  \"nombre_archivo\": \"licencia.pdf\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_05",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "05 Error: trámite que no existe (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 5,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 999,\n  \"id_tipo_documento\": 1,\n  \"nombre_archivo\": \"cedula.pdf\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_06",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "06 Error: datos inválidos (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 6,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 1,\n  \"nombre_archivo\": \"foto.png\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_07",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "07 Filtrar por trámite",
+      "method": "GET",
+      "url": "http://localhost:3000/api/documentos?id_tramite=1",
+      "metaSortKey": 7,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_documento_08",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "08 Obtener documento 1",
+      "method": "GET",
+      "url": "http://localhost:3000/api/documentos/1",
+      "metaSortKey": 8,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_documento_09",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "09 Error: documento que no existe (404)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/documentos/999",
+      "metaSortKey": 9,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_documento_10",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "10 Aprobar documento 1 (PATCH)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/documentos/1",
+      "metaSortKey": 10,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_estado_documento\": 2,\n  \"rut_revisor\": \"12345678-5\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_11",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "11 Error: rechazar sin motivo (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 11,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_estado_documento\": 3\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_12",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "12 Rechazar documento 2 (PATCH)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 12,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_estado_documento\": 3,\n  \"motivo_rechazo\": \"El certificado tiene más de 30 días\",\n  \"rut_revisor\": \"12345678-5\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_13",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "13 Error: revisor que no existe (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 13,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_revisor\": \"99999999-9\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_14",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "14 Error: PATCH vacío (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 14,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_15",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "15 Reemplazar documento 2 (PUT)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 15,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre_archivo\": \"residencia-nueva.pdf\",\n  \"id_estado_documento\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_16",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "16 Error: PUT incompleto (400)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 16,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre_archivo\": \"residencia-nueva.pdf\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_documento_17",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "17 Error: eliminar documento ya revisado (409)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/documentos/1",
+      "metaSortKey": 17,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_documento_18",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "18 Eliminar documento 2 (200)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 18,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_documento_19",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "19 Error: eliminar otra vez (404)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/documentos/2",
+      "metaSortKey": 19,
+      "body": {},
+      "headers": []
+    }
+  ]
+}

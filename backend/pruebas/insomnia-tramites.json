@@ -1,0 +1,263 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_tramites_tramites",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Trámites",
+      "description": "Los id suponen la base recién cargada con licencias.sql y las peticiones ejecutadas en orden. Ejecutar esta colección antes que la de citas.",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_tramite_01",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "01 Listar trámites",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 1,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_tramite_02",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "02 Crear trámite (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 2,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"20123456-5\",\n  \"id_tipo_tramite\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_03",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "03 Crear otro trámite (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 3,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"20123456-5\",\n  \"id_tipo_tramite\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_04",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "04 Filtrar por ciudadano",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites?rut_ciudadano=20123456-5",
+      "metaSortKey": 4,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_tramite_05",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "05 Error: filtro inválido (400)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites?id_estado_tramite=abc",
+      "metaSortKey": 5,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_tramite_06",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "06 Obtener trámite 1 con su historial",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 6,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_tramite_07",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "07 Error: trámite que no existe (404)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites/999",
+      "metaSortKey": 7,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_tramite_08",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "08 Error: datos inválidos (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 8,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"20.123.456-5\",\n  \"color\": \"rojo\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_09",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "09 Error: ciudadano que no existe (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 9,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"99999999-9\",\n  \"id_tipo_tramite\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_10",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "10 Avanzar estado del trámite 1 (PATCH)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 10,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_estado_tramite\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_11",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "11 Error: PATCH vacío (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 11,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_12",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "12 Error: estado que no existe (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 12,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_estado_tramite\": 99\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_13",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "13 Reemplazar trámite 1 (PUT)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 13,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tipo_tramite\": 1,\n  \"id_estado_tramite\": 3\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_14",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "14 Error: PUT incompleto (400)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 14,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tipo_tramite\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_tramite_15",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "15 Eliminar trámite 2 (200)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/tramites/2",
+      "metaSortKey": 15,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_tramite_16",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "16 Error: eliminar otra vez (404)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/tramites/2",
+      "metaSortKey": 16,
+      "body": {},
+      "headers": []
+    }
+  ]
+}

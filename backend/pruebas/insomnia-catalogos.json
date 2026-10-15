@@ -1,0 +1,92 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_tramites_catalogos",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Catálogos",
+      "description": "Catálogos de solo lectura cargados en licencias.sql.",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_catalogo_01",
+      "_type": "request",
+      "parentId": "wrk_tramites_catalogos",
+      "name": "01 Tipos de trámite con documentos requeridos",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tipos_tramite",
+      "metaSortKey": 1,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_catalogo_02",
+      "_type": "request",
+      "parentId": "wrk_tramites_catalogos",
+      "name": "02 Tipos de documento",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tipos_documento",
+      "metaSortKey": 2,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_catalogo_03",
+      "_type": "request",
+      "parentId": "wrk_tramites_catalogos",
+      "name": "03 Estados de trámite",
+      "method": "GET",
+      "url": "http://localhost:3000/api/estados_tramite",
+      "metaSortKey": 3,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_catalogo_04",
+      "_type": "request",
+      "parentId": "wrk_tramites_catalogos",
+      "name": "04 Estados de documento",
+      "method": "GET",
+      "url": "http://localhost:3000/api/estados_documento",
+      "metaSortKey": 4,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_catalogo_05",
+      "_type": "request",
+      "parentId": "wrk_tramites_catalogos",
+      "name": "05 Métodos de notificación",
+      "method": "GET",
+      "url": "http://localhost:3000/api/metodos_notificacion",
+      "metaSortKey": 5,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_catalogo_06",
+      "_type": "request",
+      "parentId": "wrk_tramites_catalogos",
+      "name": "06 Roles",
+      "method": "GET",
+      "url": "http://localhost:3000/api/roles",
+      "metaSortKey": 6,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_catalogo_07",
+      "_type": "request",
+      "parentId": "wrk_tramites_catalogos",
+      "name": "07 Error: catálogo que no existe (404)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tipos_tramites",
+      "metaSortKey": 7,
+      "body": {},
+      "headers": []
+    }
+  ]
+}

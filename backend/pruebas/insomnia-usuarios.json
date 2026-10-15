@@ -1,0 +1,247 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_tramites_usuarios",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Usuarios",
+      "description": "Usa los usuarios de prueba de licencias.sql. Ejecutar después de las colecciones de trámites y documentos. La petición 15 elimina al administrador de prueba (11111111-1); para recuperarlo hay que volver a cargar licencias.sql. Los usuarios nuevos se crean con el registro, por eso aquí no hay POST.",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_usuario_01",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "01 Listar usuarios",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios",
+      "metaSortKey": 1,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_02",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "02 Filtrar funcionarios activos",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios?id_rol=2&activo=true",
+      "metaSortKey": 2,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_03",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "03 Error: filtro inválido (400)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios?activo=si",
+      "metaSortKey": 3,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_04",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "04 Obtener ciudadano de prueba",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 4,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_05",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "05 Error: RUT con formato inválido (400)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios/20.123.456-5",
+      "metaSortKey": 5,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_06",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "06 Error: usuario que no existe (404)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios/99999999-9",
+      "metaSortKey": 6,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_07",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "07 Cambiar teléfono del ciudadano (PATCH)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 7,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"telefono\": \"+56922222222\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_usuario_08",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "08 Error: datos inválidos (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 8,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"correo\": \"no-es-un-correo\",\n  \"rut\": \"1-9\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_usuario_09",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "09 Error: correo que ya usa otro usuario (409)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 9,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"correo\": \"admin@prueba.cl\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_usuario_10",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "10 Error: rol que no existe (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 10,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_rol\": 9\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_usuario_11",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "11 Reemplazar funcionario (PUT)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/usuarios/12345678-5",
+      "metaSortKey": 11,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Funcionaria Municipal\",\n  \"correo\": \"funcionario@prueba.cl\",\n  \"activo\": true,\n  \"id_rol\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_usuario_12",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "12 Error: PUT incompleto (400)",
+      "method": "PUT",
+      "url": "http://localhost:3000/api/usuarios/12345678-5",
+      "metaSortKey": 12,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"Funcionaria Municipal\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_usuario_13",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "13 Error: PATCH vacío (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/12345678-5",
+      "metaSortKey": 13,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_usuario_14",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "14 Error: eliminar usuario con trámites (409)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 14,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_15",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "15 Eliminar administrador de prueba (200)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/usuarios/11111111-1",
+      "metaSortKey": 15,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_usuario_16",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "16 Error: eliminar otra vez (404)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/usuarios/11111111-1",
+      "metaSortKey": 16,
+      "body": {},
+      "headers": []
+    }
+  ]
+}

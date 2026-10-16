@@ -1,15 +1,8 @@
-import { useState } from 'react';
-import { IonPage, IonContent, IonButton, IonDatetime } from '@ionic/react';
+import { useState, useEffect } from 'react';
+import { IonPage, IonContent, IonButton, IonDatetime, IonSpinner } from '@ionic/react';
 import NavBar from '../components/NavBar';
+import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
 import './Calendario.css';
-
-const BLOQUES = [
-  { hora: '09:00', cupos: 13 },
-  { hora: '10:00', cupos: 30 },
-  { hora: '11:00', cupos: 1 },
-  { hora: '12:00', cupos: 3 },
-  { hora: '13:00', cupos: 3 },
-];
 
 function fechaDeHoy() {
   const hoy = new Date();
@@ -27,13 +20,27 @@ function formatearFecha(fechaIso) {
 export default function Calendario() {
   const hoy = fechaDeHoy();
   const [fecha, setFecha] = useState(hoy);
-  const [hora, setHora] = useState(null);
+  const [bloque, setBloque] = useState(null);
+  const [bloques, setBloques] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let vigente = true;
+    listarBloquesPorFecha(fecha.slice(0, 10))
+      .then((datos) => { if (vigente) setBloques(datos); })
+      .catch((e) => { if (vigente) { setBloques([]); setError(e.mensaje); } })
+      .finally(() => { if (vigente) setCargando(false); });
+    return () => { vigente = false; };
+  }, [fecha]);
 
   const cambiarFecha = (nuevaFecha) => {
     setFecha(nuevaFecha);
-    setHora(null);
+    setBloque(null);
+    setCargando(true);
+    setError('');
   };
-
+  
   return (
     <IonPage>
       <IonContent>
@@ -69,27 +76,33 @@ export default function Calendario() {
                   <h4>Bloques disponibles</h4>
                   <p className="horas-panel__fecha">{formatearFecha(fecha)}</p>
                   <div className="horas-list">
-                    {BLOQUES.map((b) => (
+                    {cargando && <IonSpinner name="crescent" />}
+                    {!cargando && error && <p>{error}</p>}
+                    {!cargando && !error && bloques.length === 0 && (
+                      <p>No hay bloques disponibles para este día</p>
+                    )}
+                    {!cargando && bloques.map((b) => (
                       <IonButton
-                        key={b.hora}
-                        className={`hora-slot ${hora === b.hora ? 'selected' : ''}`}
-                        onClick={() => setHora(b.hora)}>
+                        key={b.id_bloque_horario}
+                        className={`hora-slot ${bloque?.id_bloque_horario === b.id_bloque_horario ? 'selected' : ''}`}
+                        disabled={b.cupos_disponibles === 0}
+                        onClick={() => setBloque(b)}>
                         <span className="hora-slot__contenido">
-                          <span className="hora-slot__hora">{b.hora}</span>
-                          <span className="hora-slot__cupos">{b.cupos} cupos</span>
+                          <span className="hora-slot__hora">{b.hora_inicio.slice(0, 5)}</span>
+                          <span className="hora-slot__cupos">{b.cupos_disponibles} cupos</span>
                         </span>
                       </IonButton>
                     ))}
                   </div>
                   <p className="horas-panel__resumen">
-                    {hora && (
-                      <>Seleccionaste: <strong>{formatearFecha(fecha)}, {hora}</strong></>
+                    {bloque && (
+                      <>Seleccionaste: <strong>{formatearFecha(fecha)}, {bloque.hora_inicio.slice(0, 5)}</strong></>
                     )}
                   </p>
                   <IonButton
                     routerLink="/tramite-finalizado"
                     expand="block"
-                    disabled={!hora}
+                    disabled={!bloque}
                     className="btn btn--green calendario-continuar">
                     Continuar
                   </IonButton>
@@ -102,3 +115,4 @@ export default function Calendario() {
     </IonPage>
   );
 }
+

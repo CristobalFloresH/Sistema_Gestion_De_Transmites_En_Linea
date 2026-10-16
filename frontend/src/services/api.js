@@ -13,7 +13,7 @@ api.interceptors.response.use(
     if (error.response) {
       error.mensaje = error.response.data?.error?.mensaje ?? 'Ocurrió un error inesperado';
     } else {
-      error.mensaje = 'No se pudo conectar con el servidor';
+      error.mensaje = 'No se pudo conectar con el servidor. Revisa tu conexión e inténtalo nuevamente.';
     }
     return Promise.reject(error);
   }

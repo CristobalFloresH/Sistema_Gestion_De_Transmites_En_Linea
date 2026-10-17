@@ -1,20 +1,18 @@
 import { Router } from "express";
 import * as documentoController from "../controllers/documentoController.js";
+import { verificarToken, autorizarRoles } from "../middlewares/authMiddleware.js";
 
-// Define qué función atiende cada petición a /api/documentos, según el método HTTP y la URL.
 const router = Router();
 
-// Lista todos los documentos (se puede filtrar por trámite o por estado)
+//Se exige la toquen para interactuar con los documentos
+router.use(verificarToken);
+//Los logueados pueden ver los documentos
 router.get("/", documentoController.listarDocumentos);
-// Muestra un documento según su id
 router.get("/:id", documentoController.obtenerDocumento);
-// Registra un documento PDF de un trámite
 router.post("/", documentoController.crearDocumento);
-// Reemplaza el archivo, el estado y la revisión de un documento
-router.put("/:id", documentoController.reemplazarDocumento);
-// Cambia solo algunos datos de un documento (por ejemplo, aprobarlo o rechazarlo)
-router.patch("/:id", documentoController.actualizarDocumento);
-// Elimina un documento que aún no ha sido revisado
+//Solo el personal auutorizado puede alterar la informacion de los documentos
+router.put("/:id", autorizarRoles("funcionario", "administrador"), documentoController.reemplazarDocumento);
+router.patch("/:id", autorizarRoles("funcionario", "administrador"), documentoController.actualizarDocumento);
 router.delete("/:id", documentoController.eliminarDocumento);
 
 export default router;

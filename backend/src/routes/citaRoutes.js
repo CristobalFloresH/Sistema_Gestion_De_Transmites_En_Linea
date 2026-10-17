@@ -1,20 +1,21 @@
 import { Router } from "express";
 import * as citaController from "../controllers/citaController.js";
+import {
+  verificarToken,
+  autorizarRoles,
+  limitarListadoAlCiudadano,
+} from "../middlewares/authMiddleware.js";
 
-// Define qué función atiende cada petición a /api/citas, según el método HTTP y la URL.
 const router = Router();
-
-// Lista todas las citas (se puede filtrar por fecha, ciudadano, bloque o si están vigentes)
-router.get("/", citaController.listarCitas);
-// Muestra una cita según su id
+//Exige token valido para las acciones de las citas
+router.use(verificarToken);
+router.get("/", limitarListadoAlCiudadano, citaController.listarCitas);
+//Cualquier usuario logueado puede ver una cita específica, crearla o editarla.
 router.get("/:id", citaController.obtenerCita);
-// Reserva una cita nueva en un bloque horario
 router.post("/", citaController.crearCita);
-// Reemplaza el bloque, el método de notificación y la vigencia de una cita
 router.put("/:id", citaController.reemplazarCita);
-// Cambia solo algunos datos de una cita (reagendar o cancelar)
 router.patch("/:id", citaController.actualizarCita);
-// Elimina una cita
-router.delete("/:id", citaController.eliminarCita);
+//Solo admins o funcionarios pueden cancelar/eliminar citas
+router.delete("/:id", autorizarRoles("funcionario", "administrador"), citaController.eliminarCita);
 
 export default router;

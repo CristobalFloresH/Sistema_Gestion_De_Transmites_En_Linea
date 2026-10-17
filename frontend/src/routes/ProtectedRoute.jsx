@@ -1,24 +1,30 @@
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useIonViewWillEnter } from '@ionic/react';
+//Funcion para leer si hay un usuario
 import { getUsuario } from '../services/authService';
 
+//Se verifica que el rol pueda entrar a la pagina
 export default function ProtectedRoute({ rol, children }) {
+  //Estado que guarda la informacion del usuario
   const [usuario, setUsuario] = useState(getUsuario());
 
-  // Ionic deja las paginas montadas: al volver a una (por ejemplo con la
-  // flecha atras despues de cerrar sesion) se revisa de nuevo la sesion.
+  //Actualizacion dinamica
   useIonViewWillEnter(() => {
     setUsuario(getUsuario());
   });
 
+  //Filtro de autenticacion
   if (!usuario) {
     return <Navigate to="/login" replace />;
   }
 
-  // Solo las rutas de funcionario piden rol; un ciudadano vuelve al inicio.
-  if (rol && usuario.rol !== rol) {
-    return <Navigate to="/" replace />;
+  //Filtro de autorizacion, verifica si el rol es el correcto para entrar segun la ruta
+  if (rol) {
+    const rolesPermitidos = rol === 'funcionario' ? ['funcionario', 'administrador'] : [rol];
+    if (!rolesPermitidos.includes(usuario.rol)) {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return children;

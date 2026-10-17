@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
-  IonPage, IonContent, IonInput, IonInputPasswordToggle, IonButton,
+  IonPage, IonContent, IonInput, IonInputPasswordToggle, IonButton, IonText,
 } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { login } from '../services/authService';
@@ -9,28 +9,42 @@ import IconoAuto from '../assets/IconoAuto.png';
 import './Login.css';
 
 export default function Login() {
+  //Guarda la informacion del usuario
   const [rut, setRut] = useState('');
   const [clave, setClave] = useState('');
   const [errores, setErrores] = useState({ rut: '', clave: '' });
+  const [errorServidor, setErrorServidor] = useState('');
+  const [cargando, setCargando] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  //Funcion enviar al presionar "ingresar"
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorServidor('');
 
+    //Se verifica que los campos no esten en blanco
     const nuevosErrores = {
       rut: rut.trim() ? '' : 'Ingresa tu RUT',
       clave: clave.trim() ? '' : 'Ingresa tu clave unica',
     };
     setErrores(nuevosErrores);
+
+    //Si falta algun datos se detiene el proceso 
     if (nuevosErrores.rut || nuevosErrores.clave) return;
 
-    login('ciudadano');
-    navigate('/');
-  };
-
-  const entrarComoFuncionario = () => {
-    login('funcionario');
-    navigate('/');
+    setCargando(true);
+    try {
+      //Conexion con Backend para hacer la peticion POST
+      const usuario = await login(rut.trim(), clave);
+      //Se revisa que rol es
+      const esPersonal = usuario.rol === 'funcionario' || usuario.rol === 'administrador';
+      //Dependiendo de que usuario sea lo manda a distintos apartados
+      navigate(esPersonal ? '/funcionario/agenda' : '/');
+    } catch (error) {
+      setErrorServidor(error.message);
+    } finally {
+      setCargando(false);
+    }
   };
 
   return (
@@ -78,14 +92,21 @@ export default function Login() {
                 >
                   <IonInputPasswordToggle slot="end" />
                 </IonInput>
-                <IonButton type="submit" expand="block" className="login-card__btn">
-                  Ingresar
+
+                {errorServidor && (
+                  <IonText color="danger">
+                    <p style={{ textAlign: 'center' }}>{errorServidor}</p>
+                  </IonText>
+                )}
+
+                <IonButton type="submit" expand="block" className="login-card__btn" disabled={cargando}>
+                  {cargando ? 'Ingresando...' : 'Ingresar'}
                 </IonButton>
               </form>
-              <IonButton fill="clear" size="small" className="login-card__func" onClick={entrarComoFuncionario}>
-                Ingreso funcionarios
-              </IonButton>
 
+              <p className="login-card__footer">
+                No tienes cuenta? <Link to="/registro">Registrate aqui</Link>
+              </p>
               <p className="login-card__footer">
                 Problemas con tu clave unica?<br />
                 <a href="https://claveunica.gob.cl" target="_blank" rel="noreferrer">

@@ -14,7 +14,7 @@ import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 import ProtectedRoute from './routes/ProtectedRoute';
-
+import Registro from './pages/Registro';
 import './styles/global.css';
 
 setupIonicReact();
@@ -27,8 +27,7 @@ export default function App() {
                     {/* Rutas públicas */}
           <Route path="/" element={<MenuPrincipal />} />
           <Route path="/login" element={<Login />} />
-
-          {/* Rutas con sesion (ciudadano y funcionario) */}
+          <Route path="/registro" element={<Registro />} />
           <Route path="/tramite-licencia" element={<ProtectedRoute><TramiteLicencia /></ProtectedRoute>} />
           <Route path="/calendario" element={<ProtectedRoute><Calendario /></ProtectedRoute>} />
           <Route path="/tramite-finalizado" element={<ProtectedRoute><TramiteFinalizado /></ProtectedRoute>} />

@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useIonViewWillEnter } from '@ionic/react';
+//Funciones para obtener al usuario desde el localStorage
 import { getUsuario, logout } from '../services/authService';
 import './NavBar.css';
 
 export default function NavBar() {
+  //Estado menu desplegable
   const [showDropdown, setShowDropdown] = useState(false);
+  //Estadi que guarda la informacion del usuario
   const [usuario, setUsuario] = useState(getUsuario());
-
-  // Ionic deja las paginas montadas: cada vez que se vuelve a una,
-  // se revisa de nuevo si hay sesion.
   useIonViewWillEnter(() => {
     setUsuario(getUsuario());
     setShowDropdown(false);
   });
 
+  //Sistema de roles
   let variant = 'public';
   if (usuario?.rol === 'ciudadano') variant = 'logged';
-  if (usuario?.rol === 'funcionario') variant = 'funcionario';
+  if (usuario?.rol === 'funcionario' || usuario?.rol === 'administrador') variant = 'funcionario';
 
   return (
     <nav className="NavBar">

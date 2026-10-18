@@ -7,12 +7,12 @@ Específicamente se trabajaron los temas relacionas con la autenticación de los
 | Función | Ubicación |Estado en el ejemplo | 
 |---|---|---|
 | Registro de usuario | --- | No implementado |
-| Inicio de sesion |   | Implementado |
-| Validacion JTW y rutas protegidas |  | Implementado |
-| Autorizacion por roles |  | Implementado |
-| CRUD de tramites, citas, usuarios, bloques horarios y documentos|  | Implementado |
-| Catalogos (tipos de estado, metodos de notificacion, roles|  | Implementado |
-| Historial de estados del tramite|  | Implementado |
+| Inicio de sesion | POST /api/auth/login  | Implementado |
+| Validacion JTW y rutas protegidas | middlewares/authMiddleware.js | Implementado |
+| Autorización por roles | autorizarRoles, autorizarPropioORoles | Implementado |
+| CRUD de tramites, citas, usuarios, bloques horarios y documentos| /api/tramites, /api/citas, /api/documentos, /api/bloques_horarios, /api/usuarios | Implementado |
+| Catalogos (tipos de estado, metodos de notificacion, roles| /api/tipos_tramite | Implementado |
+| Historial de estados del tramite| GET /api/tramites/:id | Implementado |
 | Calendario|  | Implementado |
 
 # 2. Equipo, repositorio y trazabilidad

@@ -266,9 +266,9 @@ Las rutas no incluyen `/api` porque ya va en el `baseURL`.
 # 10. Modelo relacional
 Base de datos PostgreSQL, con las distintas claves primarias, claves foraneas y restricciones.
 ### Esquema relacional
-https://ibb.co/67D1bfNZ
+![Esquema relacional de la base de datos licencias](anexos/esquema-relacional.png)
 ### Modelo Entidad-Relacion
-https://ibb.co/CLQbtvh
+![Modelo entidad-relación de la base de datos licencias](anexos/modelo-entidad-relacion.png)
 # 11. Matriz de cumplimiento EP2
 | Criterio | Evidencia exigida | Estado |
 |---|---|---|

@@ -42,9 +42,23 @@ Integrantes y contribuciones
 | Mauricio Morales | EP 2.5 Seguridad y validaci´on de usuarios. |  | 
 | Cristóbal Flores | EP 2.6 Integraci´on entre Ionic con React y el backend. |  | 
 
-
+| Requerimientos EP1| Endpoints |
+|---|---|
+|   |   |
+|   |   |
+|   |   |
+|   |   |
+|   |   |
+|   |   |
 
 # 3. Tecnologias
+| Capa | Tecnologia identificada |
+|---|---|
+| Servidor | Nose.js + Express 5 |
+| Base de datos | PostgreSQL |
+| Autenticacion | jsonwebtoken |
+| Seguridad |  |
+| Pruebas | Insomnia |
 
 
 # 4. Arquitectura y carpetas reales

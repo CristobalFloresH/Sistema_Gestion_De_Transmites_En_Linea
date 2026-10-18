@@ -1,29 +1,33 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonButton, IonSegment, IonSegmentButton, IonLabel } from '@ionic/react';
+import { IonPage, IonContent, IonButton, IonSegment, IonSegmentButton, IonLabel, IonSpinner } from '@ionic/react';
 import NavBar from '../components/NavBar';
+import { listarTiposTramite } from '../services/catalogoService';
 import ImagenCalendario from '../assets/ImagenCalendario.png';
 import './TramiteLicencia.css';
-
-const TIPOS_TRAMITE = [
-  { value: 'primera_vez', titulo: 'Licencia (Primera Vez)', detalle: '30 min · 3 documentos' },
-  { value: 'renovacion', titulo: 'Renovacion', detalle: '20 min · 2 documentos' },
-  { value: 'reimprimir', titulo: 'Re-imprimir', detalle: '20 min · 2 documentos' },
-];
 
 const DIAS = [12, 13, 14, 15, 16, 17, 18];
 
 const HORAS = ['08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
-const DOCUMENTOS = [
-  { nombre: 'Certificado de residencia', cargado: false },
-  { nombre: 'Certificado de educacion basica', cargado: false },
-  { nombre: 'Cedula de Identidad', cargado: true },
-];
-
 export default function TramiteLicencia() {
-  const [tipoTramite, setTipoTramite] = useState('primera_vez');
+  const [tipos, setTipos] = useState([]);
+  const [tipoTramite, setTipoTramite] = useState('');
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    listarTiposTramite()
+      .then((datos) => {
+        setTipos(datos);
+        if (datos.length > 0) setTipoTramite(String(datos[0].id_tipo_tramite));
+      })
+      .catch((e) => setError(e.mensaje))
+      .finally(() => setCargando(false));
+  }, []);
+
+  const tipoSeleccionado = tipos.find((t) => String(t.id_tipo_tramite) === tipoTramite);
   const [dia, setDia] = useState(16);
   const [hora, setHora] = useState(null);
 
@@ -45,19 +49,25 @@ export default function TramiteLicencia() {
               <div className="step-badge">1</div>
               <div className="step-content">
                 <h3>Seleccione el tipo de tramite a realizar</h3>
-                <IonSegment
-                  className="tipo-tramite-options"
-                  value={tipoTramite}
-                  onIonChange={(e) => setTipoTramite(e.detail.value)}>
-                  {TIPOS_TRAMITE.map((t) => (
-                    <IonSegmentButton key={t.value} value={t.value} className="tipo-btn">
-                      <IonLabel>
-                        <span className="tipo-btn__titulo">{t.titulo}</span>
-                        <span className="tipo-btn__detalle">{t.detalle}</span>
-                      </IonLabel>
-                    </IonSegmentButton>
-                  ))}
-                </IonSegment>
+                {cargando && <IonSpinner name="crescent" />}
+                {!cargando && error && <p>{error}</p>}
+                {!cargando && !error && (
+                  <IonSegment
+                    className="tipo-tramite-options"
+                    value={tipoTramite}
+                    onIonChange={(e) => setTipoTramite(e.detail.value)}>
+                    {tipos.map((t) => (
+                      <IonSegmentButton key={t.id_tipo_tramite} value={String(t.id_tipo_tramite)} className="tipo-btn">
+                        <IonLabel>
+                          <span className="tipo-btn__titulo">{t.nombre_tipo_tramite}</span>
+                          <span className="tipo-btn__detalle">
+                            {t.duracion_min} min · {t.documentos_requeridos.length} documentos
+                          </span>
+                        </IonLabel>
+                      </IonSegmentButton>
+                    ))}
+                  </IonSegment>
+                )}
               </div>
             </div>
 
@@ -106,9 +116,9 @@ export default function TramiteLicencia() {
               <div className="step-content">
                 <h3>Carga tus documentos (PDF)</h3>
                 <div className="docs-grid">
-                  {DOCUMENTOS.map((doc) => (
-                    <div key={doc.nombre} className={`doc-card ${doc.cargado ? 'cargado' : ''}`}>
-                      {doc.nombre}
+                  {tipoSeleccionado?.documentos_requeridos.map((doc) => (
+                    <div key={doc.id_tipo_documento} className="doc-card">
+                      {doc.nombre_tipo_documento}
                     </div>
                   ))}
                 </div>

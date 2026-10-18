@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IonPage, IonContent, IonButton, IonDatetime, IonSpinner } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
@@ -40,7 +41,15 @@ export default function Calendario() {
     setCargando(true);
     setError('');
   };
-  
+
+  const navigate = useNavigate();
+
+  // Deja el bloque elegido para que TramiteLicencia lo tome al volver
+  const continuar = () => {
+    sessionStorage.setItem('bloqueElegido', JSON.stringify(bloque));
+    navigate('/tramite-licencia');
+  };
+
   return (
     <IonPage>
       <IonContent>
@@ -100,7 +109,7 @@ export default function Calendario() {
                     )}
                   </p>
                   <IonButton
-                    routerLink="/tramite-finalizado"
+                    onClick={continuar}
                     expand="block"
                     disabled={!bloque}
                     className="btn btn--green calendario-continuar">

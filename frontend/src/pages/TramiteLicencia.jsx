@@ -1,10 +1,14 @@
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonButton, IonSegment, IonSegmentButton, IonLabel, IonSpinner } from '@ionic/react';
+import { Link, useNavigate } from 'react-router-dom';
+import { IonPage, IonContent, IonButton, IonSegment, IonSegmentButton, IonLabel, IonSpinner, IonText, useIonViewWillEnter } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { listarTiposTramite, listarMetodosNotificacion } from '../services/catalogoService';
 import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
+import { crearTramite } from '../services/tramiteService';
+import { crearCita } from '../services/citaService';
+import { getUsuario } from '../services/authService';
+import { formatear } from '../utils/fechas';
 import ImagenCalendario from '../assets/ImagenCalendario.png';
 import './TramiteLicencia.css';
 
@@ -17,11 +21,6 @@ function proximosSieteDias() {
     const dia = String(fecha.getDate()).padStart(2, '0');
     return `${fecha.getFullYear()}-${mes}-${dia}`;
   });
-}
-
-// Formatea una fecha AAAA-MM-DD, por ejemplo "octubre de 2026" o "19 de octubre"
-function formatear(fechaIso, opciones) {
-  return new Date(`${fechaIso}T12:00:00`).toLocaleDateString('es-CL', opciones);
 }
 
 export default function TramiteLicencia() {
@@ -68,6 +67,36 @@ export default function TramiteLicencia() {
     setErrorBloques('');
   };
 
+  const navigate = useNavigate();
+  const [reservando, setReservando] = useState(false);
+  const [errorReserva, setErrorReserva] = useState('');
+  const [tramiteCreado, setTramiteCreado] = useState(null);
+
+  const reservar = async () => {
+    setReservando(true);
+    setErrorReserva('');
+    try {
+      // Si un intento anterior ya creo el tramite, se reutiliza en vez de crear otro
+      const tramite = tramiteCreado ?? await crearTramite(getUsuario().rut, Number(tipoTramite));
+      setTramiteCreado(tramite);
+      const cita = await crearCita(tramite.id_tramite, bloque.id_bloque_horario, Number(metodo));
+      setTramiteCreado(null);
+      navigate('/tramite-finalizado', { state: { tramite, cita } });
+    } catch (e) {
+      setErrorReserva(e.mensaje);
+    } finally {
+      setReservando(false);
+    }
+  };
+
+  // Al volver desde el Calendario, toma la hora que se eligio alla
+  useIonViewWillEnter(() => {
+    const guardado = sessionStorage.getItem('bloqueElegido');
+    if (!guardado) return;
+    sessionStorage.removeItem('bloqueElegido');
+    setBloque(JSON.parse(guardado));
+  });
+
 
   return (
     <IonPage>
@@ -92,6 +121,7 @@ export default function TramiteLicencia() {
                   <IonSegment
                     className="tipo-tramite-options"
                     value={tipoTramite}
+                    disabled={!!tramiteCreado}
                     onIonChange={(e) => setTipoTramite(e.detail.value)}>
                     {tipos.map((t) => (
                       <IonSegmentButton key={t.id_tipo_tramite} value={String(t.id_tipo_tramite)} className="tipo-btn">
@@ -155,6 +185,11 @@ export default function TramiteLicencia() {
                     <small>Click aqui</small>
                   </Link>
                 </div>
+                {bloque && (
+                  <p>
+                    Hora elegida: {formatear(bloque.fecha, { weekday: 'long', day: 'numeric', month: 'long' })}, {bloque.hora_inicio.slice(0, 5)}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -193,8 +228,16 @@ export default function TramiteLicencia() {
               </div>
             </div>
 
-            <IonButton routerLink="/tramite-finalizado" className="btn btn--green tramite-continuar">
-              Continuar
+            {errorReserva && (
+              <IonText color="danger">
+                <p style={{ textAlign: 'center' }}>{errorReserva}</p>
+              </IonText>
+            )}
+            <IonButton
+              className="btn btn--green tramite-continuar"
+              disabled={!tipoTramite || !bloque || !metodo || reservando}
+              onClick={reservar}>
+              {reservando ? 'Reservando...' : 'Continuar'}
             </IonButton>
           </main>
         </div>

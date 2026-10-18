@@ -92,9 +92,18 @@ backend
     └── utils             
 ```
 
+```
+Ionic + React
+```
 
 # 5. Preparacion y ejecucion local del ejemplo
-
+## 5.1 Requisitos previos
+-Node.js y npm
+-PostgreSQL (pgAdmin)
+-Insomnia
+## 5.2 Base de datos
+## 5.3 Iniciar Backend
+## 5.4 Problemas frecuentes
 
 # 6. Documentacion de la API existente
 

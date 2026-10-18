@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IonPage, IonContent, IonButton, IonSegment, IonSegmentButton, IonLabel, IonSpinner } from '@ionic/react';
 import NavBar from '../components/NavBar';
-import { listarTiposTramite } from '../services/catalogoService';
+import { listarTiposTramite, listarMetodosNotificacion } from '../services/catalogoService';
 import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
 import ImagenCalendario from '../assets/ImagenCalendario.png';
 import './TramiteLicencia.css';
@@ -29,12 +29,16 @@ export default function TramiteLicencia() {
   const [tipoTramite, setTipoTramite] = useState('');
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+  const [metodos, setMetodos] = useState([]);
+  const [metodo, setMetodo] = useState('');
 
   useEffect(() => {
-    listarTiposTramite()
-      .then((datos) => {
-        setTipos(datos);
-        if (datos.length > 0) setTipoTramite(String(datos[0].id_tipo_tramite));
+    Promise.all([listarTiposTramite(), listarMetodosNotificacion()])
+      .then(([datosTipos, datosMetodos]) => {
+        setTipos(datosTipos);
+        if (datosTipos.length > 0) setTipoTramite(String(datosTipos[0].id_tipo_tramite));
+        setMetodos(datosMetodos);
+        if (datosMetodos.length > 0) setMetodo(String(datosMetodos[0].id_metodo_notificacion));
       })
       .catch((e) => setError(e.mensaje))
       .finally(() => setCargando(false));
@@ -165,6 +169,27 @@ export default function TramiteLicencia() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+
+            <div className="tramite-step">
+              <div className="step-badge">4</div>
+              <div className="step-content">
+                <h3>¿Cómo quieres que te avisemos?</h3>
+                {!cargando && !error && (
+                  <IonSegment
+                    className="tipo-tramite-options"
+                    value={metodo}
+                    onIonChange={(e) => setMetodo(e.detail.value)}>
+                    {metodos.map((m) => (
+                      <IonSegmentButton key={m.id_metodo_notificacion} value={String(m.id_metodo_notificacion)} className="tipo-btn">
+                        <IonLabel>
+                          <span className="tipo-btn__titulo">{m.nombre_metodo_notificacion}</span>
+                        </IonLabel>
+                      </IonSegmentButton>
+                    ))}
+                  </IonSegment>
+                )}
               </div>
             </div>
 

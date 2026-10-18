@@ -119,9 +119,14 @@ export default function AgendaFuncionario() {
                     <td>{tramite.nombre_ciudadano}</td>
                     <td>{tramite.nombre_tipo_tramite}</td>
                     <td>
-                      <span className={`estado-label ${claseEstado(tramite.id_estado_tramite)}`}>
-                        {tramite.nombre_estado_tramite}
-                      </span>
+                      {/* Cita cancelada de un tramite que no se rechazo (al rechazar tambien se cancela la cita) */}
+                      {!cita.vigente && tramite.id_estado_tramite !== ID_RECHAZADO ? (
+                        <span className="estado-label rechazado">Cita cancelada</span>
+                      ) : (
+                        <span className={`estado-label ${claseEstado(tramite.id_estado_tramite)}`}>
+                          {tramite.nombre_estado_tramite}
+                        </span>
+                      )}
                     </td>
                     <td>
                       <Link

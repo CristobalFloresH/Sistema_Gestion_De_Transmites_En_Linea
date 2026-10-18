@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { IonPage, IonContent, IonButton, IonDatetime, IonSpinner } from '@ionic/react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { IonPage, IonContent, IonButton, IonDatetime, IonSpinner, IonText, useIonToast } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
+import { reagendarCita } from '../services/citaService';
 import './Calendario.css';
 
 function fechaDeHoy() {
@@ -43,11 +44,32 @@ export default function Calendario() {
   };
 
   const navigate = useNavigate();
+  const [mostrarAviso] = useIonToast();
+  const [guardando, setGuardando] = useState(false);
+  const [errorReagendar, setErrorReagendar] = useState('');
 
-  // Deja el bloque elegido para que TramiteLicencia lo tome al volver
-  const continuar = () => {
-    sessionStorage.setItem('bloqueElegido', JSON.stringify(bloque));
-    navigate('/tramite-licencia');
+  // Si se llega desde "Reagendar" de Mis tramites, la direccion trae la cita: /calendario?reagendar=5
+  const idCitaReagendar = new URLSearchParams(useLocation().search).get('reagendar');
+
+  const continuar = async () => {
+    if (!idCitaReagendar) {
+      // Deja el bloque elegido para que TramiteLicencia lo tome al volver
+      sessionStorage.setItem('bloqueElegido', JSON.stringify(bloque));
+      navigate('/tramite-licencia');
+      return;
+    }
+    // Reagendar: mueve la misma cita al bloque elegido y vuelve a Mis tramites
+    setGuardando(true);
+    setErrorReagendar('');
+    try {
+      await reagendarCita(Number(idCitaReagendar), bloque.id_bloque_horario);
+      mostrarAviso({ message: 'Cita reagendada', duration: 2000, color: 'success' });
+      navigate('/mis-tramites');
+    } catch (e) {
+      setErrorReagendar(e.mensaje);
+    } finally {
+      setGuardando(false);
+    }
   };
 
   return (
@@ -108,12 +130,17 @@ export default function Calendario() {
                       <>Seleccionaste: <strong>{formatearFecha(fecha)}, {bloque.hora_inicio.slice(0, 5)}</strong></>
                     )}
                   </p>
+                  {errorReagendar && (
+                    <IonText color="danger">
+                      <p style={{ textAlign: 'center' }}>{errorReagendar}</p>
+                    </IonText>
+                  )}
                   <IonButton
                     onClick={continuar}
                     expand="block"
-                    disabled={!bloque}
+                    disabled={!bloque || guardando}
                     className="btn btn--green calendario-continuar">
-                    Continuar
+                    {idCitaReagendar ? 'Reagendar' : 'Continuar'}
                   </IonButton>
                 </div>
               </div>

@@ -98,12 +98,66 @@ Ionic + React
 
 # 5. Preparacion y ejecucion local del ejemplo
 ## 5.1 Requisitos previos
--Node.js y npm
--PostgreSQL (pgAdmin)
--Insomnia
+- Node.js 20.19 o superior (probado con Node 24) y npm
+- PostgreSQL (con pgAdmin)
+- Insomnia, para las pruebas de la API
+- Git
+
+El backend y el frontend están en ramas distintas, así que se clonan por separado:
+```bash
+git clone -b backend-EP2 https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git backend-EP2
+git clone -b frontend-EP2 https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git frontend-EP2
+```
+
 ## 5.2 Base de datos
+1. Crear la base `licencias`: en pgAdmin, clic derecho en *Databases* → *Create* → *Database…*, o ejecutar `create database licencias;` conectado a la base `postgres` (o a cualquier otra base existente).
+2. Abrir el *Query Tool* **sobre la base `licencias`**, cargar [`backend/base de datos/licencias.sql`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/base%20de%20datos/licencias.sql) y ejecutarlo completo. La línea `create database` del script está comentada a propósito: el script solo crea las tablas en la base abierta.
+
+El script crea las tablas, los catálogos, tres usuarios de prueba y los bloques horarios de los próximos 7 días hábiles desde el día en que se ejecuta. Se puede volver a ejecutar para dejar la base desde cero.
+
+| Rol | RUT | Contraseña |
+|---|---|---|
+| Ciudadano | `20123456-5` | `Clave123!` |
+| Funcionario | `12345678-5` | `Clave123!` |
+| Administrador | `11111111-1` | `Clave123!` |
+
 ## 5.3 Iniciar Backend
-## 5.4 Problemas frecuentes
+En `backend-EP2/backend/`, copiar `.env.ejemplo` como `.env` y completar los valores:
+
+| Variable | Qué es | Ejemplo |
+|---|---|---|
+| `DB_HOST`, `DB_PORT` | Servidor de PostgreSQL | `localhost`, `5432` |
+| `DB_NAME` | Base de datos | `licencias` |
+| `DB_USER`, `DB_PASSWORD` | Usuario y contraseña de PostgreSQL | `postgres`, la de cada uno |
+| `JWT_SECRET` | Clave para firmar los tokens (una cadena larga y aleatoria) | — |
+| `JWT_EXPIRES_IN` | Duración del token | `2h` |
+
+En una **primera terminal**:
+```bash
+cd backend-EP2/backend
+npm install
+npm run dev
+```
+La API queda en `http://localhost:3000/api` y la consola muestra "Conectado a PostgreSQL". Esta terminal debe quedar abierta.
+
+## 5.4 Iniciar Frontend
+En una **segunda terminal**, sin cerrar la del backend:
+```bash
+cd frontend-EP2/frontend
+npm install
+npm run dev
+```
+La aplicación queda en `http://localhost:5173`. Por defecto usa la API en `http://localhost:3000/api`; para otra dirección, definir `VITE_API_URL` en un archivo `.env` del frontend.
+
+## 5.5 Problemas frecuentes
+| Síntoma | Qué revisar |
+|---|---|
+| "No se pudo conectar con el servidor" en la app | Que el backend esté corriendo en el puerto 3000 |
+| Error de conexión a PostgreSQL al iniciar el backend | Que el servicio de PostgreSQL esté activo y los datos del `.env` sean correctos |
+| `relation ... does not exist` | El script se ejecutó en otra base (por ejemplo `postgres`) en vez de `licencias` |
+| Error de CORS en el navegador | El frontend debe estar en el puerto 5173; si Vite usa otro (5174) es porque el 5173 está ocupado |
+| "No hay horas disponibles" en todos los días | Los bloques se generan para 7 días hábiles desde que se creó la base; volver a ejecutar `licencias.sql` |
+| La sesión se cierra sola | El token dura 2 horas (`JWT_EXPIRES_IN`); volver a iniciar sesión |
 
 # 6. Documentacion de la API existente
 

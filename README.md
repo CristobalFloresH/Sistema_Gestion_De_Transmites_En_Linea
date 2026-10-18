@@ -18,19 +18,15 @@ Específicamente se trabajaron los temas relacionas con la autenticación de los
 # 2. Equipo, repositorio y trazabilidad
 Nombre del equipo: Sistema de gestión de tramites en linea
 Repositorio público:
-
 https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea
 
 Rama frontend: 
-
 https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/frontend-EP2
 
 Rama backend: 
-
 https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/backend-EP2
 
 Figma:
-
 https://www.figma.com/design/GfTP09qFYtAsPHPTJxQtor/mockups?t=AJy5e1Ec4hsj2SAa-1
 
 Integrantes y contribuciones

@@ -1,4 +1,5 @@
 import * as authService from "../services/authService.js";
+import { validarClave } from "../utils/validacionClave.js";
 import { hashearClave, compararClave } from "../utils/claves.js";
 import { firmarToken } from "../utils/jwt.js";
 import {
@@ -17,8 +18,10 @@ function normalizarRut(rut) {
 const formatoCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function registrar(req, res) {
-  const { nombre, correo, telefono, password } = req.body;
-  const rut = normalizarRut(req.body.rut);
+  //Si la petición llega sin cuerpo JSON, req.body es undefined: se usa un objeto vacío para no caerse
+  const cuerpo = req.body ?? {};
+  const { nombre, correo, telefono, password } = cuerpo;
+  const rut = normalizarRut(cuerpo.rut);
 
   const errores = [];
 
@@ -31,9 +34,8 @@ export async function registrar(req, res) {
   if (telefono !== undefined && telefono !== null && !esTextoValido(telefono, 15)) {
     errores.push("telefono no es válido (máximo 15 caracteres)");
   }
-  if (typeof password !== "string" || password.length < 8) {
-    errores.push("password debe tener al menos 8 caracteres");
-  }
+  //Contraseña segura: largo, mayúscula, minúscula, número y símbolo
+  errores.push(...validarClave(password));
 
   //Si hay errores, se le avisa al frontend
   if (errores.length > 0) return responderError(res, 400, "Datos inválidos", errores);
@@ -47,7 +49,6 @@ export async function registrar(req, res) {
     const claveHash = await hashearClave(password);
     const nuevoUsuario = await authService.crearUsuario({ rut, nombre, correo, telefono, claveHash });
 
-
     res.status(201).json({ mensaje: "Usuario registrado con éxito", datos: nuevoUsuario });
   } catch (error) {
     //Se rechaza el usuario, ya que hay un usuario con el mismo correo
@@ -60,16 +61,20 @@ export async function registrar(req, res) {
 }
 
 export async function login(req, res) {
-  const { password } = req.body;
-  const rut = normalizarRut(req.body.rut);
+  //Si la petición llega sin cuerpo JSON, req.body es undefined: se usa un objeto vacío para no caerse
+  const cuerpo = req.body ?? {};
+  const { password } = cuerpo;
+  const rut = normalizarRut(cuerpo.rut);
 
-  //Se verifica que no falten datos 
-  if (!rut || !password) return responderError(res, 400, "Faltan credenciales");
+  //Se verifica que no falten datos y que la contraseña sea texto
+  if (!rut || typeof password !== "string" || !password) {
+    return responderError(res, 400, "Faltan credenciales");
+  }
 
   try {
-    //Busca al uusuario por el rut
+    //Busca al usuario por el rut
     const usuario = await authService.buscarUsuarioPorRut(rut);
-    
+
     //Si no existe se rechaza el acceso
     if (!usuario || !usuario.activo) return responderError(res, 401, "Credenciales incorrectas");
 
@@ -77,10 +82,10 @@ export async function login(req, res) {
     const claveValida = await compararClave(password, usuario.clave_hash);
     if (!claveValida) return responderError(res, 401, "Credenciales incorrectas");
 
-    //Se crea el token inlazandose al rut y al rol 
+    //Se crea el token enlazándolo al rut y al rol
     const token = firmarToken({ rut: usuario.rut, rol: usuario.rol });
 
-    //Mensae de excito enviando el token al frontend
+    //Mensaje de éxito enviando el token al frontend
     res.status(200).json({
       mensaje: "Inicio de sesión exitoso",
       token,

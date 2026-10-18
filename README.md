@@ -7,13 +7,13 @@ Específicamente se trabajaron los temas relacionas con la autenticación de los
 | Función | Ubicación |Estado en el ejemplo | 
 |---|---|---|
 | Registro de usuario | --- | No implementado |
-| Inicio de sesion | POST /api/auth/login  | Implementado |
-| Validacion JTW y rutas protegidas | middlewares/authMiddleware.js | Implementado |
-| Autorización por roles | autorizarRoles, autorizarPropioORoles | Implementado |
-| CRUD de tramites, citas, usuarios, bloques horarios y documentos| /api/tramites, /api/citas, /api/documentos, /api/bloques_horarios, /api/usuarios | Implementado |
-| Catalogos (tipos de estado, metodos de notificacion, roles| /api/tipos_tramite | Implementado |
-| Historial de estados del tramite| GET /api/tramites/:id | Implementado |
-| Calendario|  | Implementado |
+| Inicio de sesion | [`POST /api/auth/login`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js) | Implementado |
+| Validacion JTW y rutas protegidas | [`middlewares/authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
+| Autorización por roles | `autorizarRoles` y `autorizarPropioORoles` en [`authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
+| CRUD de tramites, citas, usuarios, bloques horarios y documentos| [`/api/tramites`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js), [`/api/citas`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js), [`/api/documentos`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/documentoRoutes.js), [`/api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js), [`/api/usuarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/usuarioRoutes.js) | Implementado |
+| Catalogos (tipos de estado, metodos de notificacion, roles| [`catalogoRoutes.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/catalogoRoutes.js): `/api/tipos_tramite`, `/api/tipos_documento`, `/api/estados_tramite`, `/api/estados_documento`, `/api/metodos_notificacion`, `/api/roles` | Implementado |
+| Historial de estados del tramite| [`GET /api/tramites/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) | Implementado |
+| Calendario| [`GET /api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js), [`Calendario.jsx`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/Calendario.jsx) | Implementado |
 
 # 2. Equipo, repositorio y trazabilidad
 Nombre del equipo: Sistema de gestión de tramites en linea

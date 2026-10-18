@@ -125,7 +125,7 @@ export default function AgendaFuncionario() {
                     </td>
                     <td>
                       <Link
-                        to={tramite.id_estado_tramite === ID_RECHAZADO ? '/funcionario/agenda/error' : '/funcionario/agenda/proceso'}
+                        to={`/funcionario/tramites/${tramite.id_tramite}`}
                         className="link-action"
                       >
                         Ver proceso del tramite

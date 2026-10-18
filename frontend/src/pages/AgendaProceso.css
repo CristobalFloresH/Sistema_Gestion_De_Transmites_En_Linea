@@ -98,3 +98,4 @@
 
 .historial-estado.proceso { color: #e6a817; font-style: italic; }
 .historial-estado.completado { color: var(--green); font-style: italic; }
+.historial-estado.rechazado { color: var(--red); font-style: italic; }

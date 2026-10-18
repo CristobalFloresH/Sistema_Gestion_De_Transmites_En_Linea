@@ -10,3 +10,9 @@ export async function crearDocumento(idTramite, idTipoDocumento, nombreArchivo) 
   });
   return respuesta.data.datos;
 }
+
+// Documentos de un tramite, con su tipo y su estado de revision
+export async function listarDocumentos(idTramite) {
+  const respuesta = await api.get('/documentos', { params: { id_tramite: idTramite } });
+  return respuesta.data.datos;
+}

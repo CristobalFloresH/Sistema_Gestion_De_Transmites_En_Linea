@@ -9,8 +9,15 @@ export async function crearTramite(rutCiudadano, idTipoTramite) {
   return respuesta.data.datos;
 }
 
-// Tramites visibles para quien inicio sesion (a un ciudadano el backend solo le devuelve los suyos)
-export async function listarTramites() {
-  const respuesta = await api.get('/tramites');
+// Tramites visibles para quien inicio sesion (a un ciudadano el backend solo le devuelve los suyos).
+// Filtros opcionales, por ejemplo { rut_ciudadano: '20123456-5' }
+export async function listarTramites(filtros) {
+  const respuesta = await api.get('/tramites', { params: filtros });
+  return respuesta.data.datos;
+}
+
+// Un tramite con su historial de estados
+export async function obtenerTramite(idTramite) {
+  const respuesta = await api.get(`/tramites/${idTramite}`);
   return respuesta.data.datos;
 }

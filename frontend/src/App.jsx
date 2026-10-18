@@ -35,8 +35,7 @@ export default function App() {
 
           {/* Rutas del funcionario */}
           <Route path="/funcionario/agenda" element={<ProtectedRoute rol="funcionario"><AgendaFuncionario /></ProtectedRoute>} />
-          <Route path="/funcionario/agenda/proceso" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
-          <Route path="/funcionario/agenda/error" element={<ProtectedRoute rol="funcionario"><AgendaProceso hasErrors /></ProtectedRoute>} />
+          <Route path="/funcionario/tramites/:idTramite" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
 
         </IonRouterOutlet>
       </IonReactRouter>

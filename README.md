@@ -228,9 +228,19 @@ https://ibb.co/CLQbtvh
 
 # 12. Listas de verificacion antes de entrega
 
-
-
-
+- [ ] Repositorio público, ramas y commits verificables.
+- [ ] Nombres del equipo, responsabilidades y enlaces completos.
+- [ ] Frontend realizado en Ionic + React (no Angular).
+- [ ] Backend arranca siguiendo los comandos del README.
+- [ ] Base de datos relacional se crea desde .sql y se conecta al backend.
+- [ ] GET, POST, PUT/PATCH y DELETE implementados para recursos pertinentes.
+- [ ] Registro, login, JWT con expiración y rutas protegidas.
+- [ ] Al menos dos roles con autorización diferenciada.
+- [ ] Contraseñas con bcrypt, consultas parametrizadas y secretos fuera de GitHub.
+- [ ] Frontend consume datos reales y maneja errores/tokens.
+- [ ] Colección Postman/Insomnia, respuestas y pruebas de error.
+- [ ] Capturas, diagramas y enlaces de Markdown son reales y funcionan.
+- [ ] Trazabilidad de requerimientos EP1 → funcionalidades implementadas en EP2.
 
 
 

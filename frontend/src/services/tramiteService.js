@@ -8,3 +8,9 @@ export async function crearTramite(rutCiudadano, idTipoTramite) {
   });
   return respuesta.data.datos;
 }
+
+// Tramites visibles para quien inicio sesion (a un ciudadano el backend solo le devuelve los suyos)
+export async function listarTramites() {
+  const respuesta = await api.get('/tramites');
+  return respuesta.data.datos;
+}

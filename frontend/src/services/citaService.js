@@ -9,3 +9,9 @@ export async function crearCita(idTramite, idBloqueHorario, idMetodoNotificacion
   });
   return respuesta.data.datos;
 }
+
+// Citas vigentes (a un ciudadano el backend solo le devuelve las suyas)
+export async function listarCitasVigentes() {
+  const respuesta = await api.get('/citas', { params: { vigente: true } });
+  return respuesta.data.datos;
+}

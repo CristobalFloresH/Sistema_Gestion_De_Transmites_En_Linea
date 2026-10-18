@@ -13,7 +13,7 @@ Específicamente se trabajaron los temas relacionas con la autenticación de los
 | CRUD de tramites, citas, usuarios, bloques horarios y documentos|  | Implementado |
 | Catalogos (tipos de estado, metodos de notificacion, roles|  | Implementado |
 | Historial de estados del tramite|  | Implementado |
-
+| Calendario|  | Implementado |
 
 # 2. Equipo, repositorio y trazabilidad
 

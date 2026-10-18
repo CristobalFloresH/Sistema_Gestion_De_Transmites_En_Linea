@@ -4,18 +4,27 @@ import { IonPage, IonContent, IonButton, IonIcon, IonSpinner, useIonToast, useIo
 import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
-import { obtenerTramite, listarTramites } from '../services/tramiteService';
+import { obtenerTramite, listarTramites, cambiarEstadoTramite } from '../services/tramiteService';
 import { listarDocumentos } from '../services/documentoService';
-import { formatear } from '../utils/fechas';
+import { listarCitasVigentes, cancelarCita } from '../services/citaService';
+import { formatear, hoyIso } from '../utils/fechas';
+import {
+  ID_CITA_RESERVADA, ID_LISTA_PARA_RETIRO, ID_RECHAZADO,
+  etapasDe, pasoActual, siguienteEstado, nombreEtapa,
+} from '../utils/etapas';
 import IconoPDF from '../assets/PDF.png';
 import './AgendaProceso.css';
 
-// Ids del catalogo estado_tramite (licencias.sql)
-const ID_LISTA_PARA_RETIRO = 6;
-const ID_RECHAZADO = 7;
-
 // Cuantos tramites del historial se muestran antes de "Ver todos"
 const HISTORIAL_RESUMIDO = 3;
+
+// Lo que el funcionario revisa en los documentos antes de aprobar (no se guarda en la base)
+const CHECKS = [
+  'Los datos coinciden con el RUT del ciudadano',
+  'Los documentos son legibles y estan completos',
+  'Los documentos estan vigentes',
+];
+const CHECKS_SIN_MARCAR = CHECKS.map(() => false);
 
 // Clase de color del estado en el historial
 function claseHistorial(idEstado) {
@@ -24,7 +33,7 @@ function claseHistorial(idEstado) {
   return 'proceso';
 }
 
-export default function AgendaProceso({ hasErrors = false }) {
+export default function AgendaProceso() {
   const [mostrarAviso] = useIonToast();
   const [mostrarAlerta] = useIonAlert();
   const { idTramite } = useParams();
@@ -34,13 +43,12 @@ export default function AgendaProceso({ hasErrors = false }) {
   const [verTodoHistorial, setVerTodoHistorial] = useState(false);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+  const [checks, setChecks] = useState(CHECKS_SIN_MARCAR);
+  const [guardando, setGuardando] = useState(false);
 
-  // Ionic deja la pagina montada: se recargan los datos al entrar. Va con [idTramite]
-  // para que, al abrir otro tramite, no se quede con el id del anterior
-  useIonViewWillEnter(() => {
+  const cargar = () => {
     setCargando(true);
     setError('');
-    setVerTodoHistorial(false);
     obtenerTramite(idTramite)
       .then((datosTramite) => Promise.all([
         datosTramite,
@@ -57,7 +65,70 @@ export default function AgendaProceso({ hasErrors = false }) {
         setError(e.mensaje);
       })
       .finally(() => setCargando(false));
+  };
+
+  // Ionic deja la pagina montada: se recargan los datos al entrar. Va con [idTramite]
+  // para que, al abrir otro tramite, no se quede con el id del anterior
+  useIonViewWillEnter(() => {
+    setVerTodoHistorial(false);
+    setChecks(CHECKS_SIN_MARCAR);
+    cargar();
   }, [idTramite]);
+
+  const marcarCheck = (indice) => {
+    setChecks(checks.map((marcado, i) => (i === indice ? !marcado : marcado)));
+  };
+
+  // "Aprobar" (desde Cita reservada) exige los 3 checks; "Avanzar a" las etapas siguientes no
+  const siguiente = tramite ? siguienteEstado(tramite.id_tipo_tramite, tramite.id_estado_tramite) : null;
+  const esAprobacion = tramite?.id_estado_tramite === ID_CITA_RESERVADA;
+  const puedeAvanzar = !guardando && (!esAprobacion || checks.every(Boolean));
+  // Si el tramite ya se aprobo, los documentos ya se revisaron: los checks se muestran marcados y fijos
+  const documentosValidados = tramite
+    && tramite.id_estado_tramite !== ID_CITA_RESERVADA && tramite.id_estado_tramite !== ID_RECHAZADO;
+
+  const avanzar = async () => {
+    setGuardando(true);
+    try {
+      await cambiarEstadoTramite(tramite.id_tramite, siguiente);
+      const mensaje = esAprobacion ? 'Tramite aprobado' : `Tramite avanzado a ${nombreEtapa(siguiente)}`;
+      mostrarAviso({ message: mensaje, duration: 2000, color: 'success' });
+      setChecks(CHECKS_SIN_MARCAR);
+      cargar();
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 3000, color: 'danger' });
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  const rechazar = async () => {
+    setGuardando(true);
+    try {
+      // Primero se cancela la cita (solo si todavia no ocurre) para liberar el cupo; despues se rechaza.
+      // Si el rechazo fallara, el boton sigue disponible y al reintentar ya no hay cita que cancelar
+      const cita = (await listarCitasVigentes()).find((c) => c.id_tramite === tramite.id_tramite);
+      if (cita && cita.fecha > hoyIso()) await cancelarCita(cita.id_cita);
+      await cambiarEstadoTramite(tramite.id_tramite, ID_RECHAZADO);
+      mostrarAviso({ message: 'Tramite rechazado', duration: 2000, color: 'danger' });
+      cargar();
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 3000, color: 'danger' });
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  const confirmarRechazo = () => {
+    mostrarAlerta({
+      header: 'Rechazar tramite',
+      message: 'El tramite quedara rechazado y, si su cita aun no ocurre, se liberara la hora.',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        { text: 'Rechazar', role: 'destructive', handler: rechazar },
+      ],
+    });
+  };
 
   // Los mas recientes primero (el backend ya los entrega asi)
   const historialVisible = verTodoHistorial ? otrosTramites : otrosTramites.slice(0, HISTORIAL_RESUMIDO);
@@ -96,7 +167,12 @@ export default function AgendaProceso({ hasErrors = false }) {
             <div className="proceso-progress">
               {tramite.id_estado_tramite === ID_RECHAZADO
                 ? <p className="historial-estado rechazado">Rechazado</p>
-                : <ProgressBar currentStep={tramite.id_estado_tramite - 1} />}
+                : (
+                  <ProgressBar
+                    etapas={etapasDe(tramite.id_tipo_tramite)}
+                    currentStep={pasoActual(tramite.id_tipo_tramite, tramite.id_estado_tramite)}
+                  />
+                )}
             </div>
             <div className="proceso-panels">
               <div className="proceso-panel">
@@ -127,26 +203,35 @@ export default function AgendaProceso({ hasErrors = false }) {
               <div className="proceso-panel">
                 <h3>Validar veracidad de los documentos</h3>
                 <ul className="validacion-list">
-                  <li className={hasErrors ? 'error' : 'ok'}>
-                    <IonIcon icon={hasErrors ? closeCircle : checkmarkCircle} /> Datos coinciden con RUT
-                  </li>
-                  <li className={hasErrors ? 'error' : 'ok'}>
-                    <IonIcon icon={hasErrors ? closeCircle : checkmarkCircle} /> Documento legible
-                  </li>
-                  <li className="ok"><IonIcon icon={checkmarkCircle} /> Cumple normativa vigente</li>
+                  {CHECKS.map((texto, i) => {
+                    const marcado = documentosValidados || checks[i];
+                    return (
+                      <li
+                        key={texto}
+                        className={marcado ? 'ok' : 'error'}
+                        style={esAprobacion ? { cursor: 'pointer' } : undefined}
+                        onClick={esAprobacion ? () => marcarCheck(i) : undefined}>
+                        <IonIcon icon={marcado ? checkmarkCircle : closeCircle} /> {texto}
+                      </li>
+                    );
+                  })}
                 </ul>
-                <div className="validacion-actions">
-                  <IonButton
-                    className="btn-validacion rechazar"
-                    onClick={() => mostrarAviso({ message: 'Tramite rechazado', duration: 2000, color: 'danger' })}>
-                    Rechazar
-                  </IonButton>
-                  <IonButton
-                    className="btn-validacion aprobar"
-                    onClick={() => mostrarAviso({ message: 'Tramite aprobado', duration: 2000, color: 'success' })}>
-                    Aprobar
-                  </IonButton>
-                </div>
+                {siguiente && (
+                  <div className="validacion-actions">
+                    <IonButton
+                      className="btn-validacion rechazar"
+                      disabled={guardando}
+                      onClick={confirmarRechazo}>
+                      Rechazar
+                    </IonButton>
+                    <IonButton
+                      className="btn-validacion aprobar"
+                      disabled={!puedeAvanzar}
+                      onClick={avanzar}>
+                      {esAprobacion ? 'Aprobar' : `Avanzar a: ${nombreEtapa(siguiente)}`}
+                    </IonButton>
+                  </div>
+                )}
                 <div className="historial">
                   <h4>Historial de tramites</h4>
                   {otrosTramites.length === 0 && <p>Sin otros tramites</p>}

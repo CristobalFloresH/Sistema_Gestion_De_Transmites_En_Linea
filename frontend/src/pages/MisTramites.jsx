@@ -8,11 +8,8 @@ import { useState } from 'react';
 import { listarTramites } from '../services/tramiteService';
 import { listarCitasVigentes } from '../services/citaService';
 import { formatear } from '../utils/fechas';
+import { ID_LISTA_PARA_RETIRO, ID_RECHAZADO, etapasDe, pasoActual } from '../utils/etapas';
 import './MisTramites.css';
-
-// Ids del catalogo estado_tramite (licencias.sql)
-const ID_LISTA_PARA_RETIRO = 6;
-const ID_RECHAZADO = 7;
 
 const ACCIONES = ['Cancelar cita', 'Reagendar', 'Ver detalles'];
 
@@ -77,7 +74,10 @@ export default function MisTramites() {
                     </IonCardHeader>
                     {t.id_estado_tramite !== ID_RECHAZADO && (
                       <IonCardContent className="tramite-card__contenido">
-                        <ProgressBar currentStep={t.id_estado_tramite - 1} />
+                        <ProgressBar
+                          etapas={etapasDe(t.id_tipo_tramite)}
+                          currentStep={pasoActual(t.id_tipo_tramite, t.id_estado_tramite)}
+                        />
                         {cita && (
                           <div className="tramite-card__actions">
                             {ACCIONES.map((a, j) => (

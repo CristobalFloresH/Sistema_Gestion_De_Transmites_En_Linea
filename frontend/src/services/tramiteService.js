@@ -16,6 +16,12 @@ export async function listarTramites(filtros) {
   return respuesta.data.datos;
 }
 
+// Cambia el estado de un tramite (el backend lo anota en el historial)
+export async function cambiarEstadoTramite(idTramite, idEstadoTramite) {
+  const respuesta = await api.patch(`/tramites/${idTramite}`, { id_estado_tramite: idEstadoTramite });
+  return respuesta.data.datos;
+}
+
 // Un tramite con su historial de estados
 export async function obtenerTramite(idTramite) {
   const respuesta = await api.get(`/tramites/${idTramite}`);

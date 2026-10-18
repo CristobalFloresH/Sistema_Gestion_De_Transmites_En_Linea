@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { IonPage, IonContent, IonSearchbar, IonSelect, IonSelectOption, IonSpinner, useIonViewWillEnter } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { listarTramites } from '../services/tramiteService';
-import { listarCitasVigentes } from '../services/citaService';
+import { listarCitas } from '../services/citaService';
 import { listarTiposTramite, listarEstadosTramite } from '../services/catalogoService';
 import { formatear } from '../utils/fechas';
 import './AgendaFuncionario.css';
@@ -35,7 +35,7 @@ export default function AgendaFuncionario() {
   useIonViewWillEnter(() => {
     setCargando(true);
     setError('');
-    Promise.all([listarCitasVigentes(), listarTramites(), listarTiposTramite(), listarEstadosTramite()])
+    Promise.all([listarCitas(), listarTramites(), listarTiposTramite(), listarEstadosTramite()])
       .then(([datosCitas, datosTramites, datosTipos, datosEstados]) => {
         setCitas(datosCitas);
         setTramites(datosTramites);

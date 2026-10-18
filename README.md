@@ -131,10 +131,18 @@ Ionic + React
 
 
 # 10. Modelo relacional
-
+Base de datos PostgreSQL, con las distintas claves primarias, claves foraneas y restricciones.
 
 # 11. Matriz de cumplimiento EP2
-
+| Criterio | Evidencia exigida | Estado del ejemplo |
+|---|---|---|
+| EP 2.1 Servidor backend funcional |   |   |
+| EP 2.2 Base de datos relacional y archivo .sql. |   |   |
+| EP 2.3 API REST y endpoints CRUD |   |   |
+| EP 2.4 Autenticaci´on con JWT y roles |   |   |
+| EP 2.5 Seguridad y validaci´on de usuarios. |   |   |
+| EP 2.6 Integraci´on entre Ionic con React y el backend. |   |   |
+| EP 2.7 Pruebas funcionales y documentaci´on de endpoints |   |   |
 
 # 12. Listas de verificacion antes de entrega
 

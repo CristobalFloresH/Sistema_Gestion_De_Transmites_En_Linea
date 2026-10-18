@@ -176,6 +176,21 @@ El interceptor de respuesta de [`api.js`](https://github.com/CristobalFloresH/Si
 
 En las pantallas, mientras se cargan los datos se muestra un spinner; si falla la carga, el mensaje aparece en lugar del contenido, y si no hay datos se indica (por ejemplo "No hay horas disponibles este día"). Los errores de acciones se muestran en rojo: junto al botón en la reserva, o en un aviso al cancelar, reagendar, aprobar o rechazar. Si una reserva falla a medio camino, al reintentar se reutilizan el trámite y los documentos ya creados, sin duplicarlos.
 
+## 8.5 Flujos con datos reales
+Todas las pantallas leen y guardan sus datos en el backend.
+
+| Pantalla | Qué hace | Servicios que usa | RF |
+|---|---|---|---|
+| Login | Inicia sesión y redirige según el rol | `authService` | RF-8 |
+| Trámite de licencia | Muestra los tipos de trámite con sus documentos, las horas de los próximos 7 días y los métodos de aviso. "Continuar" crea el trámite, registra los documentos y reserva la cita | `catalogoService`, `bloqueHorarioService`, `tramiteService`, `documentoService`, `citaService` | RF-1, RF-2, RF-4 |
+| Calendario | Muestra los bloques de cualquier fecha con sus cupos; también se usa para reagendar una cita | `bloqueHorarioService`, `citaService` | RF-1 |
+| Trámite finalizado | Muestra los datos de la reserva recién hecha (recibidos de la pantalla anterior, sin nueva petición) | — | RF-2 |
+| Mis trámites | Lista los trámites y citas propios con su avance, y permite cancelar, reagendar y ver el historial | `tramiteService`, `citaService` | RF-7, RF-12, RF-14 |
+| Agenda (funcionario) | Lista todas las citas con su trámite, con filtros por estado y tipo, y búsqueda por RUT o nombre | `citaService`, `tramiteService`, `catalogoService` | RF-10, RF-13 |
+| Proceso del trámite (funcionario) | Muestra el trámite, sus documentos y el historial del ciudadano; permite aprobar, avanzar de etapa o rechazar | `tramiteService`, `documentoService`, `citaService` | RF-5, RF-6, RF-14 |
+
+Simulado por ahora: la carga de documentos guarda solo el nombre del archivo (el PDF no se sube al servidor) y el botón "Descargar comprobante".
+
 
 # 9. Pruebas funcionales y evidencia EP2
 

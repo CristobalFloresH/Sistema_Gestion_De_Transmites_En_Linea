@@ -7,6 +7,7 @@ import { listarTiposTramite, listarMetodosNotificacion } from '../services/catal
 import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
 import { crearTramite } from '../services/tramiteService';
 import { crearCita } from '../services/citaService';
+import { crearDocumento } from '../services/documentoService';
 import { getUsuario } from '../services/authService';
 import { formatear } from '../utils/fechas';
 import ImagenCalendario from '../assets/ImagenCalendario.png';
@@ -30,6 +31,8 @@ export default function TramiteLicencia() {
   const [error, setError] = useState('');
   const [metodos, setMetodos] = useState([]);
   const [metodo, setMetodo] = useState('');
+  // Archivo elegido para cada tipo de documento: { idTipoDocumento: File }
+  const [archivos, setArchivos] = useState({});
 
   useEffect(() => {
     Promise.all([listarTiposTramite(), listarMetodosNotificacion()])
@@ -44,6 +47,29 @@ export default function TramiteLicencia() {
   }, []);
 
   const tipoSeleccionado = tipos.find((t) => String(t.id_tipo_tramite) === tipoTramite);
+  const [reservando, setReservando] = useState(false);
+  const [errorReserva, setErrorReserva] = useState('');
+  const [tramiteCreado, setTramiteCreado] = useState(null);
+  const [documentosGuardados, setDocumentosGuardados] = useState({});
+
+  const faltanDocumentos = !tipoSeleccionado
+    || tipoSeleccionado.documentos_requeridos.some((doc) => !archivos[doc.id_tipo_documento]);
+
+  // Al cambiar de tramite se borran los archivos, porque cada tipo pide documentos distintos
+  const cambiarTipo = (nuevoTipo) => {
+    setTipoTramite(nuevoTipo);
+    setArchivos({});
+  };
+
+  const elegirArchivo = (idTipoDocumento, archivo) => {
+    if (!archivo) return;
+    if (!archivo.name.toLowerCase().endsWith('.pdf')) {
+      setErrorReserva('Solo se aceptan archivos PDF');
+      return;
+    }
+    setErrorReserva('');
+    setArchivos({ ...archivos, [idTipoDocumento]: archivo });
+  };
   const [dias] = useState(proximosSieteDias);
   const [dia, setDia] = useState(dias[0]);
   const [bloque, setBloque] = useState(null);
@@ -68,9 +94,6 @@ export default function TramiteLicencia() {
   };
 
   const navigate = useNavigate();
-  const [reservando, setReservando] = useState(false);
-  const [errorReserva, setErrorReserva] = useState('');
-  const [tramiteCreado, setTramiteCreado] = useState(null);
 
   const reservar = async () => {
     setReservando(true);
@@ -79,8 +102,22 @@ export default function TramiteLicencia() {
       // Si un intento anterior ya creo el tramite, se reutiliza en vez de crear otro
       const tramite = tramiteCreado ?? await crearTramite(getUsuario().rut, Number(tipoTramite));
       setTramiteCreado(tramite);
+
+      // Guarda solo los documentos que faltan (si un intento anterior guardo algunos, no se repiten)
+      const guardados = { ...documentosGuardados };
+      try {
+        for (const doc of tipoSeleccionado.documentos_requeridos) {
+          if (guardados[doc.id_tipo_documento]) continue;
+          await crearDocumento(tramite.id_tramite, doc.id_tipo_documento, archivos[doc.id_tipo_documento].name);
+          guardados[doc.id_tipo_documento] = true;
+        }
+      } finally {
+        setDocumentosGuardados(guardados);
+      }
+
       const cita = await crearCita(tramite.id_tramite, bloque.id_bloque_horario, Number(metodo));
       setTramiteCreado(null);
+      setDocumentosGuardados({});
       navigate('/tramite-finalizado', { state: { tramite, cita } });
     } catch (e) {
       setErrorReserva(e.mensaje);
@@ -122,7 +159,7 @@ export default function TramiteLicencia() {
                     className="tipo-tramite-options"
                     value={tipoTramite}
                     disabled={!!tramiteCreado}
-                    onIonChange={(e) => setTipoTramite(e.detail.value)}>
+                    onIonChange={(e) => cambiarTipo(e.detail.value)}>
                     {tipos.map((t) => (
                       <IonSegmentButton key={t.id_tipo_tramite} value={String(t.id_tipo_tramite)} className="tipo-btn">
                         <IonLabel>
@@ -198,11 +235,25 @@ export default function TramiteLicencia() {
               <div className="step-content">
                 <h3>Carga tus documentos (PDF)</h3>
                 <div className="docs-grid">
-                  {tipoSeleccionado?.documentos_requeridos.map((doc) => (
-                    <div key={doc.id_tipo_documento} className="doc-card">
-                      {doc.nombre_tipo_documento}
-                    </div>
-                  ))}
+                  {tipoSeleccionado?.documentos_requeridos.map((doc) => {
+                    const archivo = archivos[doc.id_tipo_documento];
+                    return (
+                      <label key={doc.id_tipo_documento} className={`doc-card ${archivo ? 'cargado' : ''}`}>
+                        {doc.nombre_tipo_documento}
+                        {archivo && <small style={{ display: 'block' }}>{archivo.name}</small>}
+                        <input
+                          type="file"
+                          accept="application/pdf,.pdf"
+                          hidden
+                          disabled={!!tramiteCreado}
+                          onChange={(e) => {
+                            elegirArchivo(doc.id_tipo_documento, e.target.files[0]);
+                            e.target.value = ''; // permite volver a elegir el mismo archivo
+                          }}
+                        />
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -235,7 +286,7 @@ export default function TramiteLicencia() {
             )}
             <IonButton
               className="btn btn--green tramite-continuar"
-              disabled={!tipoTramite || !bloque || !metodo || reservando}
+              disabled={!tipoTramite || !bloque || !metodo || faltanDocumentos || reservando}
               onClick={reservar}>
               {reservando ? 'Reservando...' : 'Continuar'}
             </IonButton>

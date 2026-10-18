@@ -191,6 +191,20 @@ Todas las pantallas leen y guardan sus datos en el backend.
 
 Simulado por ahora: la carga de documentos guarda solo el nombre del archivo (el PDF no se sube al servidor) y el botón "Descargar comprobante".
 
+## 8.6 Servicios y endpoints
+Qué endpoint llama cada servicio. Junto con la 8.5 se lee la cadena completa: pantalla → servicio → endpoint.
+
+| Servicio | Funciones | Endpoints |
+|---|---|---|
+| [`authService.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/authService.js) | `login`, `logout` | `POST /auth/login` |
+| [`catalogoService.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/catalogoService.js) | `listarTiposTramite`, `listarMetodosNotificacion`, `listarEstadosTramite` | `GET /tipos_tramite`, `GET /metodos_notificacion`, `GET /estados_tramite` |
+| [`bloqueHorarioService.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/bloqueHorarioService.js) | `listarBloquesPorFecha` | `GET /bloques_horarios?fecha&activo=true` |
+| [`tramiteService.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/tramiteService.js) | `crearTramite`, `listarTramites`, `obtenerTramite`, `cambiarEstadoTramite` | `POST /tramites`, `GET /tramites`, `GET /tramites/:id`, `PATCH /tramites/:id` |
+| [`citaService.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js) | `crearCita`, `listarCitas`, `listarCitasVigentes`, `cancelarCita`, `reagendarCita` | `POST /citas`, `GET /citas`, `PATCH /citas/:id` |
+| [`documentoService.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/documentoService.js) | `crearDocumento`, `listarDocumentos` | `POST /documentos`, `GET /documentos?id_tramite` |
+
+Las rutas no incluyen `/api` porque ya va en el `baseURL`.
+
 
 # 9. Pruebas funcionales y evidencia EP2
 

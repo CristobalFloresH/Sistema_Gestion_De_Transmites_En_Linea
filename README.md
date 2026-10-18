@@ -44,12 +44,23 @@ Integrantes y contribuciones
 
 | Requerimientos EP1| Endpoints |
 |---|---|
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
+| RF-1 : Selección de bloque horario |   |
+| RF-2 : Registro de reserva de cita |   |
+| RF-3 : Envío de comprobante de la cita |   |
+| RF-4 : Carga de documentación |   |
+| RF-5 : Visualización de documentos adjuntos por el funcionario |   |
+| RF-6 : Validación de veracidad documental |   |
+| RF-7 : Visualización de la línea de tiempo del trámite |   |
+| RF-8 : Redirección por roles de usuario |   |
+| RF-9 : Notificación de licencia lista |   |
+| RF-10 : Despliegue de agenda diaria |   |
+| RF-11 : Envío recordatorio de cita |   |
+| RF-12 : Cancelación de cita |   |
+| RF-13 : Búsqueda de tramites personal |   |
+| RF-14 : Historial de trámites |   |
+| RF-15 : Emision de comprobante |   |
+| RF-16 : Configuración de bloques horarios |   |
+| RF-17 : Gestión de cuentas de funcionarios |   |
 
 # 3. Tecnologias
 | Capa | Tecnologia identificada |

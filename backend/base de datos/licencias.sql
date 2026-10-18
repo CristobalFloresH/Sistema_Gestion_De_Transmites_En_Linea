@@ -191,7 +191,8 @@ insert into estado_tramite (nombre_estado_tramite) values
     ('Fotografía capturada'),
     ('Licencia en impresión'),
     ('Lista para retiro'),
-    ('Rechazado');
+    ('Rechazado'),
+    ('Examen práctico aprobado');          -- va al final para no cambiar los ids anteriores (queda con id 8)
 
 insert into estado_documento (nombre_estado_documento) values ('Pendiente'), ('Aprobado'), ('Rechazado');
 

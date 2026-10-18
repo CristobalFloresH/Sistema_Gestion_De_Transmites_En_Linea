@@ -46,23 +46,23 @@ La cantidad de commits no refleja por sí sola el trabajo de cada integrante: al
 
 | Requerimientos EP1| Endpoints |
 |---|---|
-| RF-1 : Selección de bloque horario | GET /api/bloques_horario?fecha=  |
-| RF-2 : Registro de reserva de cita | POST /api/citas  |
-| RF-3 : Envío de comprobante de la cita |  |
-| RF-4 : Carga de documentación | POST /api/document |
-| RF-5 : Visualización de documentos adjuntos por el funcionario | GET /api/documentos, PATCH /api/documentos/:id |
-| RF-6 : Validación de veracidad documental | GET /api/documentos, PATCH /api/documentos/:id |
-| RF-7 : Visualización de la línea de tiempo del trámite | GET /api/tramites/:id |
-| RF-8 : Redirección por roles de usuario | POST /api/auth/login |
-| RF-9 : Notificación de licencia lista |  |
-| RF-10 : Despliegue de agenda diaria | GET /api/citas?fechas=, GET /api/tramites?rut_ciudadano= |
-| RF-11 : Envío recordatorio de cita |   |
-| RF-12 : Cancelación de cita | PATCH /api/citas/:id |
-| RF-13 : Búsqueda de tramites personal | GET /api/citas?fechas=, GET /api/tramites?rut_ciudadano= |
-| RF-14 : Historial de trámites |   |
-| RF-15 : Emision de comprobante |  |
-| RF-16 : Configuración de bloques horarios | POST/PUT/PATCH/DELETE /api/bloques_horarios |
-| RF-17 : Gestión de cuentas de funcionarios | GET/PUT/PATCH/DELETE api/usuarios |
+| RF-1 : Selección de bloque horario | [`GET /api/bloques_horarios?fecha=`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js) |
+| RF-2 : Registro de reserva de cita | [`POST /api/tramites`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js), [`POST /api/citas`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js) |
+| RF-3 : Envío de comprobante de la cita | No implementado |
+| RF-4 : Carga de documentación | [`POST /api/documentos`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/documentoRoutes.js) |
+| RF-5 : Visualización de documentos adjuntos por el funcionario | [`GET /api/documentos?id_tramite=`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/documentoRoutes.js) |
+| RF-6 : Validación de veracidad documental | [`PATCH /api/documentos/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/documentoRoutes.js), [`PATCH /api/tramites/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) |
+| RF-7 : Visualización de la línea de tiempo del trámite | [`GET /api/tramites/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) |
+| RF-8 : Redirección por roles de usuario | [`POST /api/auth/login`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js) |
+| RF-9 : Notificación de licencia lista | No implementado |
+| RF-10 : Despliegue de agenda diaria | [`GET /api/citas`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js), [`GET /api/tramites`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) |
+| RF-11 : Envío recordatorio de cita | No implementado |
+| RF-12 : Cancelación de cita | [`PATCH /api/citas/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js) |
+| RF-13 : Búsqueda de tramites personal | [`GET /api/tramites?rut_ciudadano=`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) |
+| RF-14 : Historial de trámites | [`GET /api/tramites?rut_ciudadano=`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js), `GET /api/tramites/:id` |
+| RF-15 : Emision de comprobante | No implementado |
+| RF-16 : Configuración de bloques horarios | [`POST/PUT/PATCH/DELETE /api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js) |
+| RF-17 : Gestión de cuentas de funcionarios | [`GET/PUT/PATCH/DELETE /api/usuarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/usuarioRoutes.js) |
 
 # 3. Tecnologias
 | Capa | Tecnologia identificada |

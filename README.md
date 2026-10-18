@@ -90,6 +90,29 @@ backend
     ├── services          #
     └── utils             #
 
+EP2+JWT/
+├── Readme.md
+├── Tienda.sql
+├── backend/
+│   ├── app.js
+│   ├── config/db.js
+│   ├── controllers/userController.js
+│   ├── middlewares/verifyToken.js
+│   ├── models/userModel.js
+│   ├── routes/userRoute.js
+│   └── package.json
+└── frontend/
+    ├── package.json
+    └── src/app/
+        ├── app-routing.module.ts
+        ├── services/auth.service.ts
+        ├── services/register.service.ts
+        └── pages/
+            ├── home/
+            ├── register/
+            └── perfil/
+
+
 # 5. Preparacion y ejecucion local del ejemplo
 
 

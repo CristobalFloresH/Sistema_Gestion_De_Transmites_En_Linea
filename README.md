@@ -75,25 +75,50 @@ Integrantes y contribuciones
 
 
 # 4. Arquitectura y carpetas reales
+**Backend** (rama `backend-EP2`)
 ```
 backend
-├── base de datos 
-│   └── licencias.sql     
+├── base de datos
+│   └── licencias.sql        script de la base (tablas, catálogos y datos de prueba)
 ├── package-lock.json
 ├── package.json
-├── pruebas               
+├── pruebas                  colecciones de Insomnia
 └── src
-    ├── app.js            
-    ├── config           
-    ├── controllers       
-    ├── middlewares       
-    ├── routes            
-    ├── services          
-    └── utils             
+    ├── app.js               arranque de Express, middlewares globales y rutas
+    ├── config               conexión a PostgreSQL
+    ├── controllers          reciben la petición, validan y responden
+    ├── middlewares          token JWT, roles y logger
+    ├── routes               endpoints de cada recurso
+    ├── services             consultas SQL parametrizadas
+    └── utils                validaciones, JWT y contraseñas
 ```
 
+**Frontend** (rama `frontend-EP2`)
 ```
-Ionic + React
+frontend
+├── index.html
+├── package.json
+├── vite.config.js
+└── src
+    ├── App.jsx              rutas públicas, con sesión y por rol
+    ├── main.jsx             punto de entrada
+    ├── assets               imágenes e íconos
+    ├── components           NavBar y barra de progreso
+    ├── pages                una pantalla por archivo (con su .css)
+    ├── routes               ProtectedRoute
+    ├── services             cliente Axios, sesión y un servicio por recurso
+    ├── styles               estilos globales
+    └── utils                fechas y etapas de cada tipo de trámite
+```
+
+**Flujo de una petición**
+```
+Ionic + React (localhost:5173)
+  página → servicio → api.js (Axios: agrega Bearer JWT y traduce errores)
+      │  HTTP + JSON
+      ▼
+Express (localhost:3000/api)
+  ruta → middleware (token y rol) → controlador → servicio → PostgreSQL (licencias)
 ```
 
 # 5. Preparacion y ejecucion local del ejemplo

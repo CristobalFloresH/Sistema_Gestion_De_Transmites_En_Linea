@@ -6,11 +6,11 @@ import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import { obtenerTramite, listarTramites, cambiarEstadoTramite } from '../services/tramiteService';
 import { listarDocumentos } from '../services/documentoService';
-import { listarCitasVigentes, cancelarCita } from '../services/citaService';
+import { listarCitas, listarCitasVigentes, cancelarCita } from '../services/citaService';
 import { formatear, hoyIso } from '../utils/fechas';
 import {
   ID_CITA_RESERVADA, ID_LISTA_PARA_RETIRO, ID_RECHAZADO,
-  etapasDe, pasoActual, siguienteEstado, nombreEtapa,
+  etapasDe, pasoActual, siguienteEstado, nombreEtapa, buscarCitaCancelada,
 } from '../utils/etapas';
 import IconoPDF from '../assets/PDF.png';
 import './AgendaProceso.css';
@@ -40,6 +40,7 @@ export default function AgendaProceso() {
   const [tramite, setTramite] = useState(null);
   const [documentos, setDocumentos] = useState([]);
   const [otrosTramites, setOtrosTramites] = useState([]);
+  const [citasCiudadano, setCitasCiudadano] = useState([]);
   const [verTodoHistorial, setVerTodoHistorial] = useState(false);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
@@ -54,11 +55,14 @@ export default function AgendaProceso() {
         datosTramite,
         listarDocumentos(datosTramite.id_tramite),
         listarTramites({ rut_ciudadano: datosTramite.rut_ciudadano }),
+        // Todas sus citas (tambien las canceladas), para mostrar "Cita cancelada" en el historial
+        listarCitas({ rut_ciudadano: datosTramite.rut_ciudadano }),
       ]))
-      .then(([datosTramite, datosDocumentos, datosTramites]) => {
+      .then(([datosTramite, datosDocumentos, datosTramites, datosCitas]) => {
         setTramite(datosTramite);
         setDocumentos(datosDocumentos);
         setOtrosTramites(datosTramites.filter((t) => t.id_tramite !== datosTramite.id_tramite));
+        setCitasCiudadano(datosCitas);
       })
       .catch((e) => {
         setTramite(null);
@@ -238,9 +242,13 @@ export default function AgendaProceso() {
                   {historialVisible.map((t) => (
                     <div key={t.id_tramite} className="historial-item">
                       <span>{t.nombre_tipo_tramite} {t.fecha_inicio.slice(0, 4)}</span>
-                      <span className={`historial-estado ${claseHistorial(t.id_estado_tramite)}`}>
-                        {t.nombre_estado_tramite}
-                      </span>
+                      {buscarCitaCancelada(t, citasCiudadano) ? (
+                        <span className="historial-estado rechazado">Cita cancelada</span>
+                      ) : (
+                        <span className={`historial-estado ${claseHistorial(t.id_estado_tramite)}`}>
+                          {t.nombre_estado_tramite}
+                        </span>
+                      )}
                     </div>
                   ))}
                   {otrosTramites.length > HISTORIAL_RESUMIDO && (

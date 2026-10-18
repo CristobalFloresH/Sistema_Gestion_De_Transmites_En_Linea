@@ -37,3 +37,12 @@ export function siguienteEstado(idTipo, idEstado) {
 export function nombreEtapa(idEstado) {
   return NOMBRES[idEstado];
 }
+
+// Cita cancelada de un tramite que sigue en "Cita reservada" y no tiene otra vigente
+// ("Cita cancelada" no es un estado de la base; si el tramite se rechazo, se muestra "Rechazado")
+export function buscarCitaCancelada(tramite, citas) {
+  const delTramite = citas.filter((c) => c.id_tramite === tramite.id_tramite);
+  return tramite.id_estado_tramite === ID_CITA_RESERVADA && !delTramite.some((c) => c.vigente)
+    ? delTramite.find((c) => !c.vigente)
+    : undefined;
+}

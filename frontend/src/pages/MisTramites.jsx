@@ -9,7 +9,7 @@ import { listarTramites, obtenerTramite } from '../services/tramiteService';
 import { listarCitas, cancelarCita } from '../services/citaService';
 import { getUsuario } from '../services/authService';
 import { formatear, hoyIso } from '../utils/fechas';
-import { ID_CITA_RESERVADA, ID_LISTA_PARA_RETIRO, ID_RECHAZADO, etapasDe, pasoActual } from '../utils/etapas';
+import { ID_CITA_RESERVADA, ID_LISTA_PARA_RETIRO, ID_RECHAZADO, etapasDe, pasoActual, buscarCitaCancelada } from '../utils/etapas';
 import './MisTramites.css';
 
 // "20 oct 2026, 09:00"
@@ -54,12 +54,7 @@ export default function MisTramites() {
 
   const citaDe = (idTramite) => citas.find((c) => c.id_tramite === idTramite && c.vigente);
 
-  // Cita cancelada de un tramite que sigue en "Cita reservada" (si se rechazo, se muestra "Rechazado")
-  const citaCanceladaDe = (tramite) => (
-    tramite.id_estado_tramite === ID_CITA_RESERVADA && !citaDe(tramite.id_tramite)
-      ? citas.find((c) => c.id_tramite === tramite.id_tramite && !c.vigente)
-      : undefined
-  );
+  const citaCanceladaDe = (tramite) => buscarCitaCancelada(tramite, citas);
   const estadoVisible = (tramite) => (citaCanceladaDe(tramite) ? 'Cita cancelada' : tramite.nombre_estado_tramite);
 
   // La cita solo se puede cancelar o mover antes de que ocurra y mientras el tramite no se haya aprobado

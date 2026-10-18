@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   IonPage, IonContent, IonInput, IonInputPasswordToggle, IonButton, IonText,
 } from '@ionic/react';
@@ -104,9 +104,6 @@ export default function Login() {
                 </IonButton>
               </form>
 
-              <p className="login-card__footer">
-                No tienes cuenta? <Link to="/registro">Registrate aqui</Link>
-              </p>
               <p className="login-card__footer">
                 Problemas con tu clave unica?<br />
                 <a href="https://claveunica.gob.cl" target="_blank" rel="noreferrer">

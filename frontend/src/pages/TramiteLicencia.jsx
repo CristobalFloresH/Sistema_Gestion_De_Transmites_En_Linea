@@ -4,12 +4,25 @@ import { Link } from 'react-router-dom';
 import { IonPage, IonContent, IonButton, IonSegment, IonSegmentButton, IonLabel, IonSpinner } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { listarTiposTramite } from '../services/catalogoService';
+import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
 import ImagenCalendario from '../assets/ImagenCalendario.png';
 import './TramiteLicencia.css';
 
-const DIAS = [12, 13, 14, 15, 16, 17, 18];
+// Las 7 fechas desde hoy, en formato AAAA-MM-DD (el que pide el backend)
+function proximosSieteDias() {
+  return Array.from({ length: 7 }, (_, i) => {
+    const fecha = new Date();
+    fecha.setDate(fecha.getDate() + i);
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    return `${fecha.getFullYear()}-${mes}-${dia}`;
+  });
+}
 
-const HORAS = ['08:00', '09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+// Formatea una fecha AAAA-MM-DD, por ejemplo "octubre de 2026" o "19 de octubre"
+function formatear(fechaIso, opciones) {
+  return new Date(`${fechaIso}T12:00:00`).toLocaleDateString('es-CL', opciones);
+}
 
 export default function TramiteLicencia() {
   const [tipos, setTipos] = useState([]);
@@ -28,8 +41,28 @@ export default function TramiteLicencia() {
   }, []);
 
   const tipoSeleccionado = tipos.find((t) => String(t.id_tipo_tramite) === tipoTramite);
-  const [dia, setDia] = useState(16);
-  const [hora, setHora] = useState(null);
+  const [dias] = useState(proximosSieteDias);
+  const [dia, setDia] = useState(dias[0]);
+  const [bloque, setBloque] = useState(null);
+  const [bloques, setBloques] = useState([]);
+  const [cargandoBloques, setCargandoBloques] = useState(true);
+  const [errorBloques, setErrorBloques] = useState('');
+
+  useEffect(() => {
+    let vigente = true;
+    listarBloquesPorFecha(dia)
+      .then((datos) => { if (vigente) setBloques(datos); })
+      .catch((e) => { if (vigente) { setBloques([]); setErrorBloques(e.mensaje); } })
+      .finally(() => { if (vigente) setCargandoBloques(false); });
+    return () => { vigente = false; };
+  }, [dia]);
+
+  const cambiarDia = (nuevoDia) => {
+    setDia(nuevoDia);
+    setBloque(null);
+    setCargandoBloques(true);
+    setErrorBloques('');
+  };
 
 
   return (
@@ -77,27 +110,37 @@ export default function TramiteLicencia() {
                 <h3>Elija hora y dia</h3>
                 <div className="fecha-selector">
                   <div className="fecha-box">
-                    <p className="fecha-box__titulo">Septiembre 2026</p>
+                    <p className="fecha-box__titulo">
+                      {formatear(dia, { month: 'long', year: 'numeric' })}
+                    </p>
                     <div className="dias-fila">
-                      {DIAS.map((d) => (
+                      {dias.map((d) => (
                         <IonButton
                           key={d}
                           className={`opcion-btn ${dia === d ? 'selected' : ''}`}
-                          onClick={() => setDia(d)}>
-                          {d}
+                          onClick={() => cambiarDia(d)}>
+                          {Number(d.slice(8, 10))}
                         </IonButton>
                       ))}
                     </div>
                   </div>
                   <div className="fecha-box">
-                    <p className="fecha-box__titulo">Bloques {dia} de Septiembre</p>
+                    <p className="fecha-box__titulo">
+                      Bloques {formatear(dia, { day: 'numeric', month: 'long' })}
+                    </p>
                     <div className="horas-grid">
-                      {HORAS.map((h) => (
+                      {cargandoBloques && <IonSpinner name="crescent" />}
+                      {!cargandoBloques && errorBloques && <p>{errorBloques}</p>}
+                      {!cargandoBloques && !errorBloques && bloques.length === 0 && (
+                        <p>No hay horas disponibles este día</p>
+                      )}
+                      {!cargandoBloques && bloques.map((b) => (
                         <IonButton
-                          key={h}
-                          className={`opcion-btn opcion-btn--hora ${hora === h ? 'selected' : ''}`}
-                          onClick={() => setHora(h)}>
-                          {h}
+                          key={b.id_bloque_horario}
+                          className={`opcion-btn opcion-btn--hora ${bloque?.id_bloque_horario === b.id_bloque_horario ? 'selected' : ''}`}
+                          disabled={b.cupos_disponibles === 0}
+                          onClick={() => setBloque(b)}>
+                          {b.hora_inicio.slice(0, 5)}
                         </IonButton>
                       ))}
                     </div>

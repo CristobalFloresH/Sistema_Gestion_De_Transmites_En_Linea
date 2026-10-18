@@ -38,9 +38,9 @@ Integrantes y contribuciones
 | Integrantes | Responsabilidad | Evidencia de colaboracion |
 |---|---|---|
 | Rafael Valdes | EP 2.3 API REST y endpoints CRUD. |  | 
-| Diego Cortez | EP 2.4 Autenticaci´on con JWT y roles. |  | 
-| Mauricio Morales | EP 2.5 Seguridad y validaci´on de usuarios. |  | 
-| Cristóbal Flores | EP 2.6 Integraci´on entre Ionic con React y el backend. |  | 
+| Diego Cortez | EP 2.4 Autenticación con JWT y roles. |  | 
+| Mauricio Morales | EP 2.5 Seguridad y validación de usuarios. |  | 
+| Cristóbal Flores | EP 2.6 Integración entre Ionic con React y el backend. |  | 
 
 | Requerimientos EP1| Endpoints |
 |---|---|

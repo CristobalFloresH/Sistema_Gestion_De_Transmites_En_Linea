@@ -75,7 +75,20 @@ Integrantes y contribuciones
 
 
 # 4. Arquitectura y carpetas reales
-
+backend
+├── base de datos 
+│   └── licencias.sql     # Esquema, catalogos y usuarios de prueba
+├── package-lock.json
+├── package.json
+├── pruebas               # Coleccion de pruebas Insomnia
+└── src
+    ├── app.js            #
+    ├── config            #
+    ├── controllers       #
+    ├── middlewares       #
+    ├── routes            #
+    ├── services          #
+    └── utils             #
 
 # 5. Preparacion y ejecucion local del ejemplo
 

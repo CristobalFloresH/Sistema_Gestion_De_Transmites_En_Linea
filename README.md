@@ -6,10 +6,14 @@ Específicamente se trabajaron los temas relacionas con la autenticación de los
 
 | Funcion | Ubicacion |Estado en el ejemplo | 
 |---|---|---|
-|  |  | |
-|  |  | |
-|  |  | |
-|  |  | |
+| Registro de usuario | --- | No implementado |
+| Inicio de sesion |   | Implementado |
+| Validacion JTW y rutas protegidas |  | Implementado |
+| Autorizacion por roles |  | Implementado |
+| CRUD de tramites, citas, usuarios, bloques horarios y documentos|  | Implementado |
+| Catalogos (tipos de estado, metodos de notificacion, roles|  | Implementado |
+| Historial de estados del tramite|  | Implementado |
+
 
 # 2. Equipo, repositorio y trazabilidad
 

@@ -35,12 +35,14 @@ https://www.figma.com/design/GfTP09qFYtAsPHPTJxQtor/mockups?t=AJy5e1Ec4hsj2SAa-1
 
 Integrantes y contribuciones
 
-| Integrantes | Responsabilidad | Evidencia de colaboracion |
-|---|---|---|
-| Rafael Valdes | EP 2.3 API REST y endpoints CRUD. |  | 
-| Diego Cortez | EP 2.4 Autenticación con JWT y roles. |  | 
-| Mauricio Morales | EP 2.5 Seguridad y validación de usuarios. |  | 
-| Cristóbal Flores | EP 2.6 Integración entre Ionic con React y el backend. |  | 
+| Integrantes | Responsabilidad | Commits | Detalles |
+|---|---|---|---|
+| Rafael Valdes | EP 2.3 API REST y endpoints CRUD. | 13 | Pocos commits, pero grandes, el CRUD de todos los recursos y las colecciones de Insomnia |
+| Diego Cortez | EP 2.4 Autenticación con JWT y roles. | 50 | La mayoría son ediciones del README desde GitHub, el login, el JWT y los roles están en pocos commits de código |
+| Mauricio Morales | EP 2.5 Seguridad y validación de usuarios. | 41 | La mayoría son del frontend de la EP1, la validación de contraseñas y la seguridad del backend están en 3 commits |
+| Cristóbal Flores | EP 2.6 Integración entre Ionic con React y el backend. | 83 | Un commit por cada paso, el servidor, la base de datos y cada pantalla conectada a la API |
+
+La cantidad de commits no refleja por sí sola el trabajo de cada integrante: algunos suben cada avance por separado y otros agrupan un módulo completo en pocos commits. El conteo suma todas las ramas e incluye las ediciones hechas desde la web de GitHub.
 
 | Requerimientos EP1| Endpoints |
 |---|---|
@@ -199,7 +201,7 @@ La aplicación queda en `http://localhost:5173`. Por defecto usa la API en `http
 | Validación de entradas | Sí. Se validan RUT, nombre, correo, teléfono, id, fechas y largos máximos, y se rechazan campos desconocidos. La contraseña exige 8 caracteres o más, mayúscula, minúscula, número y símbolo. | `utils/apoyoControladores.js`, `utils/validacionClave.js` | Opcional: usar una librería de validación |
 | Prevención de SQL injection | Sí. Todas las consultas usan parámetros (`$1`, `$2`). | `services/*.js` | Ninguna |
 | Minimización de datos | Sí. Ninguna respuesta incluye `clave_hash` y el JWT no lleva datos sensibles. | `authService.js`, `usuarioService.js` | Ninguna |
-| Protección de rutas frontend | Pendiente de confirmar con el equipo de frontend. | — | Guardias de ruta en Ionic React y manejo de token expirado |
+| Protección de rutas frontend | Sí. `ProtectedRoute` exige sesión en las rutas privadas y rol de personal en las del funcionario, y redirige a `/login` o a `/`. Al entrar a cada página revisa si el token venció, y un 401 cierra la sesión (ver 8.2 y 8.3). | `routes/ProtectedRoute.jsx`, `services/sesion.js`, `services/api.js` | Guardar el token en cookies `httpOnly` en vez de `localStorage` |
 | Manejo de errores | Sí. Un manejador central responde 500 genérico y registra el detalle solo en consola. El login da el mismo mensaje para un RUT inexistente y una contraseña mala, y una petición sin cuerpo responde 400. | `app.js`, `authController.js` | Opcional: límite de intentos de login |
 | Pruebas de seguridad | Pruebas en Insomnia de casos de éxito y de error: login, registro con contraseña débil, registro repetido y rutas con y sin token. | `pruebas/insomnia-auth.json` | Exportar la colección y subirla al repositorio |
 

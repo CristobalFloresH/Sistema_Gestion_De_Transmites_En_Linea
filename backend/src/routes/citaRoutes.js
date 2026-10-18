@@ -4,6 +4,7 @@ import {
   verificarToken,
   autorizarRoles,
   limitarListadoAlCiudadano,
+  ciudadanoSoloSusCitas,
 } from "../middlewares/authMiddleware.js";
 
 const router = Router();
@@ -13,8 +14,9 @@ router.get("/", limitarListadoAlCiudadano, citaController.listarCitas);
 //Cualquier usuario logueado puede ver una cita específica, crearla o editarla.
 router.get("/:id", citaController.obtenerCita);
 router.post("/", citaController.crearCita);
-router.put("/:id", citaController.reemplazarCita);
-router.patch("/:id", citaController.actualizarCita);
+//Un ciudadano solo puede editar (cancelar o reagendar) sus propias citas
+router.put("/:id", ciudadanoSoloSusCitas, citaController.reemplazarCita);
+router.patch("/:id", ciudadanoSoloSusCitas, citaController.actualizarCita);
 //Solo admins o funcionarios pueden cancelar/eliminar citas
 router.delete("/:id", autorizarRoles("funcionario", "administrador"), citaController.eliminarCita);
 

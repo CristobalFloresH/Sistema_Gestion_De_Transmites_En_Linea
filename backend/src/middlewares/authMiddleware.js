@@ -1,5 +1,6 @@
 import { verificarJwt } from "../utils/jwt.js";
-import { responderError } from "../utils/apoyoControladores.js";
+import { responderError, leerIdDeLaUrl } from "../utils/apoyoControladores.js";
+import { buscarCitaPorId } from "../services/citaService.js";
 
 //Verifica que el usuario haya iniciado sesion y tenga un token valido
 export function verificarToken(req, res, next) {
@@ -58,6 +59,19 @@ export function limitarListadoAlCiudadano(req, res, next) {
 export function ciudadanoSoloSuRut(req, res, next) {
   if (req.usuario?.rol === "ciudadano" && req.body?.rut_ciudadano !== req.usuario.rut) {
     return responderError(res, 403, "Solo puedes crear trámites a tu propio nombre.");
+  }
+  next();
+}
+
+//Evita que un ciudadano cancele o mueva la cita de otra persona
+export async function ciudadanoSoloSusCitas(req, res, next) {
+  const idCita = leerIdDeLaUrl(req);
+  //Si el id no es valido o la cita no existe, el controlador responde 400 o 404
+  if (req.usuario?.rol !== "ciudadano" || !idCita) return next();
+
+  const cita = await buscarCitaPorId(idCita);
+  if (cita && cita.rut_ciudadano !== req.usuario.rut) {
+    return responderError(res, 403, "Solo puedes modificar tus propias citas.");
   }
   next();
 }

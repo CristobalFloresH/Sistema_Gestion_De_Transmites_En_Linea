@@ -208,10 +208,20 @@ insert into usuario (rut, nombre, correo, telefono, clave_hash, id_rol) values
     ('12345678-5', 'Funcionario Prueba', 'funcionario@prueba.cl', null, '$2b$10$Cm5dvzMpMmK12ta.GFMzA.B/3XRuzoc4LA/nhl5c0bAkQeFfV38b2', 2),
     ('11111111-1', 'Administrador Prueba', 'admin@prueba.cl', null, '$2b$10$Cm5dvzMpMmK12ta.GFMzA.B/3XRuzoc4LA/nhl5c0bAkQeFfV38b2', 3);
 
-insert into bloque_horario (fecha, hora_inicio, hora_fin, cupos) values
-    ('2026-10-19', '09:00', '09:30', 2),
-    ('2026-10-19', '09:30', '10:00', 2),
-    ('2026-10-20', '09:00', '09:30', 2);
+-- bloques de los próximos 7 días hábiles desde que se crea la base, de 09:00 a 13:00
+-- cada 30 minutos y con 2 cupos (se generan en orden: el bloque 1 es el primer horario del primer día)
+with dias as (
+    select d::date as fecha
+    from generate_series(current_date, current_date + 13, interval '1 day') as d
+    where extract(isodow from d) < 6        -- solo de lunes a viernes
+    order by d
+    limit 7
+)
+insert into bloque_horario (fecha, hora_inicio, hora_fin, cupos)
+select fecha, h::time, (h + interval '30 minutes')::time, 2
+from dias,
+     generate_series(timestamp '2000-01-01 09:00', timestamp '2000-01-01 12:30', interval '30 minutes') as h
+order by fecha, h;
 
 -- ---------------------------------------------------------------------
 -- para saber detalles para el .env si es necesario

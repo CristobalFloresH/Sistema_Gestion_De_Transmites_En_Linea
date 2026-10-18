@@ -28,7 +28,7 @@
       "parentId": "wrk_tramites",
       "name": "02 Filtrar por fecha",
       "method": "GET",
-      "url": "http://localhost:3000/api/bloques_horarios?fecha=2026-10-19",
+      "url": "http://localhost:3000/api/bloques_horarios?fecha={% now 'custom', 'YYYY-MM-DD' %}",
       "metaSortKey": 2,
       "body": {},
       "headers": []
@@ -76,7 +76,7 @@
       "metaSortKey": 6,
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"fecha\": \"2026-10-21\",\n  \"hora_inicio\": \"10:00\",\n  \"hora_fin\": \"10:30\",\n  \"cupos\": 3\n}"
+        "text": "{\n  \"fecha\": \"2026-10-21\",\n  \"hora_inicio\": \"15:00\",\n  \"hora_fin\": \"15:30\",\n  \"cupos\": 3\n}"
       },
       "headers": [
         {
@@ -95,7 +95,7 @@
       "metaSortKey": 7,
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"fecha\": \"2026-10-21\",\n  \"hora_inicio\": \"10:00\",\n  \"hora_fin\": \"10:30\",\n  \"cupos\": 3\n}"
+        "text": "{\n  \"fecha\": \"2026-10-21\",\n  \"hora_inicio\": \"15:00\",\n  \"hora_fin\": \"15:30\",\n  \"cupos\": 3\n}"
       },
       "headers": [
         {

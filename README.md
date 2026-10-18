@@ -44,23 +44,23 @@ Integrantes y contribuciones
 
 | Requerimientos EP1| Endpoints |
 |---|---|
-| RF-1 : Selección de bloque horario |   |
-| RF-2 : Registro de reserva de cita |   |
-| RF-3 : Envío de comprobante de la cita |   |
-| RF-4 : Carga de documentación |   |
-| RF-5 : Visualización de documentos adjuntos por el funcionario |   |
-| RF-6 : Validación de veracidad documental |   |
-| RF-7 : Visualización de la línea de tiempo del trámite |   |
-| RF-8 : Redirección por roles de usuario |   |
-| RF-9 : Notificación de licencia lista |   |
-| RF-10 : Despliegue de agenda diaria |   |
+| RF-1 : Selección de bloque horario | GET /api/bloques_horario?fecha=  |
+| RF-2 : Registro de reserva de cita | POST /api/citas  |
+| RF-3 : Envío de comprobante de la cita |  |
+| RF-4 : Carga de documentación | POST /api/document |
+| RF-5 : Visualización de documentos adjuntos por el funcionario | GET /api/documentos, PATCH /api/documentos/:id |
+| RF-6 : Validación de veracidad documental | GET /api/documentos, PATCH /api/documentos/:id |
+| RF-7 : Visualización de la línea de tiempo del trámite | GET /api/tramites/:id |
+| RF-8 : Redirección por roles de usuario | POST /api/auth/login |
+| RF-9 : Notificación de licencia lista |  |
+| RF-10 : Despliegue de agenda diaria | GET /api/citas?fechas=, GET /api/tramites?rut_ciudadano= |
 | RF-11 : Envío recordatorio de cita |   |
-| RF-12 : Cancelación de cita |   |
-| RF-13 : Búsqueda de tramites personal |   |
+| RF-12 : Cancelación de cita | PATCH /api/citas/:id |
+| RF-13 : Búsqueda de tramites personal | GET /api/citas?fechas=, GET /api/tramites?rut_ciudadano= |
 | RF-14 : Historial de trámites |   |
-| RF-15 : Emision de comprobante |   |
-| RF-16 : Configuración de bloques horarios |   |
-| RF-17 : Gestión de cuentas de funcionarios |   |
+| RF-15 : Emision de comprobante |  |
+| RF-16 : Configuración de bloques horarios | POST/PUT/PATCH/DELETE /api/bloques_horarios |
+| RF-17 : Gestión de cuentas de funcionarios | GET/PUT/PATCH/DELETE api/usuarios |
 
 # 3. Tecnologias
 | Capa | Tecnologia identificada |

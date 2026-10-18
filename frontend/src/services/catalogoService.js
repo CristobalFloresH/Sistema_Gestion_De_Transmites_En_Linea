@@ -11,3 +11,9 @@ export async function listarMetodosNotificacion() {
   const respuesta = await api.get('/metodos_notificacion');
   return respuesta.data.datos;
 }
+
+// Estados por los que pasa un tramite, en orden
+export async function listarEstadosTramite() {
+  const respuesta = await api.get('/estados_tramite');
+  return respuesta.data.datos;
+}

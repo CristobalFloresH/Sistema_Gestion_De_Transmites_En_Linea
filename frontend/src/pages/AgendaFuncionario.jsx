@@ -1,30 +1,61 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonSearchbar, IonSelect, IonSelectOption } from '@ionic/react';
+import { IonPage, IonContent, IonSearchbar, IonSelect, IonSelectOption, IonSpinner, useIonViewWillEnter } from '@ionic/react';
 import NavBar from '../components/NavBar';
+import { listarTramites } from '../services/tramiteService';
+import { listarCitasVigentes } from '../services/citaService';
+import { listarTiposTramite, listarEstadosTramite } from '../services/catalogoService';
+import { formatear } from '../utils/fechas';
 import './AgendaFuncionario.css';
 
-const CITAS = [
-  { hora: '09:00', rut: '12.124.876-K', nombre: 'Juan Lopez', tramite: 'Licencia Nueva', estado: 'Pendiente', estadoClass: 'pendiente' },
-  { hora: '10:00', rut: '12.234.345-8', nombre: 'Emilia Bravo', tramite: 'Renovacion', estado: 'Aprobado', estadoClass: 'aprobado' },
-  { hora: '11:00', rut: '20.276.215-K', nombre: 'Pedro Roca', tramite: 'Renovacion', estado: 'Rechazado', estadoClass: 'rechazado' },
-  { hora: '12:00', rut: '18.391.310-8', nombre: 'Mateo Dimter', tramite: 'Licencia Nueva', estado: 'Aprobado', estadoClass: 'aprobado' },
-  { hora: '12:00', rut: '12.234.345-7', nombre: 'Martin Fierro', tramite: 'Licencia Nueva', estado: 'Pendiente', estadoClass: 'pendiente' },
-  { hora: '13:00', rut: '21.233.983-8', nombre: 'Alejandro Garces', tramite: 'Reimpresion', estado: 'Rechazado', estadoClass: 'rechazado' },
-  { hora: '13:00', rut: '19.231.376-K', nombre: 'Amelia Gaete', tramite: 'Reimpresion', estado: 'Pendiente', estadoClass: 'pendiente' },
-  { hora: '15:00', rut: '21.270.345-7', nombre: 'Sofia Rojas', tramite: 'Renovacion', estado: 'Aprobado', estadoClass: 'aprobado' },
-  { hora: '15:00', rut: '12.250.125-8', nombre: 'Rodolfo Silva', tramite: 'Licencia Nueva', estado: 'Rechazado', estadoClass: 'rechazado' },
-];
+// Ids del catalogo estado_tramite (licencias.sql)
+const ID_CITA_RESERVADA = 1;
+const ID_RECHAZADO = 7;
+
+// Color del estado: pendiente si aun no se atiende, rojo si se rechazo, verde si ya avanzo
+function claseEstado(idEstado) {
+  if (idEstado === ID_RECHAZADO) return 'rechazado';
+  if (idEstado === ID_CITA_RESERVADA) return 'pendiente';
+  return 'aprobado';
+}
 
 export default function AgendaFuncionario() {
   const [filtroEstado, setFiltroEstado] = useState('');
   const [filtroTramite, setFiltroTramite] = useState('');
   const [busqueda, setBusqueda] = useState('');
 
-  const citasFiltradas = CITAS.filter(c => {
-    if (filtroEstado && c.estado !== filtroEstado) return false;
-    if (filtroTramite && c.tramite !== filtroTramite) return false;
-    if (busqueda && !c.nombre.toLowerCase().includes(busqueda.toLowerCase()) && !c.rut.includes(busqueda)) return false;
+  const [citas, setCitas] = useState([]);
+  const [tramites, setTramites] = useState([]);
+  const [tipos, setTipos] = useState([]);
+  const [estados, setEstados] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState('');
+
+  // Ionic deja la pagina montada: se recargan los datos cada vez que se entra
+  useIonViewWillEnter(() => {
+    setCargando(true);
+    setError('');
+    Promise.all([listarCitasVigentes(), listarTramites(), listarTiposTramite(), listarEstadosTramite()])
+      .then(([datosCitas, datosTramites, datosTipos, datosEstados]) => {
+        setCitas(datosCitas);
+        setTramites(datosTramites);
+        setTipos(datosTipos);
+        setEstados(datosEstados);
+      })
+      .catch((e) => setError(e.mensaje))
+      .finally(() => setCargando(false));
+  });
+
+  // Cada cita junto con su tramite (de ahi salen el nombre, el tipo y el estado)
+  const filas = citas
+    .map((cita) => ({ cita, tramite: tramites.find((t) => t.id_tramite === cita.id_tramite) }))
+    .filter(({ tramite }) => tramite);
+
+  const citasFiltradas = filas.filter(({ tramite }) => {
+    if (filtroEstado && String(tramite.id_estado_tramite) !== filtroEstado) return false;
+    if (filtroTramite && String(tramite.id_tipo_tramite) !== filtroTramite) return false;
+    if (busqueda && !tramite.nombre_ciudadano.toLowerCase().includes(busqueda.toLowerCase())
+      && !tramite.rut_ciudadano.includes(busqueda)) return false;
     return true;
   });
 
@@ -50,9 +81,11 @@ export default function AgendaFuncionario() {
                 onIonChange={(e) => setFiltroEstado(e.detail.value)}
               >
                 <IonSelectOption value="">Todos los estados</IonSelectOption>
-                <IonSelectOption value="Pendiente">Pendiente</IonSelectOption>
-                <IonSelectOption value="Aprobado">Aprobado</IonSelectOption>
-                <IonSelectOption value="Rechazado">Rechazado</IonSelectOption>
+                {estados.map((e) => (
+                  <IonSelectOption key={e.id_estado_tramite} value={String(e.id_estado_tramite)}>
+                    {e.nombre_estado_tramite}
+                  </IonSelectOption>
+                ))}
               </IonSelect>
               <IonSelect
                 className="filter-select"
@@ -62,26 +95,37 @@ export default function AgendaFuncionario() {
                 onIonChange={(e) => setFiltroTramite(e.detail.value)}
               >
                 <IonSelectOption value="">Todos los tramites</IonSelectOption>
-                <IonSelectOption value="Licencia Nueva">Licencia Nueva</IonSelectOption>
-                <IonSelectOption value="Renovacion">Renovacion</IonSelectOption>
-                <IonSelectOption value="Reimpresion">Reimpresion</IonSelectOption>
+                {tipos.map((t) => (
+                  <IonSelectOption key={t.id_tipo_tramite} value={String(t.id_tipo_tramite)}>
+                    {t.nombre_tipo_tramite}
+                  </IonSelectOption>
+                ))}
               </IonSelect>
             </div>
+            {cargando && <IonSpinner name="crescent" />}
+            {!cargando && error && <p>{error}</p>}
+            {!cargando && !error && citasFiltradas.length === 0 && <p>No hay citas</p>}
             <table className="agenda-table">
               <thead>
-                <tr><th>Hora</th><th>RUT</th><th>Nombre</th><th>Tramite</th><th>Estado</th><th>Acciones</th></tr>
+                <tr><th>Fecha y hora</th><th>RUT</th><th>Nombre</th><th>Tramite</th><th>Estado</th><th>Acciones</th></tr>
               </thead>
               <tbody>
-                {citasFiltradas.map((c, i) => (
-                  <tr key={i}>
-                    <td className="td-hora">{c.hora}</td>
-                    <td>{c.rut}</td>
-                    <td>{c.nombre}</td>
-                    <td>{c.tramite}</td>
-                    <td><span className={`estado-label ${c.estadoClass}`}>{c.estado}</span></td>
+                {!cargando && citasFiltradas.map(({ cita, tramite }) => (
+                  <tr key={cita.id_cita}>
+                    <td className="td-hora">
+                      {formatear(cita.fecha, { day: 'numeric', month: 'short' })} {cita.hora_inicio.slice(0, 5)}
+                    </td>
+                    <td>{tramite.rut_ciudadano}</td>
+                    <td>{tramite.nombre_ciudadano}</td>
+                    <td>{tramite.nombre_tipo_tramite}</td>
+                    <td>
+                      <span className={`estado-label ${claseEstado(tramite.id_estado_tramite)}`}>
+                        {tramite.nombre_estado_tramite}
+                      </span>
+                    </td>
                     <td>
                       <Link
-                        to={c.estado === 'Rechazado' ? '/funcionario/agenda/error' : '/funcionario/agenda/proceso'}
+                        to={tramite.id_estado_tramite === ID_RECHAZADO ? '/funcionario/agenda/error' : '/funcionario/agenda/proceso'}
                         className="link-action"
                       >
                         Ver proceso del tramite

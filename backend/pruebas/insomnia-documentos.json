@@ -8,8 +8,27 @@
       "_type": "workspace",
       "parentId": null,
       "name": "Trámites - Documentos",
-      "description": "Los id suponen la base recién cargada con licencias.sql y que antes se ejecutaron las colecciones de trámites y citas (quedan los trámites 1, 4 y 5). Si la base tiene otros datos, ajusta los números.",
+      "description": "Los id suponen la base recién cargada con licencias.sql y que antes se ejecutaron las colecciones de trámites y citas (quedan los trámites 1, 4 y 5). Si la base tiene otros datos, ajusta los números. La petición 00 inicia sesión como funcionario; las demás toman el token de su respuesta (Auth → Bearer Token) y, si aún no se ha ejecutado, Insomnia la ejecuta sola.",
       "scope": "collection"
+    },
+    {
+      "_id": "req_documentos_00_login",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "00 Login funcionario (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 0,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"12345678-5\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
     },
     {
       "_id": "req_documento_01",
@@ -20,7 +39,11 @@
       "url": "http://localhost:3000/api/documentos",
       "metaSortKey": 1,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_02",
@@ -39,7 +62,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_03",
@@ -58,7 +85,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_04",
@@ -77,7 +108,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_05",
@@ -96,7 +131,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_06",
@@ -115,7 +154,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_07",
@@ -126,7 +169,11 @@
       "url": "http://localhost:3000/api/documentos?id_tramite=1",
       "metaSortKey": 7,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_08",
@@ -137,7 +184,11 @@
       "url": "http://localhost:3000/api/documentos/1",
       "metaSortKey": 8,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_09",
@@ -148,7 +199,11 @@
       "url": "http://localhost:3000/api/documentos/999",
       "metaSortKey": 9,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_10",
@@ -167,7 +222,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_11",
@@ -186,7 +245,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_12",
@@ -205,7 +268,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_13",
@@ -224,7 +291,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_14",
@@ -243,7 +314,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_15",
@@ -262,7 +337,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_16",
@@ -281,7 +360,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_17",
@@ -292,7 +375,11 @@
       "url": "http://localhost:3000/api/documentos/1",
       "metaSortKey": 17,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_18",
@@ -303,7 +390,11 @@
       "url": "http://localhost:3000/api/documentos/2",
       "metaSortKey": 18,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_documento_19",
@@ -314,7 +405,11 @@
       "url": "http://localhost:3000/api/documentos/2",
       "metaSortKey": 19,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     }
   ]
 }

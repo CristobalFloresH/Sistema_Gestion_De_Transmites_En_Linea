@@ -8,8 +8,27 @@
       "_type": "workspace",
       "parentId": null,
       "name": "Trámites - Trámites",
-      "description": "Los id suponen la base recién cargada con licencias.sql y las peticiones ejecutadas en orden. Ejecutar esta colección antes que la de citas.",
+      "description": "Los id suponen la base recién cargada con licencias.sql y las peticiones ejecutadas en orden. Ejecutar esta colección antes que la de citas. La petición 00 inicia sesión como funcionario; las demás toman el token de su respuesta (Auth → Bearer Token) y, si aún no se ha ejecutado, Insomnia la ejecuta sola.",
       "scope": "collection"
+    },
+    {
+      "_id": "req_tramites_00_login",
+      "_type": "request",
+      "parentId": "wrk_tramites_tramites",
+      "name": "00 Login funcionario (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 0,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"12345678-5\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
     },
     {
       "_id": "req_tramite_01",
@@ -20,7 +39,11 @@
       "url": "http://localhost:3000/api/tramites",
       "metaSortKey": 1,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_02",
@@ -39,7 +62,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_03",
@@ -58,7 +85,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_04",
@@ -69,7 +100,11 @@
       "url": "http://localhost:3000/api/tramites?rut_ciudadano=20123456-5",
       "metaSortKey": 4,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_05",
@@ -80,7 +115,11 @@
       "url": "http://localhost:3000/api/tramites?id_estado_tramite=abc",
       "metaSortKey": 5,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_06",
@@ -91,7 +130,11 @@
       "url": "http://localhost:3000/api/tramites/1",
       "metaSortKey": 6,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_07",
@@ -102,7 +145,11 @@
       "url": "http://localhost:3000/api/tramites/999",
       "metaSortKey": 7,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_08",
@@ -121,7 +168,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_09",
@@ -140,7 +191,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_10",
@@ -159,7 +214,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_11",
@@ -178,7 +237,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_12",
@@ -197,7 +260,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_13",
@@ -216,7 +283,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_14",
@@ -235,7 +306,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_15",
@@ -246,7 +321,11 @@
       "url": "http://localhost:3000/api/tramites/2",
       "metaSortKey": 15,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_tramite_16",
@@ -257,7 +336,11 @@
       "url": "http://localhost:3000/api/tramites/2",
       "metaSortKey": 16,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_tramites_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     }
   ]
 }

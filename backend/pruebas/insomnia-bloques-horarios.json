@@ -8,8 +8,27 @@
       "_type": "workspace",
       "parentId": null,
       "name": "Trámites - Bloques horarios",
-      "description": "",
+      "description": " La petición 00 inicia sesión como funcionario; las demás toman el token de su respuesta (Auth → Bearer Token) y, si aún no se ha ejecutado, Insomnia la ejecuta sola.",
       "scope": "collection"
+    },
+    {
+      "_id": "req_bloques_horarios_00_login",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "00 Login funcionario (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 0,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"12345678-5\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
     },
     {
       "_id": "req_01",
@@ -20,7 +39,11 @@
       "url": "http://localhost:3000/api/bloques_horarios",
       "metaSortKey": 1,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_02",
@@ -31,7 +54,11 @@
       "url": "http://localhost:3000/api/bloques_horarios?fecha={% now 'custom', 'YYYY-MM-DD' %}",
       "metaSortKey": 2,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_03",
@@ -42,7 +69,11 @@
       "url": "http://localhost:3000/api/bloques_horarios?fecha=2026-02-30",
       "metaSortKey": 3,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_04",
@@ -53,7 +84,11 @@
       "url": "http://localhost:3000/api/bloques_horarios/1",
       "metaSortKey": 4,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_05",
@@ -64,7 +99,11 @@
       "url": "http://localhost:3000/api/bloques_horarios/999",
       "metaSortKey": 5,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_06",
@@ -83,7 +122,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_07",
@@ -102,7 +145,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_08",
@@ -121,7 +168,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_09",
@@ -140,7 +191,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_10",
@@ -159,7 +214,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_11",
@@ -178,7 +237,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_12",
@@ -189,7 +252,11 @@
       "url": "http://localhost:3000/api/bloques_horarios/4",
       "metaSortKey": 12,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_13",
@@ -200,7 +267,11 @@
       "url": "http://localhost:3000/api/bloques_horarios/4",
       "metaSortKey": 13,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     }
   ]
 }

@@ -8,8 +8,27 @@
       "_type": "workspace",
       "parentId": null,
       "name": "Trámites - Usuarios",
-      "description": "Usa los usuarios de prueba de licencias.sql. Ejecutar después de las colecciones de trámites y documentos. La petición 15 elimina al administrador de prueba (11111111-1); para recuperarlo hay que volver a cargar licencias.sql. Los usuarios nuevos se crean con el registro, por eso aquí no hay POST.",
+      "description": "Usa los usuarios de prueba de licencias.sql. Ejecutar después de las colecciones de trámites y documentos. La petición 15 elimina al administrador de prueba (11111111-1); para recuperarlo hay que volver a cargar licencias.sql. Los usuarios nuevos se crean con el registro, por eso aquí no hay POST. La petición 00 inicia sesión como administrador; las demás toman el token de su respuesta (Auth → Bearer Token) y, si aún no se ha ejecutado, Insomnia la ejecuta sola.",
       "scope": "collection"
+    },
+    {
+      "_id": "req_usuarios_00_login",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "00 Login administrador (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 0,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"11111111-1\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
     },
     {
       "_id": "req_usuario_01",
@@ -20,7 +39,11 @@
       "url": "http://localhost:3000/api/usuarios",
       "metaSortKey": 1,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_02",
@@ -31,7 +54,11 @@
       "url": "http://localhost:3000/api/usuarios?id_rol=2&activo=true",
       "metaSortKey": 2,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_03",
@@ -42,7 +69,11 @@
       "url": "http://localhost:3000/api/usuarios?activo=si",
       "metaSortKey": 3,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_04",
@@ -53,7 +84,11 @@
       "url": "http://localhost:3000/api/usuarios/20123456-5",
       "metaSortKey": 4,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_05",
@@ -64,7 +99,11 @@
       "url": "http://localhost:3000/api/usuarios/20.123.456-5",
       "metaSortKey": 5,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_06",
@@ -75,7 +114,11 @@
       "url": "http://localhost:3000/api/usuarios/99999999-9",
       "metaSortKey": 6,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_07",
@@ -94,7 +137,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_08",
@@ -113,7 +160,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_09",
@@ -132,7 +183,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_10",
@@ -151,7 +206,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_11",
@@ -170,7 +229,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_12",
@@ -189,7 +252,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_13",
@@ -208,7 +275,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_14",
@@ -219,7 +290,11 @@
       "url": "http://localhost:3000/api/usuarios/20123456-5",
       "metaSortKey": 14,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_15",
@@ -230,7 +305,11 @@
       "url": "http://localhost:3000/api/usuarios/11111111-1",
       "metaSortKey": 15,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_usuario_16",
@@ -241,7 +320,11 @@
       "url": "http://localhost:3000/api/usuarios/11111111-1",
       "metaSortKey": 16,
       "body": {},
-      "headers": []
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     }
   ]
 }

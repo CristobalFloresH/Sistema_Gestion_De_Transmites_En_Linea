@@ -78,18 +78,18 @@ Integrantes y contribuciones
 ```
 backend
 ├── base de datos 
-│   └── licencias.sql     # Esquema, catalogos y usuarios de prueba
+│   └── licencias.sql     
 ├── package-lock.json
 ├── package.json
-├── pruebas               # Coleccion de pruebas Insomnia
+├── pruebas               
 └── src
-    ├── app.js            #
-    ├── config            #
-    ├── controllers       #
-    ├── middlewares       #
-    ├── routes            #
-    ├── services          #
-    └── utils             #
+    ├── app.js            
+    ├── config           
+    ├── controllers       
+    ├── middlewares       
+    ├── routes            
+    ├── services          
+    └── utils             
 ```
 
 

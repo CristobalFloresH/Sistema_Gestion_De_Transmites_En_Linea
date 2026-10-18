@@ -6,10 +6,10 @@ Específicamente se trabajaron los temas relacionas con la autenticación de los
 
 | Funcion | Ubicacion |Estado en el ejemplo | 
 |---|---|---|
-| Diego Cortez | Frontend (UI/UX y Figma) / Wireframes PC | |
-| Rafael Valdes | Frontend (UI/UX y Figma) / Wireframes móvil | |
-| Mauricio Morales | Documentación | |
-| Cristobal Flores | Frontend / Ionic + React | |
+|  |  | |
+|  |  | |
+|  |  | |
+|  |  | |
 
 # 2. Equipo, repositorio y trazabilidad
 

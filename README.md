@@ -70,6 +70,8 @@ Integrantes y contribuciones
 | Autenticacion | jsonwebtoken |
 | Seguridad |  |
 | Pruebas | Insomnia |
+| Frontend | Ionic + React |
+| Frontend/Backend | Axios |
 
 
 # 4. Arquitectura y carpetas reales

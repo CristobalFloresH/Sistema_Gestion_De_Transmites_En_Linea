@@ -65,13 +65,13 @@ Integrantes y contribuciones
 # 3. Tecnologias
 | Capa | Tecnologia identificada |
 |---|---|
-| Servidor | Nose.js + Express 5 |
+| Servidor | Node.js + Express 5 |
 | Base de datos | PostgreSQL |
-| Autenticacion | jsonwebtoken |
-| Seguridad |  |
+| Autenticacion | `jsonwebtoken` 9 (JWT firmado con HS256) |
+| Seguridad | `bcrypt` (hash de contraseñas), `helmet` (cabeceras HTTP), `cors` (solo acepta el origen del frontend) y `dotenv` (secretos en `.env`) |
 | Pruebas | Insomnia |
-| Frontend | Ionic + React |
-| Frontend/Backend | Axios |
+| Frontend | Ionic 9 + React 19 + React Router 6, con Vite 8 |
+| Frontend/Backend | Axios 1 (HTTP + JSON, con token Bearer) |
 
 
 # 4. Arquitectura y carpetas reales

@@ -218,13 +218,14 @@ https://ibb.co/CLQbtvh
 # 11. Matriz de cumplimiento EP2
 | Criterio | Evidencia exigida | Estado |
 |---|---|---|
-| EP 2.1 Servidor backend funcional |   |  Implementado |
-| EP 2.2 Base de datos relacional y archivo .sql. |   | Implementado |
-| EP 2.3 API REST y endpoints CRUD |   | Implementado |
-| EP 2.4 Autenticaci´on con JWT y roles |   | Implementado |
-| EP 2.5 Seguridad y validaci´on de usuarios. |   | Implementado |
-| EP 2.6 Integraci´on entre Ionic con React y el backend. |   | Implementado |
-| EP 2.7 Pruebas funcionales y documentaci´on de endpoints |   | Implementado |
+| EP 2.1 Servidor backend funcional | scr/app.js |  Implementado |
+| EP 2.2 Base de datos relacional y archivo .sql. | licencias.sql, config/db.js | Implementado |
+| EP 2.3 API REST y endpoints CRUD | GET, POST, PUT, PATCH y DELETE  | Implementado |
+| EP 2.4 Autenticación con JWT y roles | utils/jwt.js, authController, authMiddleware | Implementado |
+| EP 2.5 Seguridad y validación de usuarios. | bcrypt, consultar parametrizadas | Implementado |
+| EP 2.6 Integración entre Ionic con React y el backend. | frontend-EP2, login, registrio y calendario con Axios | Implementado |
+| EP 2.7 Pruebas funcionales y documentaci´on de endpoints | pruebas/ | Implementado |
+| Documentación | README y las ramas de backend-EP2 y frontend-EP2| Implementado |
 
 # 12. Listas de verificacion antes de entrega
 

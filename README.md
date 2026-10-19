@@ -429,7 +429,7 @@ Todas las vistas comparten la barra de navegación superior (`NavBar`), que mues
 | `/tramite-licencia`, `/calendario`, `/tramite-finalizado`, `/mis-tramites` | Ciudadano o Funcionario | `ProtectedRoute` verifica que exista sesión; si no, redirige a `/login` |
 | `/funcionario/*` | Solo Funcionario | `ProtectedRoute` con `rol="funcionario"`; sin sesión redirige a `/login` y con otro rol redirige a `/` |
 
-La sesión se obtiene desde `services/authService.js`. En esta entrega es simulada (guarda solo el rol), en la Entrega 2 se reemplaza por autenticación con JWT sin modificar las vistas.
+La sesión se maneja en `services/authService.js` y `services/sesion.js`: el login guarda el token JWT y los datos del usuario, y `ProtectedRoute` revisa la sesión y el rol antes de mostrar cada ruta. El detalle está en la sección 8 del [README de `backend-EP2`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/backend-EP2).
 
 
 ### Flujo de tareas principales (task flows)
@@ -461,7 +461,7 @@ La sesión se obtiene desde `services/authService.js`. En esta entrega es simula
 
 - **Ionic React + React Router 6:** `IonReactRouter` e `IonRouterOutlet` entregan navegación tipo aplicación (transiciones, historial y botón "atrás") mientras React Router maneja el enrutamiento declarativo. Se usa la versión 6 porque es la compatible con Ionic 9.
 - **Rutas agrupadas por rol:** las vistas del funcionario comparten el prefijo `/funcionario`, lo que hace clara la estructura y permite aplicar la protección de rol de forma uniforme con `ProtectedRoute`.
-- **Estructura modular (pages/components/routes/services):** separa vistas, componentes reutilizables (`NavBar`, `ProgressBar`), protección de rutas y lógica de sesión, lo que facilita escalar el proyecto en la próxima entrega: la capa de `services` puede reemplazar la sesión simulada por llamadas reales a la API sin tocar las vistas.
+- **Estructura modular (pages/components/routes/services):** separa vistas, componentes reutilizables (`NavBar`, `ProgressBar`), protección de rutas y lógica de sesión, lo que permitió reemplazar la sesión simulada por llamadas reales a la API sin tocar las vistas.
 
 ## Figma
 

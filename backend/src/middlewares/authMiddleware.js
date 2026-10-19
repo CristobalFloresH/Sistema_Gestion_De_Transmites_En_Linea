@@ -1,6 +1,8 @@
 import { verificarJwt } from "../utils/jwt.js";
-import { responderError, leerIdDeLaUrl } from "../utils/apoyoControladores.js";
+import { responderError, leerIdDeLaUrl, leerIdDeLaConsulta, esIdValido } from "../utils/apoyoControladores.js";
 import { buscarCitaPorId } from "../services/citaService.js";
+import { buscarTramitePorId } from "../services/tramiteService.js";
+import { buscarDocumentoPorId } from "../services/documentoService.js";
 
 //Verifica que el usuario haya iniciado sesion y tenga un token valido
 export function verificarToken(req, res, next) {
@@ -71,7 +73,48 @@ export async function ciudadanoSoloSusCitas(req, res, next) {
 
   const cita = await buscarCitaPorId(idCita);
   if (cita && cita.rut_ciudadano !== req.usuario.rut) {
-    return responderError(res, 403, "Solo puedes modificar tus propias citas.");
+    return responderError(res, 403, "Solo puedes ver o modificar tus propias citas.");
   }
   next();
+}
+
+//Arma un middleware que evita que un ciudadano vea o cambie datos de un tramite ajeno.
+//obtenerIdTramite dice de donde sale el id del tramite en cada ruta (el personal no tiene esta restriccion)
+function ciudadanoSoloSusTramites(obtenerIdTramite) {
+  return async (req, res, next) => {
+    if (req.usuario?.rol !== "ciudadano") return next();
+
+    const idTramite = await obtenerIdTramite(req);
+    //Si el id no es valido o el dato no existe, el controlador responde 400 o 404
+    if (!esIdValido(idTramite)) return next();
+
+    const tramite = await buscarTramitePorId(idTramite);
+    if (tramite && tramite.rut_ciudadano !== req.usuario.rut) {
+      return responderError(res, 403, "Solo puedes acceder a tus propios trámites.");
+    }
+    next();
+  };
+}
+
+//El id del tramite viene en la URL: /tramites/:id
+export const ciudadanoSoloSuTramite = ciudadanoSoloSusTramites((req) => leerIdDeLaUrl(req));
+
+//El id del tramite viene en el cuerpo: crear una cita o un documento
+export const ciudadanoSoloSuTramiteEnElCuerpo = ciudadanoSoloSusTramites((req) => req.body?.id_tramite);
+
+//El id del tramite sale del documento: /documentos/:id
+export const ciudadanoSoloSusDocumentos = ciudadanoSoloSusTramites(async (req) => {
+  const idDocumento = leerIdDeLaUrl(req);
+  const documento = idDocumento ? await buscarDocumentoPorId(idDocumento) : undefined;
+  return documento?.id_tramite;
+});
+
+//Un ciudadano solo puede listar los documentos de uno de sus tramites (?id_tramite=)
+const ciudadanoSoloSuTramiteEnLaConsulta = ciudadanoSoloSusTramites((req) => leerIdDeLaConsulta(req.query.id_tramite));
+
+export function ciudadanoSoloDocumentosDeSusTramites(req, res, next) {
+  if (req.usuario?.rol === "ciudadano" && leerIdDeLaConsulta(req.query.id_tramite) === null) {
+    return responderError(res, 403, "Indica uno de tus trámites con ?id_tramite= para ver sus documentos.");
+  }
+  return ciudadanoSoloSuTramiteEnLaConsulta(req, res, next);
 }

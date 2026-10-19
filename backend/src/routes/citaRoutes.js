@@ -5,15 +5,16 @@ import {
   autorizarRoles,
   limitarListadoAlCiudadano,
   ciudadanoSoloSusCitas,
+  ciudadanoSoloSuTramiteEnElCuerpo,
 } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 //Exige token valido para las acciones de las citas
 router.use(verificarToken);
 router.get("/", limitarListadoAlCiudadano, citaController.listarCitas);
-//Cualquier usuario logueado puede ver una cita específica, crearla o editarla.
-router.get("/:id", citaController.obtenerCita);
-router.post("/", citaController.crearCita);
+//Un ciudadano solo puede ver sus citas y reservar en sus propios trámites
+router.get("/:id", ciudadanoSoloSusCitas, citaController.obtenerCita);
+router.post("/", ciudadanoSoloSuTramiteEnElCuerpo, citaController.crearCita);
 //Un ciudadano solo puede editar (cancelar o reagendar) sus propias citas
 router.put("/:id", ciudadanoSoloSusCitas, citaController.reemplazarCita);
 router.patch("/:id", ciudadanoSoloSusCitas, citaController.actualizarCita);

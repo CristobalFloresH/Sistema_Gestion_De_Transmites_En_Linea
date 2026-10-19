@@ -9,7 +9,7 @@
       "parentId": null,
       "name": "Trámites - Autenticación y roles",
       "scope": "collection",
-      "description": "Pruebas de registro, login, token y permisos por rol. Ejecutar en orden y después de las demás colecciones (la 22 usa la cita 1 creada en la colección de citas). Las peticiones con token lo toman de la respuesta del login indicado (Auth → Bearer Token)."
+      "description": "Pruebas de registro, login, token y permisos por rol. Ejecutar en orden y después de las demás colecciones (la 22 y de la 25 a la 30 usan el trámite 1, la cita 1 y el documento 1, creados en las colecciones de trámites, citas y documentos). Las peticiones con token lo toman de la respuesta del login indicado (Auth → Bearer Token)."
     },
     {
       "_id": "req_auth_00_login_ciudadano",
@@ -464,6 +464,112 @@
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_auth_23_login_funcionario', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_25",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "25 Error: ciudadano ve el trámite de otro (403)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 25,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_26",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "26 Error: ciudadano ve la cita de otro (403)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/citas/1",
+      "metaSortKey": 26,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_27",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "27 Error: ciudadano lista los documentos del trámite de otro (403)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/documentos?id_tramite=1",
+      "metaSortKey": 27,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_28",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "28 Error: ciudadano sube un documento al trámite de otro (403)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 28,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 2,\n  \"nombre_archivo\": \"ajeno.pdf\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_29",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "29 Error: ciudadano reserva una cita en el trámite de otro (403)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/citas",
+      "metaSortKey": 29,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_tramite\": 1,\n  \"id_bloque_horario\": 3,\n  \"id_metodo_notificacion\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_30",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "30 Error: ciudadano elimina un documento de otro (403)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/documentos/1",
+      "metaSortKey": 30,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
       }
     }
   ]

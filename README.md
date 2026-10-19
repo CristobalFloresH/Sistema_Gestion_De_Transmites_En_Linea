@@ -37,10 +37,10 @@ Integrantes y contribuciones
 
 | Integrantes | Responsabilidad | Commits | Detalles |
 |---|---|---|---|
-| Rafael Valdes | EP 2.3 API REST y endpoints CRUD. | 13 | Pocos commits, pero grandes: el CRUD de todos los recursos y las colecciones de Insomnia |
+| Rafael Valdes | EP 2.3 API REST y endpoints CRUD. | 22 | Pocos commits, pero grandes: el CRUD de todos los recursos y las colecciones de Insomnia |
 | Diego Cortez | EP 2.4 Autenticación con JWT y roles. | 50 | La mayoría son ediciones del README desde GitHub. El login, el JWT y los roles están en pocos commits de código |
 | Mauricio Morales | EP 2.5 Seguridad y validación de usuarios. | 41 | La mayoría son del frontend de la EP1. La validación de contraseñas y la seguridad del backend están en 3 commits |
-| Cristóbal Flores | EP 2.6 Integración entre Ionic con React y el backend. | 83 | Un commit por cada paso: el servidor, la base de datos y cada pantalla conectada a la API |
+| Cristóbal Flores | EP 2.6 Integración entre Ionic con React y el backend. | 94 | Un commit por cada paso: el servidor, la base de datos y cada pantalla conectada a la API |
 
 La cantidad de commits no refleja por sí sola el trabajo de cada integrante: algunos suben cada avance por separado y otros agrupan un módulo completo en pocos commits. El conteo suma todas las ramas e incluye las ediciones hechas desde la web de GitHub.
 
@@ -200,19 +200,19 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 | POST | `/auth/login` | Iniciar sesión | No | Implementado, JWT de 2 h |
 | GET | `/tipos_tramite`, `/tipos_documento`, `/estados_tramite`, `/estados_documento`, `/metodos_notificacion`, `/roles` | Catálogos | No | Implementado, solo lectura |
 | GET | `/tramites` | Listar trámites | Sí (el ciudadano solo ve los suyos) | Implementado |
-| GET | `/tramites/:id` | Ver trámite con su historial | Sí | Implementado; no revisa que sea del ciudadano |
+| GET | `/tramites/:id` | Ver trámite con su historial | Sí (el ciudadano solo los suyos) | Implementado |
 | POST | `/tramites` | Crear trámite | Sí (el ciudadano solo a su nombre) | Implementado |
 | PUT / PATCH | `/tramites/:id` | Editar o cambiar estado | Personal | Implementado |
 | DELETE | `/tramites/:id` | Eliminar trámite sin citas ni documentos | Personal | Implementado |
 | GET | `/citas` | Listar citas | Sí (el ciudadano solo ve las suyas) | Implementado |
-| GET | `/citas/:id` | Ver cita | Sí | Implementado; no revisa que sea del ciudadano |
-| POST | `/citas` | Reservar cita | Sí | Implementado; no revisa que el trámite sea del ciudadano |
+| GET | `/citas/:id` | Ver cita | Sí (el ciudadano solo las suyas) | Implementado |
+| POST | `/citas` | Reservar cita | Sí (el ciudadano solo en sus trámites) | Implementado |
 | PUT / PATCH | `/citas/:id` | Reagendar o cancelar | Sí (el ciudadano solo las suyas) | Implementado |
 | DELETE | `/citas/:id` | Eliminar cita | Personal | Implementado |
-| GET | `/documentos`, `/documentos/:id` | Listar o ver documentos | Sí | Implementado; no filtra por ciudadano |
-| POST | `/documentos` | Registrar documento PDF | Sí | Implementado; no revisa que el trámite sea del ciudadano |
+| GET | `/documentos`, `/documentos/:id` | Listar o ver documentos | Sí (el ciudadano solo los de sus trámites) | Implementado |
+| POST | `/documentos` | Registrar documento PDF | Sí (el ciudadano solo en sus trámites) | Implementado |
 | PUT / PATCH | `/documentos/:id` | Aprobar o rechazar | Personal | Implementado |
-| DELETE | `/documentos/:id` | Eliminar documento pendiente | Sí | Implementado; no revisa dueño |
+| DELETE | `/documentos/:id` | Eliminar documento pendiente | Sí (el ciudadano solo los de sus trámites) | Implementado |
 | GET | `/bloques_horarios`, `/bloques_horarios/:id` | Ver horarios y cupos | Sí | Implementado |
 | POST, PUT, PATCH, DELETE | `/bloques_horarios`, `/bloques_horarios/:id` | Administrar horarios | Personal | Implementado |
 | GET | `/usuarios` | Listar usuarios | Personal | Implementado |
@@ -264,6 +264,18 @@ Responde `201` con la cita creada.
 **Respuestas de error comunes a todas las rutas protegidas:** `401` si falta el token, es inválido o expiró; `403` si el rol no tiene permiso; `400` si los datos no son válidos; `404` si el recurso no existe; `409` si hay conflicto con los datos guardados (por ejemplo, bloque sin cupos o cita vigente repetida).
 
 **Usuarios de prueba** (`licencias.sql`, contraseña `Clave123!`): ciudadano `20123456-5`, funcionario `12345678-5` y administrador `11111111-1`.
+### 6.4 Parámetros por recurso
+Los filtros van en la URL (`?campo=valor`) y los datos en el cuerpo JSON. `PUT` reemplaza el recurso con todos sus campos editables y `PATCH` cambia solo los que se envían.
+
+| Recurso | Filtros de `GET` | Cuerpo de `POST` | Campos editables (`PUT` / `PATCH`) |
+|---|---|---|---|
+| `/tramites` | `rut_ciudadano`, `id_tipo_tramite`, `id_estado_tramite` | `rut_ciudadano`, `id_tipo_tramite` | `id_tipo_tramite`, `id_estado_tramite` |
+| `/citas` | `fecha`, `rut_ciudadano`, `id_bloque_horario`, `vigente` | `id_tramite`, `id_bloque_horario`, `id_metodo_notificacion` | `id_bloque_horario`, `id_metodo_notificacion`, `vigente` |
+| `/documentos` | `id_tramite`, `id_estado_documento` | `id_tramite`, `id_tipo_documento`, `nombre_archivo` | `nombre_archivo`, `id_estado_documento`, `motivo_rechazo`, `rut_revisor` |
+| `/bloques_horarios` | `fecha`, `activo` | `fecha`, `hora_inicio`, `hora_fin`, `cupos`, `activo` (opcional) | `fecha`, `hora_inicio`, `hora_fin`, `cupos`, `activo` |
+| `/usuarios` | `id_rol`, `activo` | No tiene `POST` | `nombre`, `correo`, `telefono`, `activo`, `id_rol` |
+
+Los campos que no aparecen en la tabla se rechazan con `400`.
 
 # 7. Seguridad y JWT: estado y correcciones necesarias
 | Control EP2 | Estado en este proyecto | Evidencia | Mejora pendiente |
@@ -271,7 +283,7 @@ Responde `201` con la cita creada.
 | JWT con expiración | Sí. El token se firma con HS256 y dura 2 horas por defecto, configurable con `JWT_EXPIRES_IN`. | `utils/jwt.js` | Definir con el grupo si 2 h es adecuado |
 | Claims mínimos en el JWT | Sí. El token solo lleva `rut` y `rol`, sin contraseña ni datos personales. | `authController.js` | Ninguna |
 | Rutas protegidas en backend | Sí. Usuarios, trámites, citas, documentos y bloques horarios exigen token válido y responden 401 si falta o expiró. | `middlewares/authMiddleware.js`, archivos `*Routes.js` | Los catálogos son públicos a propósito (solo lectura) |
-| Roles diferenciados | Sí. Hay tres roles (ciudadano, funcionario, administrador) con los middlewares `autorizarRoles` y `autorizarPropioORoles`, que responden 403. El rol lo asigna siempre el servidor al registrar. | `authMiddleware.js`, `authService.js` | Faltan controles de dueño en el detalle de trámites y citas, y en los documentos |
+| Roles diferenciados | Sí. Hay tres roles (ciudadano, funcionario, administrador) con los middlewares `autorizarRoles` y `autorizarPropioORoles`, que responden 403. El rol lo asigna siempre el servidor al registrar. Un ciudadano solo puede ver o modificar sus propios trámites, citas y documentos. | `authMiddleware.js`, `authService.js` | Ninguna |
 | bcrypt | Sí. Las contraseñas de la base están guardadas como hash bcrypt (10 rondas), y el login las verifica con `bcrypt.compare`. `npm run hash` genera hashes del mismo tipo (ver [registro de usuarios](anexos/registro-de-usuarios.md)). | `utils/claves.js`, `authController.js` | Ninguna |
 | Secretos en variables de entorno | Sí. `JWT_SECRET` y las credenciales de PostgreSQL se leen desde `.env`. En el repositorio solo está `.env.ejemplo`. | `utils/jwt.js`, `config/db.js`, `.env.ejemplo` | Exigir un largo mínimo a `JWT_SECRET` |
 | Validación de entradas | Sí. Se validan RUT, nombre, correo, teléfono, id, fechas y largos máximos, y se rechazan campos desconocidos. En el login, la contraseña se verifica contra su hash con `bcrypt.compare`. La validación de contraseña segura (`validarClave`) se mantiene solo por la rúbrica (ver [registro de usuarios](anexos/registro-de-usuarios.md)). | `utils/apoyoControladores.js`, `utils/validacionClave.js` | Opcional: usar una librería de validación |
@@ -383,8 +395,9 @@ Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/S
 | P13 | Datos inválidos | 400 | `insomnia-bloques-horarios.json` #08, [captura](anexos/pruebas/bloques-horarios-resultados.png) |
 | P14 | Reservar en un bloque sin cupos | 409 | `insomnia-citas.json` #07, [captura](anexos/pruebas/caso-citas-07.png) |
 | P15 | Eliminar un documento ya revisado | 409 | `insomnia-documentos.json` #17, [captura](anexos/pruebas/caso-documentos-17.png) |
+| P16 | Ciudadano accede al trámite, la cita o los documentos de otro | 403 | `insomnia-auth.json` #25–#30 |
 
-Las colecciones tienen 123 peticiones en total, con casos de éxito y de error para cada recurso. Se ejecutaron todas el 18-10-2026 con la base recién cargada, y cada una respondió el código esperado que indica su nombre.
+Las colecciones tienen 129 peticiones en total, con casos de éxito y de error para cada recurso. Se ejecutaron todas el 18-10-2026 con la base recién cargada, y cada una respondió el código esperado que indica su nombre.
 
 Capturas de cada colección: [autenticación](anexos/pruebas/auth-resultados.png), [catálogos](anexos/pruebas/catalogos-resultados.png), [bloques horarios](anexos/pruebas/bloques-horarios-resultados.png), [trámites](anexos/pruebas/tramites-resultados.png), [documentos](anexos/pruebas/documentos-resultados.png), [citas](anexos/pruebas/citas-resultados.png) y [usuarios](anexos/pruebas/usuarios-resultados.png).
 

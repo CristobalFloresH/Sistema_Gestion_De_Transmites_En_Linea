@@ -5,6 +5,7 @@ import {
   autorizarRoles,
   limitarListadoAlCiudadano,
   ciudadanoSoloSuRut,
+  ciudadanoSoloSuTramite,
 } from "../middlewares/authMiddleware.js";
 
 const router = Router();
@@ -14,8 +15,8 @@ router.use(verificarToken);
 
 //Lista trámites (un ciudadano solo ve los suyos)
 router.get("/", limitarListadoAlCiudadano, tramiteController.listarTramites);
-//Muestra un trámite según su id
-router.get("/:id", tramiteController.obtenerTramite);
+//Muestra un trámite según su id (un ciudadano solo los suyos)
+router.get("/:id", ciudadanoSoloSuTramite, tramiteController.obtenerTramite);
 //Crea un trámite (un ciudadano solo puede crearlo a su nombre)
 router.post("/", ciudadanoSoloSuRut, tramiteController.crearTramite);
 //Modificar o eliminar: solo funcionario y administrador

@@ -12,7 +12,8 @@ import {
 
 // Este archivo recibe las peticiones de usuarios: revisa que los datos sean correctos,
 // le pide al servicio que haga el trabajo en la base de datos y decide qué responderle al cliente.
-// La creación de usuarios no está aquí porque corresponde al registro, que se hace junto con el login.
+// La creación de usuarios no está aquí porque corresponde al registro (POST /api/auth/registro), que se hace junto
+// con el login. Ese endpoint existe solo en la API: la aplicación no lo usa (ver anexos/registro-de-usuarios.md).
 
 // Campos obligatorios al reemplazar un usuario con PUT (el teléfono es opcional y queda vacío si no se envía)
 const camposObligatoriosPut = ["nombre", "correo", "activo", "id_rol"];

@@ -1,22 +1,22 @@
 # Proyecto_Final_INF3245
 
 # 1. Descripción y alcance
-Dentro de esta segunda entrega, se paso el prototipo del frontend que tenia una sesion simulada, a un sistema con backend real, poniendo en foco lo que fue la seguridad, autenticacion y conttrol de acceso. Se construyo una API REST con Node.js, Express y PostgreSQL ademas de conectarse el frontend en Ionic + Reac mediante Axios.
-Específicamente se trabajaron los temas relacionas con la autenticación de los usuarios, el control de acceso definido por roles, la seguridad de los datos, la integración con el frontend y por ultimo se dejo una colección de distintos casos de pruebas y documentación siendo tanto exitosos cómo de error.
+Dentro de esta segunda entrega, se pasó el prototipo del frontend que tenía una sesión simulada, a un sistema con backend real, poniendo en foco lo que fue la seguridad, autenticación y control de acceso. Se construyó una API REST con Node.js, Express y PostgreSQL, además de conectarse el frontend en Ionic + React mediante Axios.
+Específicamente se trabajaron los temas relacionados con la autenticación de los usuarios, el control de acceso definido por roles, la seguridad de los datos, la integración con el frontend y por último se dejó una colección de distintos casos de prueba y documentación, tanto exitosos como de error.
 
-| Función | Ubicación |Estado en el ejemplo | 
+| Función | Ubicación | Estado |
 |---|---|---|
 | Registro de usuario | --- | No implementado |
-| Inicio de sesion | [`POST /api/auth/login`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js) | Implementado |
-| Validacion JTW y rutas protegidas | [`middlewares/authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
+| Inicio de sesión | [`POST /api/auth/login`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js) | Implementado |
+| Validación JWT y rutas protegidas | [`middlewares/authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
 | Autorización por roles | `autorizarRoles` y `autorizarPropioORoles` en [`authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
-| CRUD de tramites, citas, usuarios, bloques horarios y documentos| [`/api/tramites`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js), [`/api/citas`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js), [`/api/documentos`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/documentoRoutes.js), [`/api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js), [`/api/usuarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/usuarioRoutes.js) | Implementado |
-| Catalogos (tipos de estado, metodos de notificacion, roles| [`catalogoRoutes.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/catalogoRoutes.js): `/api/tipos_tramite`, `/api/tipos_documento`, `/api/estados_tramite`, `/api/estados_documento`, `/api/metodos_notificacion`, `/api/roles` | Implementado |
-| Historial de estados del tramite| [`GET /api/tramites/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) | Implementado |
-| Calendario| [`GET /api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js), [`Calendario.jsx`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/Calendario.jsx) | Implementado |
+| CRUD de trámites, citas, usuarios, bloques horarios y documentos | [`/api/tramites`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js), [`/api/citas`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js), [`/api/documentos`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/documentoRoutes.js), [`/api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js), [`/api/usuarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/usuarioRoutes.js) | Implementado |
+| Catálogos (tipos de estado, métodos de notificación y roles) | [`catalogoRoutes.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/catalogoRoutes.js): `/api/tipos_tramite`, `/api/tipos_documento`, `/api/estados_tramite`, `/api/estados_documento`, `/api/metodos_notificacion`, `/api/roles` | Implementado |
+| Historial de estados del trámite | [`GET /api/tramites/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) | Implementado |
+| Calendario | [`GET /api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js), [`Calendario.jsx`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/Calendario.jsx) | Implementado |
 
 # 2. Equipo, repositorio y trazabilidad
-Nombre del equipo: Sistema de gestión de tramites en linea
+Nombre del equipo: Sistema de gestión de trámites en línea
 Repositorio público:
 
 https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea
@@ -37,10 +37,10 @@ Integrantes y contribuciones
 
 | Integrantes | Responsabilidad | Commits | Detalles |
 |---|---|---|---|
-| Rafael Valdes | EP 2.3 API REST y endpoints CRUD. | 13 | Pocos commits, pero grandes, el CRUD de todos los recursos y las colecciones de Insomnia |
-| Diego Cortez | EP 2.4 Autenticación con JWT y roles. | 50 | La mayoría son ediciones del README desde GitHub, el login, el JWT y los roles están en pocos commits de código |
-| Mauricio Morales | EP 2.5 Seguridad y validación de usuarios. | 41 | La mayoría son del frontend de la EP1, la validación de contraseñas y la seguridad del backend están en 3 commits |
-| Cristóbal Flores | EP 2.6 Integración entre Ionic con React y el backend. | 83 | Un commit por cada paso, el servidor, la base de datos y cada pantalla conectada a la API |
+| Rafael Valdes | EP 2.3 API REST y endpoints CRUD. | 13 | Pocos commits, pero grandes: el CRUD de todos los recursos y las colecciones de Insomnia |
+| Diego Cortez | EP 2.4 Autenticación con JWT y roles. | 50 | La mayoría son ediciones del README desde GitHub. El login, el JWT y los roles están en pocos commits de código |
+| Mauricio Morales | EP 2.5 Seguridad y validación de usuarios. | 41 | La mayoría son del frontend de la EP1. La validación de contraseñas y la seguridad del backend están en 3 commits |
+| Cristóbal Flores | EP 2.6 Integración entre Ionic con React y el backend. | 83 | Un commit por cada paso: el servidor, la base de datos y cada pantalla conectada a la API |
 
 La cantidad de commits no refleja por sí sola el trabajo de cada integrante: algunos suben cada avance por separado y otros agrupan un módulo completo en pocos commits. El conteo suma todas las ramas e incluye las ediciones hechas desde la web de GitHub.
 
@@ -58,18 +58,18 @@ La cantidad de commits no refleja por sí sola el trabajo de cada integrante: al
 | RF-10 : Despliegue de agenda diaria | [`GET /api/citas`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js), [`GET /api/tramites`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) |
 | RF-11 : Envío recordatorio de cita | No implementado |
 | RF-12 : Cancelación de cita | [`PATCH /api/citas/:id`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/citaRoutes.js) |
-| RF-13 : Búsqueda de tramites personal | [`GET /api/tramites?rut_ciudadano=`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) |
+| RF-13 : Búsqueda de trámites personal | [`GET /api/tramites?rut_ciudadano=`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js) |
 | RF-14 : Historial de trámites | [`GET /api/tramites?rut_ciudadano=`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/tramiteRoutes.js), `GET /api/tramites/:id` |
-| RF-15 : Emision de comprobante | No implementado |
+| RF-15 : Emisión de comprobante | No implementado |
 | RF-16 : Configuración de bloques horarios | [`POST/PUT/PATCH/DELETE /api/bloques_horarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/bloqueHorarioRoutes.js) |
 | RF-17 : Gestión de cuentas de funcionarios | [`GET/PUT/PATCH/DELETE /api/usuarios`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/usuarioRoutes.js) |
 
-# 3. Tecnologias
-| Capa | Tecnologia identificada |
+# 3. Tecnologías
+| Capa | Tecnología identificada |
 |---|---|
 | Servidor | Node.js + Express 5 |
 | Base de datos | PostgreSQL |
-| Autenticacion | `jsonwebtoken` 9 (JWT firmado con HS256) |
+| Autenticación | `jsonwebtoken` 9 (JWT firmado con HS256) |
 | Seguridad | `bcrypt` (hash de contraseñas), `helmet` (cabeceras HTTP), `cors` (solo acepta el origen del frontend) y `dotenv` (secretos en `.env`) |
 | Pruebas | Insomnia |
 | Frontend | Ionic 9 + React 19 + React Router 6, con Vite 8 |
@@ -123,7 +123,7 @@ Express (localhost:3000/api)
   ruta → middleware (token y rol) → controlador → servicio → PostgreSQL (licencias)
 ```
 
-# 5. Preparacion y ejecucion local del ejemplo
+# 5. Preparación y ejecución local del ejemplo
 ## 5.1 Requisitos previos
 - Node.js 20.19 o superior (probado con Node 24) y npm
 - PostgreSQL (con pgAdmin)
@@ -174,7 +174,7 @@ cd frontend-EP2/frontend
 npm install
 npm run dev
 ```
-La aplicación queda en `http://localhost:5173`. Por defecto usa la API en `http://localhost:3000/api`; para otra dirección, definir `VITE_API_URL` en un archivo `.env` del frontend.
+La aplicación queda en `http://localhost:5173`. Por defecto usa la API en `http://localhost:3000/api`. Para otra dirección, definir `VITE_API_URL` en un archivo `.env` del frontend.
 
 ## 5.5 Problemas frecuentes
 | Síntoma | Qué revisar |
@@ -182,11 +182,11 @@ La aplicación queda en `http://localhost:5173`. Por defecto usa la API en `http
 | "No se pudo conectar con el servidor" en la app | Que el backend esté corriendo en el puerto 3000 |
 | Error de conexión a PostgreSQL al iniciar el backend | Que el servicio de PostgreSQL esté activo y los datos del `.env` sean correctos |
 | `relation ... does not exist` | El script se ejecutó en otra base (por ejemplo `postgres`) en vez de `licencias` |
-| Error de CORS en el navegador | El frontend debe estar en el puerto 5173; si Vite usa otro (5174) es porque el 5173 está ocupado |
-| "No hay horas disponibles" en todos los días | Los bloques se generan para 7 días hábiles desde que se creó la base; volver a ejecutar `licencias.sql` |
-| La sesión se cierra sola | El token dura 2 horas (`JWT_EXPIRES_IN`); volver a iniciar sesión |
+| Error de CORS en el navegador | El frontend debe estar en el puerto 5173. Si Vite usa otro (5174), es porque el 5173 está ocupado |
+| "No hay horas disponibles" en todos los días | Los bloques se generan para 7 días hábiles desde que se creó la base. Volver a ejecutar `licencias.sql` |
+| La sesión se cierra sola | El token dura 2 horas (`JWT_EXPIRES_IN`). Volver a iniciar sesión |
 
-# 6. Documentacion de la API existente
+# 6. Documentación de la API existente
 
 
 # 7. Seguridad y JWT: estado y correcciones necesarias
@@ -206,7 +206,7 @@ La aplicación queda en `http://localhost:5173`. Por defecto usa la API en `http
 | Pruebas de seguridad | Pruebas en Insomnia de casos de éxito y de error: login, registro con contraseña débil, registro repetido y rutas con y sin token. | `pruebas/insomnia-auth.json` | Exportar la colección y subirla al repositorio |
 
 # 8. Integración frontend-backend
-El frontend ([rama `frontend-EP2`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/frontend-EP2/frontend)) consume esta API con **Axios**. Todas las pantallas obtienen sus datos del backend; ya no quedan datos escritos en el código.
+El frontend ([rama `frontend-EP2`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/frontend-EP2/frontend)) consume esta API con **Axios**. Todas las pantallas obtienen sus datos del backend, y ya no quedan datos escritos en el código.
 
 ## 8.1 Cliente HTTP y servicios
 El frontend se comunica con la API mediante un cliente Axios y un servicio por recurso.
@@ -226,11 +226,11 @@ La sesión se maneja en [`services/sesion.js`](https://github.com/CristobalFlore
 |---|---|
 | Inicio de sesión | `login` guarda en `localStorage` el token y los datos del usuario (`rut`, `nombre`, `rol`) con `guardarSesion` |
 | Cada petición | El interceptor de petición agrega `Authorization: Bearer <token>` si hay sesión, así ninguna pantalla lo envía a mano |
-| Token vencido | `getToken` lee el `exp` del JWT; si ya venció, borra la sesión y no envía el token |
+| Token vencido | `getToken` lee el `exp` del JWT. Si ya venció, borra la sesión y no envía el token |
 | Respuesta 401 | El interceptor de respuesta borra la sesión y redirige a `/login` (salvo en el propio login, donde 401 significa "clave incorrecta") |
 | Cerrar sesión | El botón "Cerrar sesion" del menú llama a `logout`, que borra el token y los datos guardados |
 
-El token dura 2 horas (`JWT_EXPIRES_IN` del backend). Se eligió `localStorage` por simplicidad y porque la sesión se mantiene al recargar la página; una alternativa más segura frente a XSS serían las cookies `httpOnly`, que quedan como mejora.
+El token dura 2 horas (`JWT_EXPIRES_IN` del backend). Se eligió `localStorage` por simplicidad y porque la sesión se mantiene al recargar la página. Una alternativa más segura frente a XSS serían las cookies `httpOnly`, que quedan como mejora.
 
 ## 8.3 Protección de rutas por rol
 Las rutas se protegen con [`routes/ProtectedRoute.jsx`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/routes/ProtectedRoute.jsx), aplicado en [`App.jsx`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/App.jsx).
@@ -239,7 +239,7 @@ Las rutas se protegen con [`routes/ProtectedRoute.jsx`](https://github.com/Crist
 |---|---|---|
 | `/`, `/login` | Cualquiera (públicas) | — |
 | `/tramite-licencia`, `/calendario`, `/tramite-finalizado`, `/mis-tramites` | Cualquier usuario con sesión | Sin sesión → `/login` |
-| `/funcionario/agenda`, `/funcionario/tramites/:idTramite` | Funcionario o administrador | Sin sesión → `/login`; ciudadano → `/` |
+| `/funcionario/agenda`, `/funcionario/tramites/:idTramite` | Funcionario o administrador | Sin sesión → `/login`, ciudadano → `/` |
 
 Al iniciar sesión, cada rol llega a su pantalla (RF-8): el personal a `/funcionario/agenda` y el ciudadano a `/`, y el menú muestra solo las opciones de su rol. `ProtectedRoute` vuelve a leer la sesión cada vez que se entra a una página, así un token vencido saca al usuario aunque la página siga montada. Esta protección es de interfaz: la seguridad real está en el backend, que valida el token y el rol en cada petición (ver sección 7).
 
@@ -255,7 +255,7 @@ El interceptor de respuesta de [`api.js`](https://github.com/CristobalFloresH/Si
 | 403 / 404 sin mensaje | "No tienes permiso para hacer esto." / "No se encontró lo que buscabas." |
 | 500 o más | "Hubo un problema en el servidor. Intenta más tarde." |
 
-En las pantallas, mientras se cargan los datos se muestra un spinner; si falla la carga, el mensaje aparece en lugar del contenido, y si no hay datos se indica (por ejemplo "No hay horas disponibles este día"). Los errores de acciones se muestran en rojo: junto al botón en la reserva, o en un aviso al cancelar, reagendar, aprobar o rechazar. Si una reserva falla a medio camino, al reintentar se reutilizan el trámite y los documentos ya creados, sin duplicarlos.
+En las pantallas, mientras se cargan los datos se muestra un spinner. Si falla la carga, el mensaje aparece en lugar del contenido, y si no hay datos se indica (por ejemplo "No hay horas disponibles este día"). Los errores de acciones se muestran en rojo: junto al botón en la reserva, o en un aviso al cancelar, reagendar, aprobar o rechazar. Si una reserva falla a medio camino, al reintentar se reutilizan el trámite y los documentos ya creados, sin duplicarlos.
 
 ## 8.5 Flujos con datos reales
 Todas las pantallas leen y guardan sus datos en el backend.
@@ -264,11 +264,11 @@ Todas las pantallas leen y guardan sus datos en el backend.
 |---|---|---|---|
 | [Login](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/Login.jsx) | Inicia sesión y redirige según el rol | [`authService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/authService.js) | RF-8 |
 | [Trámite de licencia](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/TramiteLicencia.jsx) | Muestra los tipos de trámite con sus documentos, las horas de los próximos 7 días y los métodos de aviso. "Continuar" crea el trámite, registra los documentos y reserva la cita | [`catalogoService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/catalogoService.js), [`bloqueHorarioService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/bloqueHorarioService.js), [`tramiteService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/tramiteService.js), [`documentoService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/documentoService.js), [`citaService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js) | RF-1, RF-2, RF-4 |
-| [Calendario](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/Calendario.jsx) | Muestra los bloques de cualquier fecha con sus cupos; también se usa para reagendar una cita | [`bloqueHorarioService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/bloqueHorarioService.js), [`citaService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js) | RF-1 |
+| [Calendario](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/Calendario.jsx) | Muestra los bloques de cualquier fecha con sus cupos. También se usa para reagendar una cita | [`bloqueHorarioService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/bloqueHorarioService.js), [`citaService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js) | RF-1 |
 | [Trámite finalizado](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/TramiteFinalizado.jsx) | Muestra los datos de la reserva recién hecha (recibidos de la pantalla anterior, sin nueva petición) | — | RF-2 |
 | [Mis trámites](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/MisTramites.jsx) | Lista los trámites y citas propios con su avance, y permite cancelar, reagendar y ver el historial | [`tramiteService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/tramiteService.js), [`citaService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js) | RF-7, RF-12, RF-14 |
 | [Agenda (funcionario)](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/AgendaFuncionario.jsx) | Lista todas las citas con su trámite, con filtros por estado y tipo, y búsqueda por RUT o nombre | [`citaService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js), [`tramiteService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/tramiteService.js), [`catalogoService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/catalogoService.js) | RF-10, RF-13 |
-| [Proceso del trámite (funcionario)](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/AgendaProceso.jsx) | Muestra el trámite, sus documentos y el historial del ciudadano; permite aprobar, avanzar de etapa o rechazar | [`tramiteService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/tramiteService.js), [`documentoService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/documentoService.js), [`citaService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js) | RF-5, RF-6, RF-14 |
+| [Proceso del trámite (funcionario)](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/AgendaProceso.jsx) | Muestra el trámite, sus documentos y el historial del ciudadano, y permite aprobar, avanzar de etapa o rechazar | [`tramiteService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/tramiteService.js), [`documentoService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/documentoService.js), [`citaService`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/services/citaService.js) | RF-5, RF-6, RF-14 |
 
 Simulado por ahora: la carga de documentos guarda solo el nombre del archivo (el PDF no se sube al servidor) y el botón "Descargar comprobante".
 
@@ -291,17 +291,18 @@ Las rutas no incluyen `/api` porque ya va en el `baseURL`.
 
 
 # 10. Modelo relacional
-Base de datos PostgreSQL, con las distintas claves primarias, claves foraneas y restricciones.
+Base de datos PostgreSQL, con las distintas claves primarias, claves foráneas y restricciones.
 ### Esquema relacional
 ![Esquema relacional de la base de datos licencias](anexos/esquema-relacional.png)
-### Modelo Entidad-Relacion
+### Modelo Entidad-Relación
 ![Modelo entidad-relación de la base de datos licencias](anexos/modelo-entidad-relacion.png)
+
 # 11. Matriz de cumplimiento EP2
 | Criterio | Evidencia exigida | Estado |
 |---|---|---|
 | EP 2.1 Servidor | Ejecutable, módulos, instalación | Implementado |
 | EP 2.2 Base relacional | Modelo consistente, FK, SQL reproducible, conexión | Implementado |
-| EP 2.3 API REST | GET, POST, PUT/PATCH y DELETE; JSON y HTTP | Implementado |
+| EP 2.3 API REST | GET, POST, PUT/PATCH y DELETE, con JSON y HTTP | Implementado |
 | EP 2.4 JWT y roles | Registro, login, expiración, rutas y roles | Implementado |
 | EP 2.5 Seguridad | bcrypt, validación, secretos, SQL parametrizado | Implementado |
 | EP 2.6 Ionic React + backend | Consumo real mediante React, JWT y errores | Implementado |
@@ -310,21 +311,11 @@ Base de datos PostgreSQL, con las distintas claves primarias, claves foraneas y 
 
 La tabla no asigna una calificación: solo relaciona el contenido del proyecto con los criterios que deben demostrarse.
 
-# 12. Listas de verificacion antes de entrega
-
-- [ ] Repositorio público, ramas y commits verificables.
-- [ ] Nombres del equipo, responsabilidades y enlaces completos.
-- [ ] Frontend realizado en Ionic + React (no Angular).
-- [ ] Backend arranca siguiendo los comandos del README.
-- [ ] Base de datos relacional se crea desde .sql y se conecta al backend.
-- [ ] GET, POST, PUT/PATCH y DELETE implementados para recursos pertinentes.
-- [ ] Registro, login, JWT con expiración y rutas protegidas.
-- [ ] Al menos dos roles con autorización diferenciada.
-- [ ] Contraseñas con bcrypt, consultas parametrizadas y secretos fuera de GitHub.
-- [ ] Frontend consume datos reales y maneja errores/tokens.
-- [ ] Colección Postman/Insomnia, respuestas y pruebas de error.
-- [ ] Capturas, diagramas y enlaces de Markdown son reales y funcionan.
-- [ ] Trazabilidad de requerimientos EP1 → funcionalidades implementadas en EP2.
-
-
-
+# 12. Referencias
+- [Ionic Framework](https://ionicframework.com/docs)
+- [React](https://react.dev/)
+- [Express](https://expressjs.com/)
+- [PostgreSQL](https://www.postgresql.org/docs/)
+- [JSON Web Tokens](https://jwt.io/)
+- [Axios](https://axios.rest/)
+- [Insomnia](https://developer.konghq.com/insomnia/)

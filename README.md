@@ -195,6 +195,7 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 
 | Método | Ruta | Objetivo | Token / rol | Estado actual |
 |---|---|---|---|---|
+| POST | `/auth/registro` | Registrar ciudadano | No | Implementado, con bcrypt |// REGISTER. SE SACA?
 | POST | `/auth/login` | Iniciar sesión | No | Implementado, JWT de 2 h |
 | GET | `/tipos_tramite`, `/tipos_documento`, `/estados_tramite`, `/estados_documento`, `/metodos_notificacion`, `/roles` | Catálogos | No | Implementado, solo lectura |
 | GET | `/tramites` | Listar trámites | Sí (el ciudadano solo ve los suyos) | Implementado |
@@ -364,7 +365,7 @@ Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/S
 
 | ID | Petición / escenario | HTTP esperado | Evidencia |
 |---|---|---|---|
-| P01 | Registrar usuario válido | 201 | `insomnia-auth.json` #01 |
+| P01 | Registrar usuario válido | 201 | `insomnia-auth.json` #01 | // REGISTER, SE SACA?
 | P02 | Registrar RUT repetido | 409 | `insomnia-auth.json` #02 |
 | P03 | Registrar con contraseña débil | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
 | P04 | Iniciar sesión válida | 200 | `insomnia-auth.json` #06, [captura](anexos/pruebas/caso-auth-06.png) |

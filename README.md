@@ -6,7 +6,7 @@ Específicamente se trabajaron los temas relacionados con la autenticación de l
 
 | Función | Ubicación | Estado |
 |---|---|---|
-| Registro de usuario | --- | No implementado |
+| Registro de usuario | Ver [registro de usuarios](anexos/registro-de-usuarios.md) | No implementado |
 | Inicio de sesión | [`POST /api/auth/login`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js) | Implementado |
 | Validación JWT y rutas protegidas | [`middlewares/authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
 | Autorización por roles | `autorizarRoles` y `autorizarPropioORoles` en [`authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
@@ -85,6 +85,7 @@ backend
 ├── package-lock.json
 ├── package.json
 ├── pruebas                  colecciones de Insomnia
+├── scripts                  generar hash de contraseñas (solo por la rúbrica)
 └── src
     ├── app.js               arranque de Express, middlewares globales y rutas
     ├── config               conexión a PostgreSQL
@@ -195,7 +196,7 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 
 | Método | Ruta | Objetivo | Token / rol | Estado actual |
 |---|---|---|---|---|
-| POST | `/auth/registro` | Registrar ciudadano **(en duda)** | No | Implementado, con bcrypt; falta decidir si se usará |
+| POST | `/auth/registro` | Registrar ciudadano | No | No implementado. El código se mantiene solo por la rúbrica (ver [registro de usuarios](anexos/registro-de-usuarios.md)) |
 | POST | `/auth/login` | Iniciar sesión | No | Implementado, JWT de 2 h |
 | GET | `/tipos_tramite`, `/tipos_documento`, `/estados_tramite`, `/estados_documento`, `/metodos_notificacion`, `/roles` | Catálogos | No | Implementado, solo lectura |
 | GET | `/tramites` | Listar trámites | Sí (el ciudadano solo ve los suyos) | Implementado |
@@ -218,8 +219,8 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 | GET | `/usuarios/:rut` | Ver usuario | Sí (propio o personal) | Implementado |
 | PUT, PATCH, DELETE | `/usuarios/:rut` | Editar o eliminar usuario | Administrador | Implementado |
 
-### 6.1 `POST /api/auth/registro` — Registro (en duda)
-> **En duda:** todavía no está decidido si el registro se usará en la entrega final.
+### 6.1 `POST /api/auth/registro` — Registro (no implementado)
+> **No implementado:** la aplicación no lo usa y el código se mantiene solo por la rúbrica. Ver [registro de usuarios](anexos/registro-de-usuarios.md).
 
 ```json
 {
@@ -271,14 +272,14 @@ Responde `201` con la cita creada.
 | Claims mínimos en el JWT | Sí. El token solo lleva `rut` y `rol`, sin contraseña ni datos personales. | `authController.js` | Ninguna |
 | Rutas protegidas en backend | Sí. Usuarios, trámites, citas, documentos y bloques horarios exigen token válido y responden 401 si falta o expiró. | `middlewares/authMiddleware.js`, archivos `*Routes.js` | Los catálogos son públicos a propósito (solo lectura) |
 | Roles diferenciados | Sí. Hay tres roles (ciudadano, funcionario, administrador) con los middlewares `autorizarRoles` y `autorizarPropioORoles`, que responden 403. El rol lo asigna siempre el servidor al registrar. | `authMiddleware.js`, `authService.js` | Faltan controles de dueño en el detalle de trámites y citas, y en los documentos |
-| bcrypt | Sí. El registro guarda el hash con `bcrypt.hash` (10 rondas) y el login usa `bcrypt.compare`. | `utils/claves.js`, `authController.js` | Ninguna |
+| bcrypt | Sí. Las contraseñas de la base están guardadas como hash bcrypt (10 rondas), y el login las verifica con `bcrypt.compare`. `npm run hash` genera hashes del mismo tipo (ver [registro de usuarios](anexos/registro-de-usuarios.md)). | `utils/claves.js`, `authController.js` | Ninguna |
 | Secretos en variables de entorno | Sí. `JWT_SECRET` y las credenciales de PostgreSQL se leen desde `.env`. En el repositorio solo está `.env.ejemplo`. | `utils/jwt.js`, `config/db.js`, `.env.ejemplo` | Exigir un largo mínimo a `JWT_SECRET` |
-| Validación de entradas | Sí. Se validan RUT, nombre, correo, teléfono, id, fechas y largos máximos, y se rechazan campos desconocidos. La contraseña exige 8 caracteres o más, mayúscula, minúscula, número y símbolo. | `utils/apoyoControladores.js`, `utils/validacionClave.js` | Opcional: usar una librería de validación |
+| Validación de entradas | Sí. Se validan RUT, nombre, correo, teléfono, id, fechas y largos máximos, y se rechazan campos desconocidos. En el login, la contraseña se verifica contra su hash con `bcrypt.compare`. La validación de contraseña segura (`validarClave`) se mantiene solo por la rúbrica (ver [registro de usuarios](anexos/registro-de-usuarios.md)). | `utils/apoyoControladores.js`, `utils/validacionClave.js` | Opcional: usar una librería de validación |
 | Prevención de SQL injection | Sí. Todas las consultas usan parámetros (`$1`, `$2`). | `services/*.js` | Ninguna |
 | Minimización de datos | Sí. Ninguna respuesta incluye `clave_hash` y el JWT no lleva datos sensibles. | `authService.js`, `usuarioService.js` | Ninguna |
 | Protección de rutas frontend | Sí. `ProtectedRoute` exige sesión en las rutas privadas y rol de personal en las del funcionario, y redirige a `/login` o a `/`. Al entrar a cada página revisa si el token venció, y un 401 cierra la sesión (ver 8.2 y 8.3). | `routes/ProtectedRoute.jsx`, `services/sesion.js`, `services/api.js` | Guardar el token en cookies `httpOnly` en vez de `localStorage` |
 | Manejo de errores | Sí. Un manejador central responde 500 genérico y registra el detalle solo en consola. El login da el mismo mensaje para un RUT inexistente y una contraseña mala, y una petición sin cuerpo responde 400. | `app.js`, `authController.js` | Opcional: límite de intentos de login |
-| Pruebas de seguridad | Pruebas en Insomnia de casos de éxito y de error: login, registro con contraseña débil, registro repetido y rutas con y sin token. | `pruebas/insomnia-auth.json` | Exportar la colección y subirla al repositorio |
+| Pruebas de seguridad | Pruebas en Insomnia de casos de éxito y de error: login, registro con contraseña débil, registro repetido y rutas con y sin token. | `pruebas/insomnia-auth.json` | Ninguna |
 
 # 8. Integración frontend-backend
 El frontend ([rama `frontend-EP2`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/frontend-EP2/frontend)) consume esta API con **Axios**. Todas las pantallas obtienen sus datos del backend, y ya no quedan datos escritos en el código.
@@ -367,9 +368,9 @@ Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/S
 
 | ID | Petición / escenario | HTTP esperado | Evidencia |
 |---|---|---|---|
-| P01 | Registrar usuario válido **(en duda)** | 201 | `insomnia-auth.json` #01, [captura](anexos/pruebas/auth-resultados.png) |
-| P02 | Registrar RUT repetido **(en duda)** | 409 | `insomnia-auth.json` #02, [captura](anexos/pruebas/auth-resultados.png) |
-| P03 | Registrar con contraseña débil **(en duda)** | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
+| P01 | Registrar usuario válido **(no implementado, solo por la rúbrica)** | 201 | `insomnia-auth.json` #01, [captura](anexos/pruebas/auth-resultados.png) |
+| P02 | Registrar RUT repetido **(no implementado, solo por la rúbrica)** | 409 | `insomnia-auth.json` #02, [captura](anexos/pruebas/auth-resultados.png) |
+| P03 | Registrar con contraseña débil **(no implementado, solo por la rúbrica)** | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
 | P04 | Iniciar sesión válida | 200 | `insomnia-auth.json` #06, [captura](anexos/pruebas/caso-auth-06.png) |
 | P05 | Login sin credenciales | 400 | `insomnia-auth.json` #07, [captura](anexos/pruebas/auth-resultados.png) |
 | P06 | Login con contraseña incorrecta | 401 | `insomnia-auth.json` #08, [captura](anexos/pruebas/auth-resultados.png) |

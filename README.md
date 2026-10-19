@@ -195,7 +195,6 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 
 | Método | Ruta | Objetivo | Token / rol | Estado actual |
 |---|---|---|---|---|
-| POST | `/auth/registro` | Registrar ciudadano | No | Implementado, con bcrypt |
 | POST | `/auth/login` | Iniciar sesión | No | Implementado, JWT de 2 h |
 | GET | `/tipos_tramite`, `/tipos_documento`, `/estados_tramite`, `/estados_documento`, `/metodos_notificacion`, `/roles` | Catálogos | No | Implementado, solo lectura |
 | GET | `/tramites` | Listar trámites | Sí (el ciudadano solo ve los suyos) | Implementado |

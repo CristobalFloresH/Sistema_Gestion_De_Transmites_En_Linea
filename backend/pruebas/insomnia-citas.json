@@ -235,7 +235,7 @@
       "parentId": "wrk_tramites_citas",
       "name": "10 Filtrar por fecha y vigentes",
       "method": "GET",
-      "url": "http://localhost:3000/api/citas?fecha={% now 'custom', 'YYYY-MM-DD' %}&vigente=true",
+      "url": "http://localhost:3000/api/citas?fecha={% now 'custom', 'yyyy-MM-dd' %}&vigente=true",
       "metaSortKey": 10,
       "body": {},
       "headers": [],

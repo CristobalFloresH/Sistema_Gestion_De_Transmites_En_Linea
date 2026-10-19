@@ -51,7 +51,7 @@
       "parentId": "wrk_tramites",
       "name": "02 Filtrar por fecha",
       "method": "GET",
-      "url": "http://localhost:3000/api/bloques_horarios?fecha={% now 'custom', 'YYYY-MM-DD' %}",
+      "url": "http://localhost:3000/api/bloques_horarios?fecha={% now 'custom', 'yyyy-MM-dd' %}",
       "metaSortKey": 2,
       "body": {},
       "headers": [],

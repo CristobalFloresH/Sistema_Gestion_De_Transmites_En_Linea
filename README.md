@@ -195,7 +195,7 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 
 | Método | Ruta | Objetivo | Token / rol | Estado actual |
 |---|---|---|---|---|
-| POST | `/auth/registro` | Registrar ciudadano | No | Implementado, con bcrypt |
+| POST | `/auth/registro` | Registrar ciudadano **(en duda)** | No | Implementado, con bcrypt; falta decidir si se usará |
 | POST | `/auth/login` | Iniciar sesión | No | Implementado, JWT de 2 h |
 | GET | `/tipos_tramite`, `/tipos_documento`, `/estados_tramite`, `/estados_documento`, `/metodos_notificacion`, `/roles` | Catálogos | No | Implementado, solo lectura |
 | GET | `/tramites` | Listar trámites | Sí (el ciudadano solo ve los suyos) | Implementado |
@@ -218,7 +218,9 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 | GET | `/usuarios/:rut` | Ver usuario | Sí (propio o personal) | Implementado |
 | PUT, PATCH, DELETE | `/usuarios/:rut` | Editar o eliminar usuario | Administrador | Implementado |
 
-### 6.1 `POST /api/auth/registro` — Registro
+### 6.1 `POST /api/auth/registro` — Registro (en duda)
+> **En duda:** todavía no está decidido si el registro se usará en la entrega final.
+
 ```json
 {
   "rut": "15555555-5",
@@ -365,19 +367,19 @@ Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/S
 
 | ID | Petición / escenario | HTTP esperado | Evidencia |
 |---|---|---|---|
-| P01 | Registrar usuario válido | 201 | `insomnia-auth.json` #01 |
-| P02 | Registrar RUT repetido | 409 | `insomnia-auth.json` #02 |
-| P03 | Registrar con contraseña débil | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
+| P01 | Registrar usuario válido **(en duda)** | 201 | `insomnia-auth.json` #01, [captura](anexos/pruebas/auth-resultados.png) |
+| P02 | Registrar RUT repetido **(en duda)** | 409 | `insomnia-auth.json` #02, [captura](anexos/pruebas/auth-resultados.png) |
+| P03 | Registrar con contraseña débil **(en duda)** | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
 | P04 | Iniciar sesión válida | 200 | `insomnia-auth.json` #06, [captura](anexos/pruebas/caso-auth-06.png) |
-| P05 | Login sin credenciales | 400 | `insomnia-auth.json` #07 |
-| P06 | Login con contraseña incorrecta | 401 | `insomnia-auth.json` #08 |
+| P05 | Login sin credenciales | 400 | `insomnia-auth.json` #07, [captura](anexos/pruebas/auth-resultados.png) |
+| P06 | Login con contraseña incorrecta | 401 | `insomnia-auth.json` #08, [captura](anexos/pruebas/auth-resultados.png) |
 | P07 | Ruta protegida sin token | 401 | `insomnia-auth.json` #10, [captura](anexos/pruebas/caso-auth-10.png) |
-| P08 | Ruta protegida con token inválido | 401 | `insomnia-auth.json` #11 |
-| P09 | Ciudadano entra a una ruta de personal | 403 | `insomnia-auth.json` #16 |
+| P08 | Ruta protegida con token inválido | 401 | `insomnia-auth.json` #11, [captura](anexos/pruebas/auth-resultados.png) |
+| P09 | Ciudadano entra a una ruta de personal | 403 | `insomnia-auth.json` #16, [captura](anexos/pruebas/auth-resultados.png) |
 | P10 | Ciudadano cancela la cita de otro | 403 | `insomnia-auth.json` #22, [captura](anexos/pruebas/caso-auth-22.png) |
-| P11 | CRUD de trámites: GET, POST, PUT, PATCH y DELETE | 200 / 201 | `insomnia-tramites.json` #01–#15 |
-| P12 | Recurso que no existe | 404 | `insomnia-tramites.json` #07 |
-| P13 | Datos inválidos | 400 | `insomnia-bloques-horarios.json` #08 |
+| P11 | CRUD de trámites: GET, POST, PUT, PATCH y DELETE | 200 / 201 | `insomnia-tramites.json` #01–#15, [captura](anexos/pruebas/tramites-resultados.png) |
+| P12 | Recurso que no existe | 404 | `insomnia-tramites.json` #07, [captura](anexos/pruebas/tramites-resultados.png) |
+| P13 | Datos inválidos | 400 | `insomnia-bloques-horarios.json` #08, [captura](anexos/pruebas/bloques-horarios-resultados.png) |
 | P14 | Reservar en un bloque sin cupos | 409 | `insomnia-citas.json` #07, [captura](anexos/pruebas/caso-citas-07.png) |
 | P15 | Eliminar un documento ya revisado | 409 | `insomnia-documentos.json` #17, [captura](anexos/pruebas/caso-documentos-17.png) |
 

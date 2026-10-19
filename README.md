@@ -10,6 +10,14 @@ Sistema de gestion de tramites en linea
 | Mauricio Morales | Documentación |
 | Cristobal Flores | Frontend / Ionic + React |
 
+## Ramas del repositorio
+| Rama | Contenido |
+| --- | --- |
+| [`backend-EP2`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/backend-EP2) | Backend (Node.js, Express y PostgreSQL) y la **documentación completa** del proyecto: instalación, API, seguridad, integración y pruebas |
+| [`frontend-EP2`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/frontend-EP2) | Frontend (Ionic + React) conectado a la API, con los requerimientos y la arquitectura de navegación |
+| [`frontend`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/frontend) | Versión anterior del frontend, con la sesión simulada |
+| `main` | Esta presentación general |
+
 ## Distribucion de responsabilidades 
 
 - Frontend (Ionic + React): estructura de vistas, componentes reutilizables (NavBar, ProgressBar), navegación y rutas protegidas con React Router.
@@ -50,33 +58,8 @@ Con el fin de cumplir el objetivo general, el proyecto se desglosa en los siguie
 
 ## Media
 
-### Requisitos
-- [Node.js](https://nodejs.org/) 20.19 o superior (probado con Node 24)
-- npm (se instala junto con Node.js)
-- [Git](https://git-scm.com/)
-
-### Instalación
-El código del frontend está en la rama frontend, dentro de la carpeta frontend/.
-
-
-- git clone https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git
-- cd Sistema_Gestion_De_Transmites_En_Linea
-- git checkout frontend
-- cd frontend
-- npm install
-
-### Ejecución
-
-npm run dev
-
-Luego abrir http://localhost:5173 en el navegador.
-
-### Uso
-Por ahora el inicio de sesión es simulado (no hay backend todavía):
-- **Ciudadano:** en *Ingresar*, escribir cualquier RUT y clave y presionar "Ingresar".
-- **Funcionario:** en *Ingresar*, presionar "Ingreso funcionarios".
-
-Las rutas protegidas redirigen al login si no hay sesión, y las rutas de funcionario redirigen al inicio si se entra como ciudadano.
+### Instalación y ejecución
+El backend y el frontend se ejecutan por separado, cada uno desde su rama. Los requisitos y los pasos completos (base de datos, variables de entorno, backend y frontend) están en la sección 5 del [README de `backend-EP2`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/backend-EP2).
 
 ## Tecnologías utilizadas (frontend)
 - [Ionic](https://ionicframework.com/) 9 con React

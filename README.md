@@ -299,14 +299,16 @@ Base de datos PostgreSQL, con las distintas claves primarias, claves foraneas y 
 # 11. Matriz de cumplimiento EP2
 | Criterio | Evidencia exigida | Estado |
 |---|---|---|
-| EP 2.1 Servidor backend funcional | scr/app.js |  Implementado |
-| EP 2.2 Base de datos relacional y archivo .sql. | licencias.sql, config/db.js | Implementado |
-| EP 2.3 API REST y endpoints CRUD | GET, POST, PUT, PATCH y DELETE  | Implementado |
-| EP 2.4 Autenticación con JWT y roles | utils/jwt.js, authController, authMiddleware | Implementado |
-| EP 2.5 Seguridad y validación de usuarios. | bcrypt, consultar parametrizadas | Implementado |
-| EP 2.6 Integración entre Ionic con React y el backend. | frontend-EP2, login, registrio y calendario con Axios | Implementado |
-| EP 2.7 Pruebas funcionales y documentaci´on de endpoints | pruebas/ | Implementado |
-| Documentación | README y las ramas de backend-EP2 y frontend-EP2| Implementado |
+| EP 2.1 Servidor | Ejecutable, módulos, instalación | Implementado |
+| EP 2.2 Base relacional | Modelo consistente, FK, SQL reproducible, conexión | Implementado |
+| EP 2.3 API REST | GET, POST, PUT/PATCH y DELETE; JSON y HTTP | Implementado |
+| EP 2.4 JWT y roles | Registro, login, expiración, rutas y roles | Implementado |
+| EP 2.5 Seguridad | bcrypt, validación, secretos, SQL parametrizado | Implementado |
+| EP 2.6 Ionic React + backend | Consumo real mediante React, JWT y errores | Implementado |
+| EP 2.7 Pruebas | Postman/Insomnia y errores | Implementado |
+| Documentación | README, ramas, integrantes, commits | Implementado |
+
+La tabla no asigna una calificación: solo relaciona el contenido del proyecto con los criterios que deben demostrarse.
 
 # 12. Listas de verificacion antes de entrega
 

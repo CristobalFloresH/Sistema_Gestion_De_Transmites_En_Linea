@@ -1,0 +1,470 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_tramites_auth",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Autenticación y roles",
+      "scope": "collection",
+      "description": "Pruebas de registro, login, token y permisos por rol. Ejecutar en orden y después de las demás colecciones (la 22 usa la cita 1 creada en la colección de citas). Las peticiones con token lo toman de la respuesta del login indicado (Auth → Bearer Token)."
+    },
+    {
+      "_id": "req_auth_00_login_ciudadano",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "00 Login ciudadano de prueba (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 0,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"20123456-5\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_01",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "01 Registrar ciudadano nuevo (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 1,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"15555555-5\",\n  \"nombre\": \"Ciudadana Nueva\",\n  \"correo\": \"nueva@prueba.cl\",\n  \"telefono\": \"+56911111111\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_02",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "02 Error: registrar el mismo RUT (409)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 2,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"15555555-5\",\n  \"nombre\": \"Ciudadana Nueva\",\n  \"correo\": \"otra@prueba.cl\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_03",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "03 Error: correo ya registrado (409)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 3,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"16666666-6\",\n  \"nombre\": \"Otra Persona\",\n  \"correo\": \"nueva@prueba.cl\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_04",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "04 Error: contraseña débil (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 4,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"16666666-6\",\n  \"nombre\": \"Otra Persona\",\n  \"correo\": \"otra@prueba.cl\",\n  \"password\": \"abc\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_05",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "05 Registro ignora el rol enviado (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 5,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"17777777-7\",\n  \"nombre\": \"Quiere Ser Admin\",\n  \"correo\": \"rol@prueba.cl\",\n  \"password\": \"Segura#2026\",\n  \"rol\": \"administrador\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_06_login_nuevo",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "06 Login del usuario registrado: queda como ciudadano (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 6,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"17777777-7\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_07",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "07 Error: login sin credenciales (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 7,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_08",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "08 Error: contraseña incorrecta (401)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 8,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"20123456-5\",\n  \"password\": \"Incorrecta1!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_09",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "09 Error: RUT no registrado (401)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 9,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"99999999-9\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_10",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "10 Error: ruta protegida sin token (401)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 10,
+      "body": {},
+      "headers": []
+    },
+    {
+      "_id": "req_auth_11",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "11 Error: token mal formado (401)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 11,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "token.invalido.123"
+      }
+    },
+    {
+      "_id": "req_auth_12",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "12 Error: token firmado con otra clave (401)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios",
+      "metaSortKey": 12,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJydXQiOiIxMjM0NTY3OC01Iiwicm9sIjoiYWRtaW5pc3RyYWRvciIsImlhdCI6MTc5MjM2NTg5NywiZXhwIjo0OTQ4MTI1ODk3fQ.3QPeSNf8k4DyTQRsU5JN5-BiiVP-RFLo1DPTglgdVxA"
+      }
+    },
+    {
+      "_id": "req_auth_13",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "13 Ciudadano lista trámites: solo ve los suyos (200)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 13,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_14",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "14 Ciudadano ve sus propios datos (200)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 14,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_15",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "15 Error: ciudadano ve datos de otro usuario (403)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios/12345678-5",
+      "metaSortKey": 15,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_16",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "16 Error: ciudadano lista usuarios (403)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/usuarios",
+      "metaSortKey": 16,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_17",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "17 Ciudadano crea trámite a su nombre (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 17,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"20123456-5\",\n  \"id_tipo_tramite\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_18",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "18 Error: ciudadano crea trámite a nombre de otro (403)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/tramites",
+      "metaSortKey": 18,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut_ciudadano\": \"15555555-5\",\n  \"id_tipo_tramite\": 1\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_19",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "19 Error: ciudadano cambia el estado de un trámite (403)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/tramites/1",
+      "metaSortKey": 19,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_estado_tramite\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_20",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "20 Error: ciudadano crea un bloque horario (403)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/bloques_horarios",
+      "metaSortKey": 20,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fecha\": \"2026-10-23\",\n  \"hora_inicio\": \"15:00\",\n  \"hora_fin\": \"15:30\",\n  \"cupos\": 2\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_21",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "21 Error: ciudadano elimina una cita (403)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/citas/1",
+      "metaSortKey": 21,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_22",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "22 Error: ciudadano cancela la cita de otro (403)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/citas/1",
+      "metaSortKey": 22,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"vigente\": false\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_auth_23_login_funcionario",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "23 Login funcionario (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 23,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"12345678-5\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_auth_24",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "24 Error: funcionario elimina un usuario (403)",
+      "method": "DELETE",
+      "url": "http://localhost:3000/api/usuarios/15555555-5",
+      "metaSortKey": 24,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_23_login_funcionario', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    }
+  ]
+}

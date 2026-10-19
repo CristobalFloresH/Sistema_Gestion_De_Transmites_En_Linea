@@ -187,7 +187,80 @@ La aplicación queda en `http://localhost:5173`. Por defecto usa la API en `http
 | La sesión se cierra sola | El token dura 2 horas (`JWT_EXPIRES_IN`). Volver a iniciar sesión |
 
 # 6. Documentación de la API existente
+**URL base:** `http://localhost:3000/api`  
+**Tipo de contenido:** `application/json`  
+**Autenticación:** cabecera `Authorization: Bearer <token>`, con el token que entrega el login.
 
+Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error": { "estado", "mensaje", "detalles" } }`. Personal = funcionario o administrador.
+
+| Método | Ruta | Objetivo | Token / rol | Estado actual |
+|---|---|---|---|---|
+| POST | `/auth/registro` | Registrar ciudadano | No | Implementado, con bcrypt |
+| POST | `/auth/login` | Iniciar sesión | No | Implementado, JWT de 2 h |
+| GET | `/tipos_tramite`, `/tipos_documento`, `/estados_tramite`, `/estados_documento`, `/metodos_notificacion`, `/roles` | Catálogos | No | Implementado, solo lectura |
+| GET | `/tramites` | Listar trámites | Sí (el ciudadano solo ve los suyos) | Implementado |
+| GET | `/tramites/:id` | Ver trámite con su historial | Sí | Implementado; no revisa que sea del ciudadano |
+| POST | `/tramites` | Crear trámite | Sí (el ciudadano solo a su nombre) | Implementado |
+| PUT / PATCH | `/tramites/:id` | Editar o cambiar estado | Personal | Implementado |
+| DELETE | `/tramites/:id` | Eliminar trámite sin citas ni documentos | Personal | Implementado |
+| GET | `/citas` | Listar citas | Sí (el ciudadano solo ve las suyas) | Implementado |
+| GET | `/citas/:id` | Ver cita | Sí | Implementado; no revisa que sea del ciudadano |
+| POST | `/citas` | Reservar cita | Sí | Implementado; no revisa que el trámite sea del ciudadano |
+| PUT / PATCH | `/citas/:id` | Reagendar o cancelar | Sí (el ciudadano solo las suyas) | Implementado |
+| DELETE | `/citas/:id` | Eliminar cita | Personal | Implementado |
+| GET | `/documentos`, `/documentos/:id` | Listar o ver documentos | Sí | Implementado; no filtra por ciudadano |
+| POST | `/documentos` | Registrar documento PDF | Sí | Implementado; no revisa que el trámite sea del ciudadano |
+| PUT / PATCH | `/documentos/:id` | Aprobar o rechazar | Personal | Implementado |
+| DELETE | `/documentos/:id` | Eliminar documento pendiente | Sí | Implementado; no revisa dueño |
+| GET | `/bloques_horarios`, `/bloques_horarios/:id` | Ver horarios y cupos | Sí | Implementado |
+| POST, PUT, PATCH, DELETE | `/bloques_horarios`, `/bloques_horarios/:id` | Administrar horarios | Personal | Implementado |
+| GET | `/usuarios` | Listar usuarios | Personal | Implementado |
+| GET | `/usuarios/:rut` | Ver usuario | Sí (propio o personal) | Implementado |
+| PUT, PATCH, DELETE | `/usuarios/:rut` | Editar o eliminar usuario | Administrador | Implementado |
+
+### 6.1 `POST /api/auth/registro` — Registro
+```json
+{
+  "rut": "15555555-5",
+  "nombre": "Ciudadana Nueva",
+  "correo": "nueva@prueba.cl",
+  "telefono": "+56911111111",
+  "password": "Segura#2026"
+}
+```
+Responde `201` con el usuario creado, sin la contraseña. El rol siempre queda como ciudadano, aunque el cuerpo traiga otro.
+
+**Estados reconocidos en el código:** `400` si faltan datos o la contraseña no cumple las reglas (8 caracteres, mayúscula, minúscula, número y símbolo); `409` si el RUT o el correo ya existen.
+
+### 6.2 `POST /api/auth/login` — Inicio de sesión
+```json
+{ "rut": "20123456-5", "password": "Clave123!" }
+```
+Respuesta de éxito:
+```json
+{
+  "mensaje": "Inicio de sesión exitoso",
+  "token": "<JWT>",
+  "datos": { "rut": "20123456-5", "nombre": "Ciudadano Prueba", "rol": "ciudadano" }
+}
+```
+El token solo lleva `rut` y `rol`.
+
+**Estados reconocidos en el código:** `400` si faltan credenciales; `401` con el mismo mensaje para un RUT inexistente o una contraseña incorrecta.
+
+### 6.3 Rutas protegidas — ejemplo `POST /api/citas`
+```
+POST /api/citas HTTP/1.1
+Authorization: Bearer <JWT>
+Content-Type: application/json
+
+{ "id_tramite": 1, "id_bloque_horario": 1, "id_metodo_notificacion": 1 }
+```
+Responde `201` con la cita creada.
+
+**Respuestas de error comunes a todas las rutas protegidas:** `401` si falta el token, es inválido o expiró; `403` si el rol no tiene permiso; `400` si los datos no son válidos; `404` si el recurso no existe; `409` si hay conflicto con los datos guardados (por ejemplo, bloque sin cupos o cita vigente repetida).
+
+**Usuarios de prueba** (`licencias.sql`, contraseña `Clave123!`): ciudadano `20123456-5`, funcionario `12345678-5` y administrador `11111111-1`.
 
 # 7. Seguridad y JWT: estado y correcciones necesarias
 | Control EP2 | Estado en este proyecto | Evidencia | Mejora pendiente |

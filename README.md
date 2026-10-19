@@ -361,7 +361,29 @@ Las rutas no incluyen `/api` porque ya va en el `baseURL`.
 
 
 # 9. Pruebas funcionales y evidencia EP2
+Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/backend-EP2/backend/pruebas): una colección de Insomnia por recurso (catálogos, bloques horarios, trámites, documentos, citas y usuarios) y una de autenticación y roles. Para repetirlas, se carga la base desde `licencias.sql`, se importan las colecciones en Insomnia y se ejecutan en ese orden.
 
+| ID | Petición / escenario | HTTP esperado | Evidencia |
+|---|---|---|---|
+| P01 | Registrar usuario válido | 201 | `insomnia-auth.json` #01 |
+| P02 | Registrar RUT repetido | 409 | `insomnia-auth.json` #02 |
+| P03 | Registrar con contraseña débil | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
+| P04 | Iniciar sesión válida | 200 | `insomnia-auth.json` #06, [captura](anexos/pruebas/caso-auth-06.png) |
+| P05 | Login sin credenciales | 400 | `insomnia-auth.json` #07 |
+| P06 | Login con contraseña incorrecta | 401 | `insomnia-auth.json` #08 |
+| P07 | Ruta protegida sin token | 401 | `insomnia-auth.json` #10, [captura](anexos/pruebas/caso-auth-10.png) |
+| P08 | Ruta protegida con token inválido | 401 | `insomnia-auth.json` #11 |
+| P09 | Ciudadano entra a una ruta de personal | 403 | `insomnia-auth.json` #16 |
+| P10 | Ciudadano cancela la cita de otro | 403 | `insomnia-auth.json` #22, [captura](anexos/pruebas/caso-auth-22.png) |
+| P11 | CRUD de trámites: GET, POST, PUT, PATCH y DELETE | 200 / 201 | `insomnia-tramites.json` #01–#15 |
+| P12 | Recurso que no existe | 404 | `insomnia-tramites.json` #07 |
+| P13 | Datos inválidos | 400 | `insomnia-bloques-horarios.json` #08 |
+| P14 | Reservar en un bloque sin cupos | 409 | `insomnia-citas.json` #07, [captura](anexos/pruebas/caso-citas-07.png) |
+| P15 | Eliminar un documento ya revisado | 409 | `insomnia-documentos.json` #17, [captura](anexos/pruebas/caso-documentos-17.png) |
+
+Las colecciones tienen 123 peticiones en total, con casos de éxito y de error para cada recurso. Se ejecutaron todas el 18-10-2026 con la base recién cargada, y cada una respondió el código esperado que indica su nombre.
+
+Capturas de cada colección: [autenticación](anexos/pruebas/auth-resultados.png), [catálogos](anexos/pruebas/catalogos-resultados.png), [bloques horarios](anexos/pruebas/bloques-horarios-resultados.png), [trámites](anexos/pruebas/tramites-resultados.png), [documentos](anexos/pruebas/documentos-resultados.png), [citas](anexos/pruebas/citas-resultados.png) y [usuarios](anexos/pruebas/usuarios-resultados.png).
 
 # 10. Modelo relacional
 Base de datos PostgreSQL, con las distintas claves primarias, claves foráneas y restricciones.

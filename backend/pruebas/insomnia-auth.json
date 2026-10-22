@@ -9,7 +9,7 @@
       "parentId": null,
       "name": "Trámites - Autenticación y roles",
       "scope": "collection",
-      "description": "Pruebas de registro, login, token y permisos por rol. Ejecutar en orden y después de las demás colecciones (la 22 y de la 25 a la 30 usan el trámite 1, la cita 1 y el documento 1, creados en las colecciones de trámites, citas y documentos). Las peticiones con token lo toman de la respuesta del login indicado (Auth → Bearer Token)."
+      "description": "Pruebas de registro (solo administrador), login, token y permisos por rol. Ejecutar en orden, después de las colecciones de trámites, citas y documentos y antes de la de usuarios (la 15 de usuarios elimina al administrador, que aquí se usa para el registro) (la 22 y de la 25 a la 30 usan el trámite 1, la cita 1 y el documento 1, creados en las colecciones de trámites, citas y documentos). Las peticiones con token lo toman de la respuesta del login indicado (Auth → Bearer Token)."
     },
     {
       "_id": "req_auth_00_login_ciudadano",
@@ -31,10 +31,29 @@
       ]
     },
     {
+      "_id": "req_auth_00_login_admin",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "00b Login administrador de prueba (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 0.5,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"11111111-1\",\n  \"password\": \"Clave123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
       "_id": "req_auth_01",
       "_type": "request",
       "parentId": "wrk_tramites_auth",
-      "name": "01 Registrar ciudadano nuevo (201)",
+      "name": "01 Administrador registra ciudadano nuevo (201)",
       "method": "POST",
       "url": "http://localhost:3000/api/auth/registro",
       "metaSortKey": 1,
@@ -47,7 +66,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_auth_02",
@@ -66,7 +89,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_auth_03",
@@ -85,7 +112,11 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_auth_04",
@@ -104,26 +135,34 @@
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_auth_05",
       "_type": "request",
       "parentId": "wrk_tramites_auth",
-      "name": "05 Registro ignora el rol enviado (201)",
+      "name": "05 Administrador registra con rol ciudadano explícito (201)",
       "method": "POST",
       "url": "http://localhost:3000/api/auth/registro",
       "metaSortKey": 5,
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"rut\": \"17777777-7\",\n  \"nombre\": \"Quiere Ser Admin\",\n  \"correo\": \"rol@prueba.cl\",\n  \"password\": \"Segura#2026\",\n  \"rol\": \"administrador\"\n}"
+        "text": "{\n  \"rut\": \"17777777-7\",\n  \"nombre\": \"Ciudadano Explícito\",\n  \"correo\": \"rol@prueba.cl\",\n  \"password\": \"Segura#2026\",\n  \"rol\": \"ciudadano\"\n}"
       },
       "headers": [
         {
           "name": "Content-Type",
           "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_auth_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
     },
     {
       "_id": "req_auth_06_login_nuevo",

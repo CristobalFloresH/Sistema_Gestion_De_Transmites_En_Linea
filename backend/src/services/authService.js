@@ -13,13 +13,13 @@ export async function buscarUsuarioPorRut(rut) {
   return rows[0];
 }
 
-//Se crea un nuev usuario, siendi ingresandolo a la BD si alguen se registra
-export async function crearUsuario({ rut, nombre, correo, telefono, claveHash }) {
+//Crea un usuario nuevo en la BD con el rol indicado por el administrador
+export async function crearUsuario({ rut, nombre, correo, telefono, claveHash, rol }) {
   const { rows } = await pool.query(
     `insert into usuario (rut, nombre, correo, telefono, clave_hash, id_rol)
-     values ($1, $2, $3, $4, $5, (select id_rol from rol where nombre_rol = 'ciudadano'))
+     values ($1, $2, $3, $4, $5, (select id_rol from rol where nombre_rol = $6))
      returning rut, nombre, correo, telefono`,
-    [rut, nombre, correo, telefono ?? null, claveHash], //Si no hay telefono se guarda como NULL en BD
+    [rut, nombre, correo, telefono ?? null, claveHash, rol], //Si no hay telefono se guarda como NULL en BD
   );
   return rows[0];
 }

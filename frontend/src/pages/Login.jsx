@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   IonPage, IonContent, IonInput, IonInputPasswordToggle, IonButton, IonText,
 } from '@ionic/react';
@@ -8,6 +8,7 @@ import { login } from '../services/authService';
 import IconoAuto from '../assets/IconoAuto.png';
 import './Login.css';
 
+//Login de ciudadanos: simulador local de ClaveUnica (prototipo academico, valida contra la base de datos del proyecto)
 export default function Login() {
   //Guarda la informacion del usuario
   const [rut, setRut] = useState('');
@@ -24,8 +25,8 @@ export default function Login() {
 
     //Se verifica que los campos no esten en blanco
     const nuevosErrores = {
-      rut: rut.trim() ? '' : 'Ingresa tu RUT',
-      clave: clave.trim() ? '' : 'Ingresa tu clave unica',
+      rut: rut.trim() ? '' : 'Ingresa tu RUN',
+      clave: clave.trim() ? '' : 'Ingresa tu ClaveÚnica',
     };
     setErrores(nuevosErrores);
 
@@ -35,11 +36,9 @@ export default function Login() {
     setCargando(true);
     try {
       //Conexion con Backend para hacer la peticion POST
-      const usuario = await login(rut.trim(), clave);
-      //Se revisa que rol es
-      const esPersonal = usuario.rol === 'funcionario' || usuario.rol === 'administrador';
-      //Dependiendo de que usuario sea lo manda a distintos apartados
-      navigate(esPersonal ? '/funcionario/agenda' : '/');
+      //Se entra por el acceso ciudadano: si el RUT es de un funcionario el backend responde 403
+      await login(rut.trim(), clave, 'ciudadano');
+      navigate('/');
     } catch (error) {
       setErrorServidor(error.message);
     } finally {
@@ -57,13 +56,14 @@ export default function Login() {
               <h2 className="login-card__title">Municipalidad de Santo Domingo</h2>
               <p className="login-card__subtitle">Licencias de conducir</p>
               <img src={IconoAuto} alt="Auto" className="login-card__icon" />
-              <h3 className="login-card__welcome">Bienvenido</h3>
-              <p className="login-card__desc">
-                Ingrese su RUT y clave unica para continuar
+              <span className="login-card__etiqueta">PROTOTIPO ACADÉMICO</span>
+              <h3 className="login-card__welcome">Ingresar con ClaveÚnica</h3>
+              <p className="login-card__aviso">
+                Esto es un simulador. No uses tu ClaveÚnica real.
               </p>
               <form onSubmit={handleSubmit}>
                 <IonInput
-                  label="RUT"
+                  label="RUN"
                   labelPlacement="stacked"
                   fill="outline"
                   className={`login-card__input ${errores.rut ? 'ion-invalid ion-touched' : ''}`}
@@ -77,7 +77,7 @@ export default function Login() {
                   }}
                 />
                 <IonInput
-                  label="Clave Unica"
+                  label="ClaveÚnica"
                   labelPlacement="stacked"
                   fill="outline"
                   type="password"
@@ -99,16 +99,14 @@ export default function Login() {
                   </IonText>
                 )}
 
-                <IonButton type="submit" expand="block" className="login-card__btn" disabled={cargando}>
-                  {cargando ? 'Ingresando...' : 'Ingresar'}
+                <IonButton type="submit" expand="block" className="login-card__btn login-card__btn--claveunica" disabled={cargando}>
+                  {cargando ? 'Ingresando...' : 'Ingresar con ClaveÚnica'}
                 </IonButton>
               </form>
 
               <p className="login-card__footer">
-                Problemas con tu clave unica?<br />
-                <a href="https://claveunica.gob.cl" target="_blank" rel="noreferrer">
-                  Ingresa aqui si necesitas ayuda
-                </a>
+                Eres funcionario municipal?<br />
+                <Link to="/login-funcionario">Ingresa aqui con tu usuario y contraseña</Link>
               </p>
             </div>
           </div>
@@ -116,4 +114,4 @@ export default function Login() {
       </IonContent>
     </IonPage>
   );
-}
+}

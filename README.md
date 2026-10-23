@@ -6,7 +6,7 @@ Específicamente se trabajaron los temas relacionados con la autenticación de l
 
 | Función | Ubicación | Estado |
 |---|---|---|
-| Registro de usuario | Ver [registro de usuarios](anexos/registro-de-usuarios.md) | Implementado |
+| Registro de usuario | Ver [registro de usuarios](anexos/registro-de-usuarios.md) | No Implementado |
 | Inicio de sesión | [`POST /api/auth/login`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js) | Implementado |
 | Validación JWT y rutas protegidas | [`middlewares/authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |
 | Autorización por roles | `autorizarRoles` y `autorizarPropioORoles` en [`authMiddleware.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/middlewares/authMiddleware.js) | Implementado |

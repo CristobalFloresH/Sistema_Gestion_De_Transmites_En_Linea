@@ -15,6 +15,7 @@ import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Registro from './pages/Registro';
+import LoginFuncionario from './pages/LoginFuncionario';
 import './styles/global.css';
 
 setupIonicReact();
@@ -27,7 +28,7 @@ export default function App() {
                     {/* Rutas públicas */}
           <Route path="/" element={<MenuPrincipal />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/registro" element={<Registro />} />
+          <Route path="/login-funcionario" element={<LoginFuncionario />} />
           <Route path="/tramite-licencia" element={<ProtectedRoute><TramiteLicencia /></ProtectedRoute>} />
           <Route path="/calendario" element={<ProtectedRoute><Calendario /></ProtectedRoute>} />
           <Route path="/tramite-finalizado" element={<ProtectedRoute><TramiteFinalizado /></ProtectedRoute>} />
@@ -36,6 +37,9 @@ export default function App() {
           {/* Rutas del funcionario */}
           <Route path="/funcionario/agenda" element={<ProtectedRoute rol="funcionario"><AgendaFuncionario /></ProtectedRoute>} />
           <Route path="/funcionario/tramites/:idTramite" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
+
+          {/* Ruta del administrador: registro de usuarios */}
+          <Route path="/registro" element={<ProtectedRoute rol="administrador"><Registro /></ProtectedRoute>} />
 
         </IonRouterOutlet>
       </IonReactRouter>

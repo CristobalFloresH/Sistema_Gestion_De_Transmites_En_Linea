@@ -29,6 +29,9 @@ export default function NavBar() {
         {variant === 'funcionario' && (
           <Link to="/funcionario/agenda" className="NavBar__link">Agenda</Link>
         )}
+        {usuario?.rol === 'administrador' && (
+          <Link to="/registro" className="NavBar__link">Registro de ciudadanos</Link>
+        )}
         <Link to="/tramite-licencia" className="NavBar__link">Tramites</Link>
         <Link to="/" className="NavBar__link">Contacto</Link>
         {variant === 'public' && (

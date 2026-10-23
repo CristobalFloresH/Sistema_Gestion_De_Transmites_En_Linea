@@ -196,8 +196,8 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 
 | Método | Ruta | Objetivo | Token / rol | Estado actual |
 |---|---|---|---|---|
-| POST | `/auth/registro` | Registrar ciudadano | No | No implementado. El código se mantiene solo por la rúbrica (ver [registro de usuarios](anexos/registro-de-usuarios.md)) |
-| POST | `/auth/login` | Iniciar sesión | No | Implementado, JWT de 2 h |
+| POST | `/auth/registro` | Alta de usuarios (ciudadano o funcionario) | Administrador | Implementado |
+| POST | `/auth/login` | Iniciar sesión (acceso ciudadano o funcionario) | No | Implementado, JWT de 2 h |
 | GET | `/tipos_tramite`, `/tipos_documento`, `/estados_tramite`, `/estados_documento`, `/metodos_notificacion`, `/roles` | Catálogos | No | Implementado, solo lectura |
 | GET | `/tramites` | Listar trámites | Sí (el ciudadano solo ve los suyos) | Implementado |
 | GET | `/tramites/:id` | Ver trámite con su historial | Sí (el ciudadano solo los suyos) | Implementado |
@@ -219,8 +219,8 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
 | GET | `/usuarios/:rut` | Ver usuario | Sí (propio o personal) | Implementado |
 | PUT, PATCH, DELETE | `/usuarios/:rut` | Editar o eliminar usuario | Administrador | Implementado |
 
-### 6.1 `POST /api/auth/registro` — Registro (no implementado)
-> **No implementado:** la aplicación no lo usa y el código se mantiene solo por la rúbrica. Ver [registro de usuarios](anexos/registro-de-usuarios.md).
+### 6.1 `POST /api/auth/registro` — Alta de usuarios por el administrador
+En este sistema el ciudadano no crea su propia cuenta: la habilita la municipalidad. Por eso el registro solo lo puede usar un administrador con sesión iniciada (`Authorization: Bearer <token del administrador>`).
 
 ```json
 {
@@ -228,17 +228,20 @@ Las respuestas exitosas vienen en `{ "datos": ... }` y los errores en `{ "error"
   "nombre": "Ciudadana Nueva",
   "correo": "nueva@prueba.cl",
   "telefono": "+56911111111",
-  "password": "Segura#2026"
+  "password": "Segura#2026",
+  "rol": "ciudadano"
 }
 ```
-Responde `201` con el usuario creado, sin la contraseña. El rol siempre queda como ciudadano, aunque el cuerpo traiga otro.
+Responde `201` con el usuario creado, sin la contraseña. `rol` puede ser `ciudadano` o `funcionario`; si no se envía, queda como ciudadano. No se pueden crear administradores.
 
-**Estados reconocidos en el código:** `400` si faltan datos o la contraseña no cumple las reglas (8 caracteres, mayúscula, minúscula, número y símbolo); `409` si el RUT o el correo ya existen.
+**Estados reconocidos en el código:** `401` sin token o con token inválido; `403` si quien lo usa no es administrador; `400` si faltan datos, el rol no es válido o la contraseña no cumple las reglas (8 caracteres, mayúscula, minúscula, número y símbolo); `409` si el RUT o el correo ya existen.
 
 ### 6.2 `POST /api/auth/login` — Inicio de sesión
 ```json
-{ "rut": "20123456-5", "password": "Clave123!" }
+{ "rut": "20123456-5", "password": "Clave123!", "acceso": "ciudadano" }
 ```
+`acceso` indica desde qué pantalla se inicia sesión: `ciudadano` (simulador de ClaveÚnica) o `funcionario` (acceso del personal). Es opcional; si se envía y el rol del usuario no corresponde, responde `403`. Por el acceso `funcionario` entran funcionarios y administradores.
+
 Respuesta de éxito:
 ```json
 {
@@ -249,7 +252,7 @@ Respuesta de éxito:
 ```
 El token solo lleva `rut` y `rol`.
 
-**Estados reconocidos en el código:** `400` si faltan credenciales; `401` con el mismo mensaje para un RUT inexistente o una contraseña incorrecta.
+**Estados reconocidos en el código:** `400` si faltan credenciales o el acceso no es válido; `401` con el mismo mensaje para un RUT inexistente o una contraseña incorrecta; `403` si el rol no corresponde al acceso.
 
 ### 6.3 Rutas protegidas — ejemplo `POST /api/citas`
 ```
@@ -273,7 +276,7 @@ Los filtros van en la URL (`?campo=valor`) y los datos en el cuerpo JSON. `PUT` 
 | `/citas` | `fecha`, `rut_ciudadano`, `id_bloque_horario`, `vigente` | `id_tramite`, `id_bloque_horario`, `id_metodo_notificacion` | `id_bloque_horario`, `id_metodo_notificacion`, `vigente` |
 | `/documentos` | `id_tramite`, `id_estado_documento` | `id_tramite`, `id_tipo_documento`, `nombre_archivo` | `nombre_archivo`, `id_estado_documento`, `motivo_rechazo`, `rut_revisor` |
 | `/bloques_horarios` | `fecha`, `activo` | `fecha`, `hora_inicio`, `hora_fin`, `cupos`, `activo` (opcional) | `fecha`, `hora_inicio`, `hora_fin`, `cupos`, `activo` |
-| `/usuarios` | `id_rol`, `activo` | No tiene `POST` | `nombre`, `correo`, `telefono`, `activo`, `id_rol` |
+| `/usuarios` | `id_rol`, `activo` | No tiene `POST` (las cuentas se crean con `/auth/registro`) | `nombre`, `correo`, `telefono`, `activo`, `id_rol` |
 
 Los campos que no aparecen en la tabla se rechazan con `400`.
 
@@ -376,13 +379,13 @@ Las rutas no incluyen `/api` porque ya va en el `baseURL`.
 
 
 # 9. Pruebas funcionales y evidencia EP2
-Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/backend-EP2/backend/pruebas): una colección de Insomnia por recurso (catálogos, bloques horarios, trámites, documentos, citas y usuarios) y una de autenticación y roles. Para repetirlas, se carga la base desde `licencias.sql`, se importan las colecciones en Insomnia y se ejecutan en ese orden.
+Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/tree/backend-EP2/backend/pruebas): una colección de Insomnia por recurso, una de autenticación y roles, y una del registro por el administrador. Para repetirlas, se carga la base desde `licencias.sql`, se importan las colecciones en Insomnia y se ejecutan en este orden: catálogos, bloques horarios, trámites, citas, documentos, autenticación, registro por administrador y usuarios (usuarios va al final porque su petición 15 elimina al administrador de prueba).
 
 | ID | Petición / escenario | HTTP esperado | Evidencia |
 |---|---|---|---|
-| P01 | Registrar usuario válido **(no implementado, solo por la rúbrica)** | 201 | `insomnia-auth.json` #01, [captura](anexos/pruebas/auth-resultados.png) |
-| P02 | Registrar RUT repetido **(no implementado, solo por la rúbrica)** | 409 | `insomnia-auth.json` #02, [captura](anexos/pruebas/auth-resultados.png) |
-| P03 | Registrar con contraseña débil **(no implementado, solo por la rúbrica)** | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
+| P01 | Administrador registra un ciudadano | 201 | `insomnia-auth.json` #01, [captura](anexos/pruebas/caso-auth-01.png) |
+| P02 | Registrar RUT repetido | 409 | `insomnia-auth.json` #02, [captura](anexos/pruebas/auth-resultados.png) |
+| P03 | Registrar con contraseña débil | 400 | `insomnia-auth.json` #04, [captura](anexos/pruebas/caso-auth-04.png) |
 | P04 | Iniciar sesión válida | 200 | `insomnia-auth.json` #06, [captura](anexos/pruebas/caso-auth-06.png) |
 | P05 | Login sin credenciales | 400 | `insomnia-auth.json` #07, [captura](anexos/pruebas/auth-resultados.png) |
 | P06 | Login con contraseña incorrecta | 401 | `insomnia-auth.json` #08, [captura](anexos/pruebas/auth-resultados.png) |
@@ -395,11 +398,16 @@ Las pruebas están en [`backend/pruebas/`](https://github.com/CristobalFloresH/S
 | P13 | Datos inválidos | 400 | `insomnia-bloques-horarios.json` #08, [captura](anexos/pruebas/bloques-horarios-resultados.png) |
 | P14 | Reservar en un bloque sin cupos | 409 | `insomnia-citas.json` #07, [captura](anexos/pruebas/caso-citas-07.png) |
 | P15 | Eliminar un documento ya revisado | 409 | `insomnia-documentos.json` #17, [captura](anexos/pruebas/caso-documentos-17.png) |
-| P16 | Ciudadano accede al trámite, la cita o los documentos de otro | 403 | `insomnia-auth.json` #25–#30 |
+| P16 | Ciudadano accede al trámite, la cita o los documentos de otro | 403 | `insomnia-auth.json` #25–#30, [captura](anexos/pruebas/auth-resultados.png) |
+| P17 | Registrar sin token | 401 | `insomnia-registro-admin.json` #03, [captura](anexos/pruebas/caso-registro-03.png) |
+| P18 | Ciudadano intenta registrar un usuario | 403 | `insomnia-registro-admin.json` #05, [captura](anexos/pruebas/caso-registro-05.png) |
+| P19 | Administrador registra un funcionario | 201 | `insomnia-registro-admin.json` #02, [captura](anexos/pruebas/caso-registro-02.png) |
+| P20 | Iniciar sesión por el acceso que no corresponde al rol | 403 | `insomnia-registro-admin.json` #09–#10, [captura](anexos/pruebas/caso-registro-09.png) |
+| P21 | Iniciar sesión por el acceso que corresponde al rol (administrador por funcionario, ciudadano por ciudadano) | 200 | `insomnia-registro-admin.json` #00 y #04, capturas [administrador](anexos/pruebas/caso-login-admin.png) y [ciudadano](anexos/pruebas/caso-login-ciudadano.png) |
 
-Las colecciones tienen 129 peticiones en total, con casos de éxito y de error para cada recurso. Se ejecutaron todas el 18-10-2026 con la base recién cargada, y cada una respondió el código esperado que indica su nombre.
+Las colecciones tienen 142 peticiones en total, con casos de éxito y de error para cada recurso. Se ejecutaron todas el 22-10-2026 con la base recién cargada y en el orden indicado, y cada una respondió el código esperado que indica su nombre.
 
-Capturas de cada colección: [autenticación](anexos/pruebas/auth-resultados.png), [catálogos](anexos/pruebas/catalogos-resultados.png), [bloques horarios](anexos/pruebas/bloques-horarios-resultados.png), [trámites](anexos/pruebas/tramites-resultados.png), [documentos](anexos/pruebas/documentos-resultados.png), [citas](anexos/pruebas/citas-resultados.png) y [usuarios](anexos/pruebas/usuarios-resultados.png).
+Capturas de cada colección: [autenticación](anexos/pruebas/auth-resultados.png), [catálogos](anexos/pruebas/catalogos-resultados.png), [bloques horarios](anexos/pruebas/bloques-horarios-resultados.png), [trámites](anexos/pruebas/tramites-resultados.png), [documentos](anexos/pruebas/documentos-resultados.png), [citas](anexos/pruebas/citas-resultados.png), [registro por administrador](anexos/pruebas/registro-admin-resultados.png) y [usuarios](anexos/pruebas/usuarios-resultados.png).
 
 # 10. Modelo relacional
 Base de datos PostgreSQL, con las distintas claves primarias, claves foráneas y restricciones.

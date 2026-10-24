@@ -1,21 +1,24 @@
 # Registro de usuarios
 
-## Por qué la aplicación no tiene registro
-En el contexto real del sistema, el ciudadano se identifica con Clave Única y las cuentas del personal las administra la municipalidad, por lo que un registro abierto no corresponde al problema. La profesora nos confirmó que el registro no aplica a este proyecto. Aun así, como en la EP1 se descontó puntaje por no tenerlo, se dejó el código necesario para un registro.
+## Por qué el registro lo hace el administrador
+En el contexto real del sistema, el ciudadano se identifica con Clave Única y las cuentas del personal las administra la municipalidad, por lo que un registro abierto, donde cualquier persona crea su propia cuenta, no corresponde al problema. Por recomendación del ayudante, el registro existe pero solo lo puede usar un administrador.
 
-No está implementado en la aplicación. El código se mantiene **solo para demostrar el cumplimiento de la rúbrica**: el frontend no tiene pantalla ni enlaces de registro.
+El administrador crea las cuentas de ciudadanos y funcionarios desde la aplicación. Así también se cubre la creación de cuentas de funcionarios que pide el RF-17.
 
-## Qué se mantiene
+## Cómo funciona
 | Parte | Archivo | Qué hace |
 |---|---|---|
-| Endpoint `POST /api/auth/registro` | [`authRoutes.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js), [`authController.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/controllers/authController.js) | Crea un usuario. El rol siempre queda como ciudadano, aunque el cuerpo traiga otro |
+| Pantalla de registro | [`Registro.jsx`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/frontend-EP2/frontend/src/pages/Registro.jsx) | Formulario en `/registro`, al que solo entra el administrador desde el enlace "Registro de ciudadanos" de la barra. Permite elegir si la cuenta es de ciudadano o funcionario, y no cambia la sesión del administrador |
+| Endpoint `POST /api/auth/registro` | [`authRoutes.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/routes/authRoutes.js), [`authController.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/controllers/authController.js) | Exige el token de un administrador (401 sin token, 403 con otro rol). Crea la cuenta con el rol elegido, ciudadano o funcionario, y no permite crear administradores |
 | `validarClave` | [`utils/validacionClave.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/utils/validacionClave.js) | Exige 8 caracteres o más, mayúscula, minúscula, número y símbolo |
 | `hashearClave` | [`utils/claves.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/src/utils/claves.js) | Guarda la contraseña como hash bcrypt (10 rondas) |
 | Script `npm run hash` | [`scripts/generar-hash.js`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/scripts/generar-hash.js) | Usa las dos funciones anteriores sin necesidad del servidor |
-| Pruebas | [`insomnia-auth.json`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/pruebas/insomnia-auth.json), peticiones 01 a 06 | Registro válido, RUT repetido, correo repetido, contraseña débil, rol ignorado y login del usuario nuevo |
+| Pruebas | [`insomnia-auth.json`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/pruebas/insomnia-auth.json) (peticiones 01 a 06) y [`insomnia-registro-admin.json`](https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea/blob/backend-EP2/backend/pruebas/insomnia-registro-admin.json) | Registro de ciudadanos y funcionarios, RUT y correo repetidos, contraseña débil, rol no permitido, registro sin token o sin rol de administrador, y el login de las cuentas nuevas |
 
 ## Cómo probarlo
-**Con Insomnia:** ejecutar las peticiones 01 a 06 de la colección de autenticación (ver la sección 9 del [README](../README.md)).
+**En la aplicación:** entrar por `/login-funcionario` con el administrador de prueba (`11111111-1`, `Clave123!`), abrir "Registro de ciudadanos" y crear una cuenta. Después cerrar sesión y entrar con la cuenta nueva, por `/login` si es de ciudadano o por `/login-funcionario` si es de funcionario.
+
+**Con Insomnia:** ejecutar las colecciones en el orden de la sección 9 del [README](../README.md) (casos P01 a P03 y P17 a P21).
 
 **Sin el servidor:** desde la carpeta `backend/`:
 ```

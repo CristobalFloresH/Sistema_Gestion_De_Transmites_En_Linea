@@ -5,11 +5,17 @@ import {
 } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { login } from '../services/authService';
-import IconoAuto from '../assets/IconoAuto.png';
+import { leerReserva } from '../services/reserva';
 import './Login.css';
 
-//Login de ciudadanos: simulador local de ClaveUnica (prototipo academico, valida contra la base de datos del proyecto)
+const PREGUNTAS = [
+  { q: '¿Que tramites puedes realizar?', a: 'Licencia por primera vez, renovacion y reimpresion de tu licencia de conducir.' },
+  { q: '¿Que documentos te piden?', a: 'Cedula de identidad, certificado de residencia y, para primera vez, certificado de educacion basica.' },
+  { q: '¿Como sigo mi tramite?', a: 'Ingresa y entra a "Mis tramites" para ver en que fase va cada uno.' },
+];
+
 export default function Login() {
+  const [abierta, setAbierta] = useState(null);
   //Guarda la informacion del usuario
   const [rut, setRut] = useState('');
   const [clave, setClave] = useState('');
@@ -25,8 +31,8 @@ export default function Login() {
 
     //Se verifica que los campos no esten en blanco
     const nuevosErrores = {
-      rut: rut.trim() ? '' : 'Ingresa tu RUN',
-      clave: clave.trim() ? '' : 'Ingresa tu ClaveÚnica',
+      rut: rut.trim() ? '' : 'Ingresa tu RUT',
+      clave: clave.trim() ? '' : 'Ingresa tu clave unica',
     };
     setErrores(nuevosErrores);
 
@@ -36,9 +42,11 @@ export default function Login() {
     setCargando(true);
     try {
       //Conexion con Backend para hacer la peticion POST
-      //Se entra por el acceso ciudadano: si el RUT es de un funcionario el backend responde 403
-      await login(rut.trim(), clave, 'ciudadano');
-      navigate('/');
+      const usuario = await login(rut.trim(), clave);
+      //Se revisa que rol es
+      const esPersonal = usuario.rol === 'funcionario' || usuario.rol === 'administrador';
+      //Dependiendo de que usuario sea lo manda a distintos apartados
+      navigate(esPersonal ? '/funcionario/agenda' : (leerReserva().tipo ? '/calendario' : '/'));
     } catch (error) {
       setErrorServidor(error.message);
     } finally {
@@ -51,67 +59,82 @@ export default function Login() {
       <IonContent>
         <div className="page login-page">
           <NavBar />
-          <div className="login-bg">
-            <div className="login-card">
-              <h2 className="login-card__title">Municipalidad de Santo Domingo</h2>
-              <p className="login-card__subtitle">Licencias de conducir</p>
-              <img src={IconoAuto} alt="Auto" className="login-card__icon" />
-              <span className="login-card__etiqueta">PROTOTIPO ACADÉMICO</span>
-              <h3 className="login-card__welcome">Ingresar con ClaveÚnica</h3>
-              <p className="login-card__aviso">
-                Esto es un simulador. No uses tu ClaveÚnica real.
-              </p>
-              <form onSubmit={handleSubmit}>
-                <IonInput
-                  label="RUN"
-                  labelPlacement="stacked"
-                  fill="outline"
-                  className={`login-card__input ${errores.rut ? 'ion-invalid ion-touched' : ''}`}
-                  placeholder="12.345.678-9"
-                  helperText="Formato: 12.345.678-9"
-                  errorText={errores.rut}
-                  value={rut}
-                  onIonInput={(e) => {
-                    setRut(e.detail.value ?? '');
-                    setErrores({ ...errores, rut: '' });
-                  }}
-                />
-                <IonInput
-                  label="ClaveÚnica"
-                  labelPlacement="stacked"
-                  fill="outline"
-                  type="password"
-                  className={`login-card__input ${errores.clave ? 'ion-invalid ion-touched' : ''}`}
-                  placeholder="**********"
-                  errorText={errores.clave}
-                  value={clave}
-                  onIonInput={(e) => {
-                    setClave(e.detail.value ?? '');
-                    setErrores({ ...errores, clave: '' });
-                  }}
-                >
-                  <IonInputPasswordToggle slot="end" />
-                </IonInput>
+          <div className="login-split">
+            <section className="login-left">
+              <div className="login-left__marca">
+                <span className="login-left__linea" />
+                <p>Municipalidad de Santo Domingo</p>
+              </div>
+              <h2 className="login-left__titulo">Gestiona tu licencia de conducir en linea</h2>
+              <ul className="login-faq">
+                {PREGUNTAS.map((p, i) => (
+                  <li key={p.q} className={abierta === i ? 'abierta' : ''}>
+                    <button type="button" className="login-faq__pregunta" onClick={() => setAbierta(abierta === i ? null : i)}>
+                      <span className="login-faq__num">{i + 1}</span>
+                      <span>{p.q}</span>
+                      <span className="login-faq__flecha">⌄</span>
+                    </button>
+                    {abierta === i && <p className="login-faq__resp">{p.a}</p>}
+                  </li>
+                ))}
+              </ul>
+            </section>
+            <section className="login-right">
+              <div className="login-card">
+                <h2 className="login-card__title">Ingresar</h2>
+                <p className="login-card__subtitle">Con tu RUT y Clave Única</p>
+                <form onSubmit={handleSubmit}>
+                  <IonInput
+                    label="RUT"
+                    labelPlacement="stacked"
+                    fill="outline"
+                    className={`login-card__input ${errores.rut ? 'ion-invalid ion-touched' : ''}`}
+                    placeholder="12.345.678-9"
+                    errorText={errores.rut}
+                    value={rut}
+                    onIonInput={(e) => {
+                      setRut(e.detail.value ?? '');
+                      setErrores({ ...errores, rut: '' });
+                    }}
+                  />
+                  <IonInput
+                    label="Clave Única"
+                    labelPlacement="stacked"
+                    fill="outline"
+                    type="password"
+                    className={`login-card__input ${errores.clave ? 'ion-invalid ion-touched' : ''}`}
+                    placeholder="**********"
+                    errorText={errores.clave}
+                    value={clave}
+                    onIonInput={(e) => {
+                      setClave(e.detail.value ?? '');
+                      setErrores({ ...errores, clave: '' });
+                    }}
+                  >
+                    <IonInputPasswordToggle slot="end" />
+                  </IonInput>
 
-                {errorServidor && (
-                  <IonText color="danger">
-                    <p style={{ textAlign: 'center' }}>{errorServidor}</p>
-                  </IonText>
-                )}
+                  {errorServidor && (
+                    <IonText color="danger">
+                      <p style={{ textAlign: 'center', marginTop: 12 }}>{errorServidor}</p>
+                    </IonText>
+                  )}
 
-                <IonButton type="submit" expand="block" className="login-card__btn login-card__btn--claveunica" disabled={cargando}>
-                  {cargando ? 'Ingresando...' : 'Ingresar con ClaveÚnica'}
-                </IonButton>
-              </form>
-
-              <p className="login-card__footer">
-                Eres funcionario municipal?<br />
-                <Link to="/login-funcionario">Ingresa aqui con tu usuario y contraseña</Link>
-              </p>
-            </div>
+                  <IonButton type="submit" expand="block" className="login-card__btn" disabled={cargando}>
+                    {cargando ? 'Ingresando...' : 'Ingresar'}
+                  </IonButton>
+                </form>
+                <p className="login-card__footer">
+                  <a href="https://claveunica.gob.cl" target="_blank" rel="noreferrer">¿Problemas con tu Clave Única?</a>
+                </p>
+                <p className="login-card__footer">
+                  No tienes cuenta? <Link to="/registro">Registrate aqui</Link>
+                </p>
+              </div>
+            </section>
           </div>
         </div>
       </IonContent>
     </IonPage>
   );
-}
+}

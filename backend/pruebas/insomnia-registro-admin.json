@@ -1,0 +1,267 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "insomnia.desktop.app:v9",
+  "resources": [
+    {
+      "_id": "wrk_registro_admin",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Trámites - Registro por administrador",
+      "scope": "collection",
+      "description": "Alta de usuarios solo para el administrador y login con tipo de acceso (ciudadano o funcionario). Ejecutar en orden con la base recién cargada. Las peticiones con token lo toman de la respuesta del login indicado (Auth → Bearer Token)."
+    },
+    {
+      "_id": "req_reg_00_login_admin",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "00 Login administrador por acceso funcionario (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 0,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"11111111-1\",\n  \"password\": \"Clave123!\",\n  \"acceso\": \"funcionario\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_reg_01",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "01 Admin registra ciudadano (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 1,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"16666666-K\",\n  \"nombre\": \"Ciudadano Nuevo\",\n  \"correo\": \"ciudadano.nuevo@prueba.cl\",\n  \"telefono\": \"+56922222222\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_reg_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_reg_02",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "02 Admin registra funcionario (201)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 2,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"17777777-3\",\n  \"nombre\": \"Funcionario Nuevo\",\n  \"correo\": \"funcionario.nuevo@prueba.cl\",\n  \"password\": \"Segura#2026\",\n  \"rol\": \"funcionario\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_reg_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_reg_03",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "03 Error: registrar sin token (401)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 3,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"18888888-8\",\n  \"nombre\": \"Sin Token\",\n  \"correo\": \"sintoken@prueba.cl\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_reg_04_login_ciudadano",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "04 Login ciudadano por acceso ciudadano (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 4,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"20123456-5\",\n  \"password\": \"Clave123!\",\n  \"acceso\": \"ciudadano\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_reg_05",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "05 Error: ciudadano intenta registrar (403)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 5,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"18888888-8\",\n  \"nombre\": \"Sin Permiso\",\n  \"correo\": \"sinpermiso@prueba.cl\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_reg_04_login_ciudadano', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_reg_06",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "06 Error: rol no permitido (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 6,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"18888888-8\",\n  \"nombre\": \"Rol Malo\",\n  \"correo\": \"rolmalo@prueba.cl\",\n  \"password\": \"Segura#2026\",\n  \"rol\": \"administrador\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_reg_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_reg_07",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "07 Error: RUT repetido (409)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 7,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"16666666-K\",\n  \"nombre\": \"Repetido\",\n  \"correo\": \"repetido@prueba.cl\",\n  \"password\": \"Segura#2026\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_reg_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_reg_08",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "08 Error: contraseña débil (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/registro",
+      "metaSortKey": 8,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"18888888-8\",\n  \"nombre\": \"Clave Debil\",\n  \"correo\": \"debil@prueba.cl\",\n  \"password\": \"abc\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_reg_00_login_admin', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_reg_09",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "09 Error: ciudadano entra por acceso funcionario (403)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 9,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"20123456-5\",\n  \"password\": \"Clave123!\",\n  \"acceso\": \"funcionario\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_reg_10",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "10 Error: funcionario entra por acceso ciudadano (403)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 10,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"12345678-5\",\n  \"password\": \"Clave123!\",\n  \"acceso\": \"ciudadano\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    },
+    {
+      "_id": "req_reg_11",
+      "_type": "request",
+      "parentId": "wrk_registro_admin",
+      "name": "11 Login del funcionario nuevo (200)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 11,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"17777777-3\",\n  \"password\": \"Segura#2026\",\n  \"acceso\": \"funcionario\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
+    }
+  ]
+}

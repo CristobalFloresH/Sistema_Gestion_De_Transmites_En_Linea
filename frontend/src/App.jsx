@@ -15,7 +15,9 @@ import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Registro from './pages/Registro';
-import LoginFuncionario from './pages/LoginFuncionario';
+import MiPerfil from './pages/MiPerfil';
+import MisDocumentos from './pages/MisDocumentos';
+import Notificaciones from './pages/Notificaciones';
 import './styles/global.css';
 
 setupIonicReact();
@@ -28,18 +30,19 @@ export default function App() {
                     {/* Rutas públicas */}
           <Route path="/" element={<MenuPrincipal />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/login-funcionario" element={<LoginFuncionario />} />
+          <Route path="/registro" element={<Registro />} />
           <Route path="/tramite-licencia" element={<ProtectedRoute><TramiteLicencia /></ProtectedRoute>} />
           <Route path="/calendario" element={<ProtectedRoute><Calendario /></ProtectedRoute>} />
           <Route path="/tramite-finalizado" element={<ProtectedRoute><TramiteFinalizado /></ProtectedRoute>} />
           <Route path="/mis-tramites" element={<ProtectedRoute><MisTramites /></ProtectedRoute>} />
+          <Route path="/perfil" element={<ProtectedRoute><MiPerfil /></ProtectedRoute>} />
+          <Route path="/mis-documentos" element={<ProtectedRoute><MisDocumentos /></ProtectedRoute>} />
+          <Route path="/notificaciones" element={<ProtectedRoute><Notificaciones /></ProtectedRoute>} />
 
           {/* Rutas del funcionario */}
           <Route path="/funcionario/agenda" element={<ProtectedRoute rol="funcionario"><AgendaFuncionario /></ProtectedRoute>} />
-          <Route path="/funcionario/tramites/:idTramite" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
-
-          {/* Ruta del administrador: registro de usuarios */}
-          <Route path="/registro" element={<ProtectedRoute rol="administrador"><Registro /></ProtectedRoute>} />
+          <Route path="/funcionario/agenda/proceso" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
+          <Route path="/funcionario/agenda/error" element={<ProtectedRoute rol="funcionario"><AgendaProceso hasErrors /></ProtectedRoute>} />
 
         </IonRouterOutlet>
       </IonReactRouter>

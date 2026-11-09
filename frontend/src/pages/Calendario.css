@@ -1,115 +1,157 @@
+.reserva { padding: 40px 60px; }
 
-.calendario-section {
-  background: var(--white);
-  border-radius: 16px;
-  padding: 24px 32px;
-}
-
-.calendario-step-header {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.calendario-step-header h3 {
-  font-family: var(--font-body);
-  font-size: 22px;
+.reserva__title {
+  font-family: var(--font-display);
+  font-size: 56px;
   font-weight: 400;
+  color: var(--primary);
+  line-height: 1.1;
 }
 
-.calendario-body { display: flex; gap: 40px; align-items: flex-start; }
+.reserva__subtitle { font-family: var(--font-body); color: var(--gray-text); margin-bottom: 16px; }
 
-.calendario-grid {
+.reserva-pasos {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.reserva-pasos li:not(.reserva-pasos__flecha) {
+  font-family: var(--font-display);
+  font-size: 13px;
+  padding: 2px 12px;
+  border: 1px solid #999;
+  border-radius: 100px;
+  color: #888;
+}
+.reserva-pasos li.activo { background: var(--primary); border-color: var(--primary); color: #fff; }
+.reserva-pasos__flecha { color: var(--primary); font-size: 22px; }
+
+.reserva-body { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; }
+
+.reserva-card {
   background: var(--white);
+  border: 1px solid #b9c2d0;
   border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 16px;
 }
 
-.calendario-datetime {
-  --background: var(--white);
-  --ion-color-primary: var(--green);
-  --ion-color-primary-rgb: 75, 229, 126;
-  --ion-color-primary-contrast: var(--white);
-  --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #42ca6f;
-  --ion-color-primary-tint: #5de88b;
-  font-family: var(--font-body);
+.cal-card { width: 470px; max-width: 100%; padding: 18px 20px 24px; }
+
+.cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.cal-head h3 { font-family: var(--font-display); font-size: 24px; font-weight: 400; color: var(--primary); }
+.cal-nav { display: flex; gap: 8px; }
+.cal-nav button {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #dbe8fb; color: var(--primary);
+  font-family: var(--font-display); font-size: 18px; line-height: 1;
 }
+.cal-nav button:disabled { opacity: .4; cursor: default; }
 
-.horas-panel { flex: 1; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); row-gap: 8px; text-align: center; }
+.cal-semana { font-family: var(--font-display); font-size: 26px; color: #000; }
 
-.horas-panel h4 {
-  font-family: var(--font-body);
-  font-size: 18px;
-  font-weight: 400;
-}
-
-.horas-panel__fecha {
-  font-size: 12px;
-  color: var(--gray-text);
-  margin-bottom: 12px;
-}
-
-.horas-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-
-.hora-slot {
-  margin: 0;
-  height: 44px;
-  font-weight: 400;
-  --background: var(--white);
-  --color: var(--black);
-  --border-color: #bbb;
-  --border-width: 1px;
-  --border-style: solid;
-  --border-radius: 8px;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --box-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-}
-
-.hora-slot.selected {
-  --background: rgba(75, 229, 126, 0.3);
-  --border-color: var(--green);
-}
-
-.hora-slot__contenido {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.hora-slot__hora {
-  font-family: var(--font-body);
-  font-size: 20px;
-}
-
-.hora-slot__cupos {
+.cal-dia {
+  height: 40px;
+  margin: 0 auto;
+  min-width: 42px;
+  background: transparent;
+  border-radius: 8px;
   font-family: var(--font-display);
   font-size: 28px;
-  color: var(--green);
+  color: #000;
+  position: relative;
+}
+.cal-dia.pasado { color: #999; cursor: default; }
+.cal-dia.selected { background: var(--primary); color: #fff; }
+.cal-dia.hoy::after {
+  content: ''; position: absolute; left: 50%; bottom: -3px; transform: translateX(-50%);
+  width: 5px; height: 5px; border-radius: 50%; background: #888;
 }
 
-.horas-panel__resumen {
-  min-height: 26px;
-  text-align: center;
-  font-size: 13px;
-  margin-bottom: 8px;
-}
+.horas-panel { flex: 1; min-width: 300px; padding: 24px 40px; }
 
-.horas-panel__resumen strong {
+.horas-panel h3 {
   font-family: var(--font-display);
   font-size: 22px;
   font-weight: 400;
+  color: var(--primary);
 }
 
-.btn.calendario-continuar {
-  height: 48px;
-  --border-radius: 6px;
-  font-family: var(--font-display);
-  font-size: 44px;
+.horas-panel__fecha { font-size: 12px; color: var(--gray-text); margin-bottom: 16px; }
+
+.horas-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+
+.hora-slot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 46px;
+  padding: 0 16px;
+  background: var(--white);
+  border: 1px solid #999;
+  border-radius: 10px;
+  color: #0a2a4d;
 }
+.hora-slot:disabled { opacity: .45; cursor: not-allowed; }
+
+.hora-slot__radio {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #999;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.hora-slot.selected { border-color: var(--primary); }
+.hora-slot.selected .hora-slot__radio { background: var(--primary); box-shadow: inset 0 0 0 5px #fff; border-color: var(--primary); }
+
+.hora-slot__hora { font-family: var(--font-display); font-size: 22px; flex: 1; text-align: left; }
+.hora-slot__cupos { font-size: 12px; color: #888; }
+
+.horas-panel__resumen { min-height: 26px; text-align: center; font-size: 13px; margin-bottom: 8px; }
+.horas-panel__resumen strong { font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--primary); }
+
+.btn.calendario-continuar {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  height: 46px;
+  --border-radius: 100px;
+  --padding-start: 40px;
+  --padding-end: 40px;
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+@media (max-width: 800px) { .reserva { padding: 24px 16px; } .horas-panel { padding: 20px; } }
+
+.reserva-pasos li.hecho { border-color: var(--primary); color: var(--primary); }
+.reserva-tipo { font-size: 14px; color: var(--primary); margin-bottom: 16px; }
+.reserva-aviso { margin-bottom: 16px; color: var(--err-text); }
+.reserva-aviso a { color: var(--primary); text-decoration: underline; font-weight: 700; }
+
+.subida-card { max-width: 900px; padding: 24px 32px; }
+.subida-card h3 { font-family: var(--font-display); font-size: 24px; font-weight: 400; color: var(--primary); }
+.subida-grid { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; }
+.subida-doc {
+  flex: 1 1 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 20px;
+  border: 2px dashed var(--primary);
+  border-radius: 10px;
+  color: var(--primary);
+  text-align: center;
+  cursor: pointer;
+}
+.subida-doc:hover { background: #eef4ff; }
+.subida-doc.cargado { border-style: solid; background: #eef4ff; font-weight: 700; }
+.subida-doc small { font-size: 11px; font-weight: 400; word-break: break-all; }
+.subida-error { color: var(--err-text); font-size: 13px; }
+.subida-acciones { display: flex; gap: 16px; justify-content: center; margin-top: 16px; }
+.subida-acciones .calendario-continuar { margin: 0; }
+.reserva-tipo a { color: var(--primary); text-decoration: underline; }

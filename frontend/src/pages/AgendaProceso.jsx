@@ -1,153 +1,30 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { IonPage, IonContent, IonButton, IonIcon, IonSpinner, useIonToast, useIonAlert, useIonViewWillEnter } from '@ionic/react';
+import { Link } from 'react-router-dom';
+import { IonPage, IonContent, IonButton, IonIcon, IonTextarea, useIonToast } from '@ionic/react';
 import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
-import { obtenerTramite, listarTramites, cambiarEstadoTramite } from '../services/tramiteService';
-import { listarDocumentos } from '../services/documentoService';
-import { listarCitas, listarCitasVigentes, cancelarCita } from '../services/citaService';
-import { formatear, hoyIso } from '../utils/fechas';
-import {
-  ID_CITA_RESERVADA, ID_LISTA_PARA_RETIRO, ID_RECHAZADO,
-  etapasDe, pasoActual, siguienteEstado, nombreEtapa, buscarCitaCancelada,
-} from '../utils/etapas';
 import IconoPDF from '../assets/PDF.png';
 import './AgendaProceso.css';
 
-// Cuantos tramites del historial se muestran antes de "Ver todos"
-const HISTORIAL_RESUMIDO = 3;
-
-// Lo que el funcionario revisa en los documentos antes de aprobar (no se guarda en la base)
-const CHECKS = [
-  'Los datos coinciden con el RUT del ciudadano',
-  'Los documentos son legibles y estan completos',
-  'Los documentos estan vigentes',
-];
-const CHECKS_SIN_MARCAR = CHECKS.map(() => false);
-
-// Clase de color del estado en el historial
-function claseHistorial(idEstado) {
-  if (idEstado === ID_RECHAZADO) return 'rechazado';
-  if (idEstado === ID_LISTA_PARA_RETIRO) return 'completado';
-  return 'proceso';
+function Check({ ok, children }) {
+  return (
+    <li className={ok ? 'ok' : 'error'}>
+      <IonIcon icon={ok ? checkmarkCircle : closeCircle} /> {children}
+    </li>
+  );
 }
 
-export default function AgendaProceso() {
+export default function AgendaProceso({ hasErrors = false }) {
   const [mostrarAviso] = useIonToast();
-  const [mostrarAlerta] = useIonAlert();
-  const { idTramite } = useParams();
-  const [tramite, setTramite] = useState(null);
-  const [documentos, setDocumentos] = useState([]);
-  const [otrosTramites, setOtrosTramites] = useState([]);
-  const [citasCiudadano, setCitasCiudadano] = useState([]);
-  const [verTodoHistorial, setVerTodoHistorial] = useState(false);
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState('');
-  const [checks, setChecks] = useState(CHECKS_SIN_MARCAR);
-  const [guardando, setGuardando] = useState(false);
+  const [motivo, setMotivo] = useState('');
 
-  const cargar = () => {
-    setCargando(true);
-    setError('');
-    obtenerTramite(idTramite)
-      .then((datosTramite) => Promise.all([
-        datosTramite,
-        listarDocumentos(datosTramite.id_tramite),
-        listarTramites({ rut_ciudadano: datosTramite.rut_ciudadano }),
-        // Todas sus citas (tambien las canceladas), para mostrar "Cita cancelada" en el historial
-        listarCitas({ rut_ciudadano: datosTramite.rut_ciudadano }),
-      ]))
-      .then(([datosTramite, datosDocumentos, datosTramites, datosCitas]) => {
-        setTramite(datosTramite);
-        setDocumentos(datosDocumentos);
-        setOtrosTramites(datosTramites.filter((t) => t.id_tramite !== datosTramite.id_tramite));
-        setCitasCiudadano(datosCitas);
-      })
-      .catch((e) => {
-        setTramite(null);
-        setError(e.mensaje);
-      })
-      .finally(() => setCargando(false));
-  };
-
-  // Ionic deja la pagina montada: se recargan los datos al entrar. Va con [idTramite]
-  // para que, al abrir otro tramite, no se quede con el id del anterior
-  useIonViewWillEnter(() => {
-    setVerTodoHistorial(false);
-    setChecks(CHECKS_SIN_MARCAR);
-    cargar();
-  }, [idTramite]);
-
-  const marcarCheck = (indice) => {
-    setChecks(checks.map((marcado, i) => (i === indice ? !marcado : marcado)));
-  };
-
-  // "Aprobar" (desde Cita reservada) exige los 3 checks; "Avanzar a" las etapas siguientes no
-  const siguiente = tramite ? siguienteEstado(tramite.id_tipo_tramite, tramite.id_estado_tramite) : null;
-  const esAprobacion = tramite?.id_estado_tramite === ID_CITA_RESERVADA;
-  const puedeAvanzar = !guardando && (!esAprobacion || checks.every(Boolean));
-  // Si el tramite ya se aprobo, los documentos ya se revisaron: los checks se muestran marcados y fijos
-  const documentosValidados = tramite
-    && tramite.id_estado_tramite !== ID_CITA_RESERVADA && tramite.id_estado_tramite !== ID_RECHAZADO;
-
-  const avanzar = async () => {
-    setGuardando(true);
-    try {
-      await cambiarEstadoTramite(tramite.id_tramite, siguiente);
-      const mensaje = esAprobacion ? 'Tramite aprobado' : `Tramite avanzado a ${nombreEtapa(siguiente)}`;
-      mostrarAviso({ message: mensaje, duration: 2000, color: 'success' });
-      setChecks(CHECKS_SIN_MARCAR);
-      cargar();
-    } catch (e) {
-      mostrarAviso({ message: e.mensaje, duration: 3000, color: 'danger' });
-    } finally {
-      setGuardando(false);
+  const rechazar = () => {
+    if (!motivo.trim()) {
+      mostrarAviso({ message: 'Escribe el motivo del rechazo', duration: 2000, color: 'warning' });
+      return;
     }
-  };
-
-  const rechazar = async () => {
-    setGuardando(true);
-    try {
-      // Primero se cancela la cita (solo si todavia no ocurre) para liberar el cupo; despues se rechaza.
-      // Si el rechazo fallara, el boton sigue disponible y al reintentar ya no hay cita que cancelar
-      const cita = (await listarCitasVigentes()).find((c) => c.id_tramite === tramite.id_tramite);
-      if (cita && cita.fecha > hoyIso()) await cancelarCita(cita.id_cita);
-      await cambiarEstadoTramite(tramite.id_tramite, ID_RECHAZADO);
-      mostrarAviso({ message: 'Tramite rechazado', duration: 2000, color: 'danger' });
-      cargar();
-    } catch (e) {
-      mostrarAviso({ message: e.mensaje, duration: 3000, color: 'danger' });
-    } finally {
-      setGuardando(false);
-    }
-  };
-
-  const confirmarRechazo = () => {
-    mostrarAlerta({
-      header: 'Rechazar tramite',
-      message: 'El tramite quedara rechazado y, si su cita aun no ocurre, se liberara la hora.',
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        { text: 'Rechazar', role: 'destructive', handler: rechazar },
-      ],
-    });
-  };
-
-  // Los mas recientes primero (el backend ya los entrega asi)
-  const historialVisible = verTodoHistorial ? otrosTramites : otrosTramites.slice(0, HISTORIAL_RESUMIDO);
-
-  // El PDF no se sube todavia: "ver" muestra los datos que si estan guardados
-  const verDocumento = (documento) => {
-    const motivo = documento.motivo_rechazo ? ` · Motivo: ${documento.motivo_rechazo}` : '';
-    mostrarAlerta({
-      header: documento.nombre_tipo_documento,
-      subHeader: documento.nombre_archivo,
-      message: `Subido el ${formatear(documento.fecha_subida.slice(0, 10), { day: 'numeric', month: 'short', year: 'numeric' })}`
-        + ` · Estado: ${documento.nombre_estado_documento}${motivo}.`
-        + ' La vista previa del PDF estara disponible cuando se implemente la subida real de archivos.',
-      buttons: ['Cerrar'],
-    });
+    mostrarAviso({ message: 'Tramite rechazado', duration: 2000, color: 'danger' });
   };
 
   return (
@@ -158,112 +35,78 @@ export default function AgendaProceso() {
           <main className="proceso-content">
             <div className="proceso-breadcrumb">
               <Link to="/funcionario/agenda" className="proceso-breadcrumb__link">Agenda</Link>
-              <span> &gt; </span>
-              <span>
-                Proceso del tramite
-                {tramite && ` · ${tramite.nombre_ciudadano} (${tramite.rut_ciudadano}) · ${tramite.nombre_tipo_tramite}`}
-              </span>
+              <span className="proceso-breadcrumb__sep"> &gt; </span>
+              <span className="proceso-breadcrumb__actual">Proceso del tramite</span>
             </div>
-            {cargando && <IonSpinner name="crescent" />}
-            {!cargando && error && <p>{error}</p>}
-            {!cargando && tramite && (
-            <>
-            <div className="proceso-progress">
-              {tramite.id_estado_tramite === ID_RECHAZADO
-                ? <p className="historial-estado rechazado">Rechazado</p>
-                : (
-                  <ProgressBar
-                    etapas={etapasDe(tramite.id_tipo_tramite)}
-                    currentStep={pasoActual(tramite.id_tipo_tramite, tramite.id_estado_tramite)}
-                  />
-                )}
+
+            <div className="proceso-resumen">
+              <div className="proceso-resumen__head">
+                <h2>Renovacion</h2>
+                <span className="pill pendiente">En Revisión</span>
+              </div>
+              <ProgressBar currentStep={2} />
             </div>
+
             <div className="proceso-panels">
-              <div className="proceso-panel">
+              <div className={`proceso-panel ${hasErrors ? 'con-error' : ''}`}>
                 <h3>Documentos adjuntados</h3>
                 <div className="doc-list">
-                  {documentos.length === 0 && <p>Sin documentos</p>}
-                  {documentos.map((d) => (
-                    <div key={d.id_documento} className="doc-item">
-                      <span>{d.nombre_tipo_documento}: {d.nombre_archivo} ({d.nombre_estado_documento})</span>
-                      <a
-                        href="#"
-                        className="link-action"
-                        onClick={(e) => { e.preventDefault(); verDocumento(d); }}>
-                        ver
-                      </a>
+                  <div className="doc-item">
+                    <img src={IconoPDF} alt="PDF" />
+                    <div className="doc-item__info">
+                      <strong>Cedula_de_identidad.pdf</strong>
+                      <small>96 KB</small>
                     </div>
-                  ))}
-                </div>
-                <div className="doc-icons">
-                  {documentos.map((d) => (
-                    <div key={d.id_documento} className="pdf-icon">
-                      <img src={IconoPDF} alt="PDF" />
-                      <small>{d.nombre_tipo_documento}</small>
+                    {hasErrors && <span className="doc-item__badge">No legible</span>}
+                    <a href="#" className="doc-item__ver" onClick={(e) => e.preventDefault()}>Ver</a>
+                  </div>
+                  <div className="doc-item">
+                    <img src={IconoPDF} alt="PDF" />
+                    <div className="doc-item__info">
+                      <strong>Certificado_de_residencia.pdf</strong>
+                      <small>412 KB</small>
                     </div>
-                  ))}
+                    <a href="#" className="doc-item__ver" onClick={(e) => e.preventDefault()}>Ver</a>
+                  </div>
                 </div>
               </div>
-              <div className="proceso-panel">
+
+              <div className={`proceso-panel ${hasErrors ? 'con-error' : ''}`}>
                 <h3>Validar veracidad de los documentos</h3>
                 <ul className="validacion-list">
-                  {CHECKS.map((texto, i) => {
-                    const marcado = documentosValidados || checks[i];
-                    return (
-                      <li
-                        key={texto}
-                        className={marcado ? 'ok' : 'error'}
-                        style={esAprobacion ? { cursor: 'pointer' } : undefined}
-                        onClick={esAprobacion ? () => marcarCheck(i) : undefined}>
-                        <IonIcon icon={marcado ? checkmarkCircle : closeCircle} /> {texto}
-                      </li>
-                    );
-                  })}
+                  <Check ok={!hasErrors}>Datos coinciden con el RUT</Check>
+                  <Check ok={!hasErrors}>Documento legible</Check>
+                  <Check ok>Cumple normativa vigente</Check>
                 </ul>
-                {siguiente && (
-                  <div className="validacion-actions">
-                    <IonButton
-                      className="btn-validacion rechazar"
-                      disabled={guardando}
-                      onClick={confirmarRechazo}>
-                      Rechazar
-                    </IonButton>
-                    <IonButton
-                      className="btn-validacion aprobar"
-                      disabled={!puedeAvanzar}
-                      onClick={avanzar}>
-                      {esAprobacion ? 'Aprobar' : `Avanzar a: ${nombreEtapa(siguiente)}`}
-                    </IonButton>
-                  </div>
-                )}
+                <p className="motivo-label">Motivo del rechazo</p>
+                <IonTextarea
+                  className="motivo-input"
+                  placeholder="Explicar que debe corregir el ciudadano"
+                  rows={3}
+                  value={motivo}
+                  onIonInput={(e) => setMotivo(e.detail.value ?? '')}
+                />
+                <div className="validacion-actions">
+                  <IonButton className="btn-validacion rechazar" onClick={rechazar}>Rechazar</IonButton>
+                  <IonButton
+                    className="btn-validacion aprobar"
+                    onClick={() => mostrarAviso({ message: 'Tramite aprobado', duration: 2000, color: 'success' })}>
+                    Aceptar
+                  </IonButton>
+                </div>
                 <div className="historial">
                   <h4>Historial de tramites</h4>
-                  {otrosTramites.length === 0 && <p>Sin otros tramites</p>}
-                  {historialVisible.map((t) => (
-                    <div key={t.id_tramite} className="historial-item">
-                      <span>{t.nombre_tipo_tramite} {t.fecha_inicio.slice(0, 4)}</span>
-                      {buscarCitaCancelada(t, citasCiudadano) ? (
-                        <span className="historial-estado rechazado">Cita cancelada</span>
-                      ) : (
-                        <span className={`historial-estado ${claseHistorial(t.id_estado_tramite)}`}>
-                          {t.nombre_estado_tramite}
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                  {otrosTramites.length > HISTORIAL_RESUMIDO && (
-                    <a
-                      href="#"
-                      className="link-action"
-                      onClick={(e) => { e.preventDefault(); setVerTodoHistorial(!verTodoHistorial); }}>
-                      {verTodoHistorial ? 'Ver menos' : `Ver todos (${otrosTramites.length})`}
-                    </a>
-                  )}
+                  <div className="historial-item">
+                    <span>Renovacion 2026</span>
+                    <span className="pill proceso">En proceso</span>
+                  </div>
+                  <div className="historial-item">
+                    <span>Licencia nueva B 2022</span>
+                    <span className="pill aprobado">Aprobado</span>
+                  </div>
                 </div>
               </div>
             </div>
-            </>
-            )}
           </main>
         </div>
       </IonContent>

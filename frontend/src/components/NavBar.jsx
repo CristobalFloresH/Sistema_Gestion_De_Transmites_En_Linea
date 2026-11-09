@@ -29,9 +29,6 @@ export default function NavBar() {
         {variant === 'funcionario' && (
           <Link to="/funcionario/agenda" className="NavBar__link">Agenda</Link>
         )}
-        {usuario?.rol === 'administrador' && (
-          <Link to="/registro" className="NavBar__link">Registro de ciudadanos</Link>
-        )}
         <Link to="/tramite-licencia" className="NavBar__link">Tramites</Link>
         <Link to="/" className="NavBar__link">Contacto</Link>
         {variant === 'public' && (
@@ -40,7 +37,7 @@ export default function NavBar() {
         {variant !== 'public' && (
           <div className="NavBar__user-area">
             <button
-              className={variant === 'funcionario' ? 'NavBar__btn-user NavBar__btn-func' : 'NavBar__btn-user'}
+              className={'NavBar__btn-user'}
               onClick={() => setShowDropdown(!showDropdown)}
             >
               {/* Cuando exista el login real, se mostrara el nombre del usuario */}
@@ -56,10 +53,10 @@ export default function NavBar() {
                   </div>
                 </div>
                 <ul>
-                  <li><Link to="/">Mi perfil</Link></li>
+                  <li><Link to="/perfil">Mi perfil</Link></li>
                   <li><Link to="/mis-tramites">Mis tramites</Link></li>
-                  <li><Link to="/">Mis documentos</Link></li>
-                  <li><Link to="/">Notificaciones</Link></li>
+                  <li><Link to="/mis-documentos">Mis documentos</Link></li>
+                  <li><Link to="/notificaciones">Notificaciones</Link></li>
                   <li><Link to="/">Servicio y soporte</Link></li>
                   <li><Link to="/login" onClick={logout}>Cerrar sesion</Link></li>                  
                 </ul>
@@ -69,7 +66,6 @@ export default function NavBar() {
         )}
       </div>
       <div className="NavBar__bar">
-        <div className="NavBar__bar-green" />
         <div className="NavBar__bar-red" />
         <div className="NavBar__bar-blue" />
       </div>

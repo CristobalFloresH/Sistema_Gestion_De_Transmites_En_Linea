@@ -1,27 +1,23 @@
 import React from 'react';
 import './ProgressBar.css';
 
-const STEPS = ['Cita', 'Tramites', 'Psicotecnico', 'Foto', 'Impresion', 'Retiro'];
+const STEPS = ['Cita', 'Documentos', 'Examenes', 'Pago', 'Impresa', 'Recogida'];
 
-// etapas: nombres de los pasos (cambian segun el tipo de tramite); si no se pasan, se usan los de siempre
-export default function ProgressBar({ currentStep = 0, etapas = STEPS }) {
+// currentStep: indice (0-6) del ultimo paso completado/actual
+export default function ProgressBar({ currentStep = 0 }) {
   return (
     <div className="progress-bar">
-      <div className="progress-bar__track">
-        {etapas.map((step, i) => (
-          <React.Fragment key={step}>
-            <div className={`progress-bar__dot ${i <= currentStep ? 'active' : ''}`} />
-            {i < etapas.length - 1 && (
-              <div className={`progress-bar__line ${i < currentStep ? 'active' : ''}`} />
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-      <div className="progress-bar__labels">
-        {etapas.map((step) => (
-          <span key={step}>{step}</span>
-        ))}
-      </div>
+      {STEPS.map((step, i) => (
+        <React.Fragment key={step}>
+          <div className={`progress-bar__step ${i <= currentStep ? 'active' : ''}`}>
+            <div className="progress-bar__dot">{i + 1}</div>
+            <span>{step}</span>
+          </div>
+          {i < STEPS.length - 1 && (
+            <div className={`progress-bar__line ${i < currentStep ? 'active' : ''}`} />
+          )}
+        </React.Fragment>
+      ))}
     </div>
   );
 }

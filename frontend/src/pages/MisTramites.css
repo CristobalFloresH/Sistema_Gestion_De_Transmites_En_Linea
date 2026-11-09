@@ -1,86 +1,31 @@
-
 .mis-tramites-content { padding: 30px 40px; }
 
 .mis-tramites-title {
   font-family: var(--font-display);
   font-size: 48px;
   font-weight: 400;
-  margin-bottom: 4px;
+  color: var(--primary);
+  line-height: 1.1;
 }
 
-.mis-tramites-subtitle { font-size: 14px; color: var(--gray-text); margin-bottom: 24px; }
+.mis-tramites-subtitle { font-family: var(--font-body); font-size: 15px; color: var(--gray-text); margin-bottom: 40px; }
 
 .tramites-list { display: flex; flex-direction: column; gap: 16px; }
 
 .tramite-card {
-  margin: 0;
-  padding: 24px 32px;
-  border-radius: 16px;
-  box-shadow: none;
-  --background: var(--white);
-  --color: var(--black);
+  background: var(--white);
+  border: 1px solid #999;
+  border-radius: 12px;
+  padding: 14px 28px 20px;
 }
 
-.tramite-card__header {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 0;
-}
+.tramite-card__header { display: flex; justify-content: space-between; align-items: center; }
 
 .tramite-card__titulo {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 400;
-  color: var(--black);
+  color: var(--primary);
 }
 
-.tramite-card__fecha {
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--gray-text);
-  text-transform: none;
-}
-
-.tramite-card__contenido { padding: 16px 0 0; }
-
-.tramite-badge {
-  padding: 4px 16px;
-  border-radius: 100px;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1;
-  --color: var(--white);
-}
-
-.tramite-badge.proceso { --background: #f0c040; }
-.tramite-badge.rechazado { --background: var(--red); }
-.tramite-badge.aprobado { --background: var(--green); }
-
-
-.tramite-card__actions { display: flex; gap: 12px; margin-top: 16px; }
-
-.btn-tramite {
-  margin: 0;
-  --background: var(--white);
-  --color: var(--black);
-  --border-color: #ccc;
-  --border-width: 1px;
-  --border-style: solid;
-  --border-radius: 100px;
-  --padding-start: 20px;
-  --padding-end: 20px;
-  --box-shadow: none;
-  font-family: var(--font-body);
-  font-size: 13px;
-  text-transform: none;
-  letter-spacing: normal;
-}
-
-.btn-tramite.cancel {
-  --background: #ffb3b3;
-  --border-color: #ff8888;
-  --color: #900;
-}
+.tramite-card__contenido { padding-top: 10px; }

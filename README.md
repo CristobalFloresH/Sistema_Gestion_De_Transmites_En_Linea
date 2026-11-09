@@ -321,10 +321,10 @@ Nivel de experiencia tecnológica estimado: medio-alto.
 El sistema desplegará un calendario interactivo que mostrará los días junto a los bloques de horarios disponibles.
 
 **RF-2 : Registro de reserva de cita**
-El sistema registrará y almacenará en la base de datos la reserva de la cita seleccionada por el usuario asociando directamente a su RUT.
+El sistema registrará la reserva de la cita asociándola al RUT del usuario, solo si el bloque está activo y tiene cupos disponibles, y si el trámite no tiene otra cita vigente.
 
 **RF-3 : Envío de comprobante de la cita**
-El sistema enviará automáticamente un comprobante de confirmación al usuario luego de agendar su cita, a través del canal que este elija: correo electrónico o WhatsApp.
+Al agendar una cita, el sistema enviará automáticamente un comprobante en PDF con los datos de la reserva por el canal que elija el usuario, correo electrónico o WhatsApp, mediante servicios externos de mensajería.
 
 **RF-4 : Carga de documentación** 
 La plataforma web permitirá al usuario adjuntar y cargar los documentos requeridos, los cuales deberán ser enviados exclusivamente en formato PDF.
@@ -336,19 +336,19 @@ El sistema permitirá a los funcionarios municipales,  visualizar en línea los 
 El sistema permitirá a los funcionarios aprobar o rechazar los documentos adjuntados por los usuarios tras verificar su veracidad y cumplimiento normativo, indicando el motivo en caso de rechazo.
 
 **RF-7 : Visualización de la línea de tiempo del trámite**
-El sistema mostrará en el panel de los usuario y funcionarios una línea de tiempo actualizada que refleja todas las fases del trámite (Cita Reservada, Examen Teórico Aprobado, Examen Psicotécnico Aprobado, Fotografía Capturada, Licencia en Impresión y Lista para Retiro).
+El sistema mostrará en el panel de los usuarios y funcionarios una línea de tiempo actualizada con las fases del trámite según su tipo (Cita Reservada, Examen Teórico Aprobado, Examen Psicotécnico Aprobado, Examen Práctico Aprobado, Fotografía Capturada, Licencia en Impresión y Lista para Retiro), además del estado Rechazado cuando corresponda.
 
 **RF-8 : Redirección por roles de usuario**
 El sistema identificará el rol del usuario al momento de autenticarse redirigiendo de manera automática a su interfaz según correspondan sus permisos de acceso.
 
 **RF-9 : Notificación de licencia lista**
-El sistema enviará una notificación automática vía correo electrónico al usuario cuando el estado de su licencia cambie a “Lista para Retiro”.
+Cuando el trámite cambie al estado "Lista para retiro", el sistema avisará automáticamente al usuario por el canal que eligió al agendar su cita: correo electrónico o WhatsApp.
 
 **RF-10 : Despliegue de agenda diaria**
 El sistema desplegará a los funcionarios una lista detallada de todos los usuarios agendados para cada día y horario específico.
 
 **RF-11 : Envío recordatorio de cita**
-El sistema enviará un correo de recordatorio al usuario 24 horas antes de la hora agendada.
+El sistema enviará automáticamente un recordatorio al usuario 24 horas antes de su cita, por el canal que eligió al agendar: correo electrónico o WhatsApp.
 
 **RF-12 : Cancelación de cita**
 El sistema permitirá al usuario cancelar su cita agendada a través de un panel web, liberando automáticamente el bloque de horario en el calendario para otro usuario.
@@ -367,6 +367,9 @@ El sistema permitirá al administrador definir y modificar los días y bloques h
 
 **RF-17 : Gestión de cuentas de funcionarios**
 El sistema permitirá al administrador crear, editar y desactivar cuentas de funcionarios municipales, asignando el rol correspondiente para su acceso a la plataforma.
+
+**RF-18 : Reagendamiento de cita**
+El sistema permitirá al usuario cambiar su cita a otro bloque horario disponible, liberando automáticamente el bloque anterior.
 
 # Requerimientos no funcionales
 **RNF-1 : Validación de formato de identificacion**

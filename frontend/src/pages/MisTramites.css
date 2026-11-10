@@ -29,3 +29,6 @@
 }
 
 .tramite-card__contenido { padding-top: 10px; }
+
+/* Botones de la tarjeta (reagendar y cancelar), agregado al reconectar la pagina con la API */
+.tramite-card__acciones { display: flex; gap: 16px; flex-wrap: wrap; }

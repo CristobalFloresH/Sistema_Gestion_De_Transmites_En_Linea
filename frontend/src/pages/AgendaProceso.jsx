@@ -1,11 +1,26 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonButton, IonIcon, IonTextarea, useIonToast } from '@ionic/react';
+import { Link, useParams } from 'react-router-dom';
+import {
+  IonPage, IonContent, IonButton, IonIcon, IonTextarea, IonSpinner, useIonToast, useIonViewWillEnter,
+} from '@ionic/react';
 import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import IconoPDF from '../assets/PDF.png';
+import { obtenerTramite, listarTramites } from '../services/tramiteService';
+import { listarDocumentos } from '../services/documentoService';
+import { etapasDe, pasoActual, ID_LISTA_PARA_RETIRO, ID_RECHAZADO } from '../utils/etapas';
 import './AgendaProceso.css';
+
+// Estados del catalogo estado_documento
+const ID_DOCUMENTO_RECHAZADO = 3;
+
+// Color del badge segun el estado en que va el tramite
+function claseEstado(idEstadoTramite) {
+  if (idEstadoTramite === ID_RECHAZADO) return 'rechazado';
+  if (idEstadoTramite === ID_LISTA_PARA_RETIRO) return 'aprobado';
+  return 'pendiente';
+}
 
 function Check({ ok, children }) {
   return (
@@ -15,17 +30,41 @@ function Check({ ok, children }) {
   );
 }
 
-export default function AgendaProceso({ hasErrors = false }) {
+export default function AgendaProceso() {
+  const { idTramite } = useParams();
   const [mostrarAviso] = useIonToast();
   const [motivo, setMotivo] = useState('');
+  const [tramite, setTramite] = useState(null);
+  const [documentos, setDocumentos] = useState([]);
+  const [otrosTramites, setOtrosTramites] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState('');
 
-  const rechazar = () => {
-    if (!motivo.trim()) {
-      mostrarAviso({ message: 'Escribe el motivo del rechazo', duration: 2000, color: 'warning' });
-      return;
-    }
-    mostrarAviso({ message: 'Tramite rechazado', duration: 2000, color: 'danger' });
-  };
+  // Trae el tramite con su historial, sus documentos y los demas tramites del mismo ciudadano
+  useIonViewWillEnter(() => {
+    setCargando(true);
+    setError('');
+    obtenerTramite(Number(idTramite))
+      .then(async (datos) => {
+        setTramite(datos);
+        const [susDocumentos, susTramites] = await Promise.all([
+          listarDocumentos(datos.id_tramite),
+          listarTramites({ rut_ciudadano: datos.rut_ciudadano }),
+        ]);
+        setDocumentos(susDocumentos);
+        setOtrosTramites(susTramites);
+      })
+      .catch((e) => { setTramite(null); setError(e.mensaje); })
+      .finally(() => setCargando(false));
+  });
+
+  const hayRechazado = documentos.some((documento) => documento.id_estado_documento === ID_DOCUMENTO_RECHAZADO);
+
+  const avisarPendiente = () => mostrarAviso({
+    message: 'Aprobar y rechazar documentos todavia no esta disponible',
+    duration: 2500,
+    color: 'warning',
+  });
 
   return (
     <IonPage>
@@ -39,74 +78,95 @@ export default function AgendaProceso({ hasErrors = false }) {
               <span className="proceso-breadcrumb__actual">Proceso del tramite</span>
             </div>
 
-            <div className="proceso-resumen">
-              <div className="proceso-resumen__head">
-                <h2>Renovacion</h2>
-                <span className="pill pendiente">En Revisión</span>
-              </div>
-              <ProgressBar currentStep={2} />
-            </div>
+            {cargando && <IonSpinner name="crescent" />}
+            {!cargando && error && <p>{error}</p>}
 
-            <div className="proceso-panels">
-              <div className={`proceso-panel ${hasErrors ? 'con-error' : ''}`}>
-                <h3>Documentos adjuntados</h3>
-                <div className="doc-list">
-                  <div className="doc-item">
-                    <img src={IconoPDF} alt="PDF" />
-                    <div className="doc-item__info">
-                      <strong>Cedula_de_identidad.pdf</strong>
-                      <small>96 KB</small>
-                    </div>
-                    {hasErrors && <span className="doc-item__badge">No legible</span>}
-                    <a href="#" className="doc-item__ver" onClick={(e) => e.preventDefault()}>Ver</a>
+            {!cargando && tramite && (
+              <>
+                <div className="proceso-resumen">
+                  <div className="proceso-resumen__head">
+                    <h2>{tramite.nombre_tipo_tramite}</h2>
+                    <span className={`pill ${claseEstado(tramite.id_estado_tramite)}`}>
+                      {tramite.nombre_estado_tramite}
+                    </span>
                   </div>
-                  <div className="doc-item">
-                    <img src={IconoPDF} alt="PDF" />
-                    <div className="doc-item__info">
-                      <strong>Certificado_de_residencia.pdf</strong>
-                      <small>412 KB</small>
-                    </div>
-                    <a href="#" className="doc-item__ver" onClick={(e) => e.preventDefault()}>Ver</a>
-                  </div>
+                  <p>{tramite.nombre_ciudadano} · {tramite.rut_ciudadano}</p>
+                  <ProgressBar
+                    steps={etapasDe(tramite.id_tipo_tramite)}
+                    currentStep={pasoActual(tramite.id_tipo_tramite, tramite.id_estado_tramite)}
+                  />
                 </div>
-              </div>
 
-              <div className={`proceso-panel ${hasErrors ? 'con-error' : ''}`}>
-                <h3>Validar veracidad de los documentos</h3>
-                <ul className="validacion-list">
-                  <Check ok={!hasErrors}>Datos coinciden con el RUT</Check>
-                  <Check ok={!hasErrors}>Documento legible</Check>
-                  <Check ok>Cumple normativa vigente</Check>
-                </ul>
-                <p className="motivo-label">Motivo del rechazo</p>
-                <IonTextarea
-                  className="motivo-input"
-                  placeholder="Explicar que debe corregir el ciudadano"
-                  rows={3}
-                  value={motivo}
-                  onIonInput={(e) => setMotivo(e.detail.value ?? '')}
-                />
-                <div className="validacion-actions">
-                  <IonButton className="btn-validacion rechazar" onClick={rechazar}>Rechazar</IonButton>
-                  <IonButton
-                    className="btn-validacion aprobar"
-                    onClick={() => mostrarAviso({ message: 'Tramite aprobado', duration: 2000, color: 'success' })}>
-                    Aceptar
-                  </IonButton>
-                </div>
-                <div className="historial">
-                  <h4>Historial de tramites</h4>
-                  <div className="historial-item">
-                    <span>Renovacion 2026</span>
-                    <span className="pill proceso">En proceso</span>
+                <div className="proceso-panels">
+                  <div className={`proceso-panel ${hayRechazado ? 'con-error' : ''}`}>
+                    <h3>Documentos adjuntados</h3>
+                    <div className="doc-list">
+                      {documentos.length === 0 && <p>Este tramite todavia no tiene documentos</p>}
+                      {documentos.map((documento) => (
+                        <div key={documento.id_documento} className="doc-item">
+                          <img src={IconoPDF} alt="PDF" />
+                          <div className="doc-item__info">
+                            <strong>{documento.nombre_archivo}</strong>
+                            <small>
+                              {documento.nombre_tipo_documento}
+                              {documento.motivo_rechazo ? ` · ${documento.motivo_rechazo}` : ''}
+                            </small>
+                          </div>
+                          {documento.id_estado_documento === ID_DOCUMENTO_RECHAZADO && (
+                            <span className="doc-item__badge">{documento.nombre_estado_documento}</span>
+                          )}
+                          {/* La subida y la descarga del PDF son los pasos siguientes de la entrega */}
+                          <a
+                            href="#"
+                            className="doc-item__ver"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              mostrarAviso({ message: 'Ver el PDF todavia no esta disponible', duration: 2500, color: 'warning' });
+                            }}>
+                            Ver
+                          </a>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="historial-item">
-                    <span>Licencia nueva B 2022</span>
-                    <span className="pill aprobado">Aprobado</span>
+
+                  <div className={`proceso-panel ${hayRechazado ? 'con-error' : ''}`}>
+                    <h3>Validar veracidad de los documentos</h3>
+                    <ul className="validacion-list">
+                      <Check ok={!hayRechazado}>Datos coinciden con el RUT</Check>
+                      <Check ok={!hayRechazado}>Documento legible</Check>
+                      <Check ok>Cumple normativa vigente</Check>
+                    </ul>
+                    <p className="motivo-label">Motivo del rechazo</p>
+                    <IonTextarea
+                      className="motivo-input"
+                      placeholder="Explicar que debe corregir el ciudadano"
+                      rows={3}
+                      value={motivo}
+                      onIonInput={(e) => setMotivo(e.detail.value ?? '')}
+                    />
+                    <div className="validacion-actions">
+                      <IonButton className="btn-validacion rechazar" onClick={avisarPendiente}>Rechazar</IonButton>
+                      <IonButton className="btn-validacion aprobar" onClick={avisarPendiente}>Aceptar</IonButton>
+                    </div>
+                    <div className="historial">
+                      <h4>Historial de tramites</h4>
+                      {otrosTramites.map((otro) => (
+                        <div key={otro.id_tramite} className="historial-item">
+                          <span>
+                            {otro.nombre_tipo_tramite} {otro.fecha_inicio.slice(0, 4)}
+                            {otro.id_tramite === tramite.id_tramite ? ' (este)' : ''}
+                          </span>
+                          <span className={`pill ${claseEstado(otro.id_estado_tramite)}`}>
+                            {otro.nombre_estado_tramite}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
           </main>
         </div>
       </IonContent>

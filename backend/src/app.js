@@ -34,7 +34,7 @@ app.use(
     maxAge: 600,
   }),
 );
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 app.use(requestLogger);
 
 app.get("/", (req, res) => {
@@ -64,6 +64,11 @@ app.use((err, req, res, next) => {
       .status(400)
       .json({ error: { estado: 400, mensaje: "El cuerpo de la petición no es un JSON válido" } });
   } // responde 400 cuando el cuerpo de la petición trae un JSON mal escrito
+  if (err.type === "entity.too.large") {
+    return res
+      .status(413)
+      .json({ error: { estado: 413, mensaje: "El cuerpo de la petición es demasiado grande" } });
+  } // responde 413 cuando el cuerpo de la petición supera el tamaño permitido
   console.error(err);
   res
     .status(500)

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as authController from "../controllers/authController.js";
 import { verificarToken, autorizarRoles } from "../middlewares/authMiddleware.js";
+import { limitadorLogin } from "../middlewares/limitadorLogin.js";
 
 //Se instancia el enrutador
 const router = Router();
@@ -9,6 +10,6 @@ const router = Router();
 router.post("/registro", verificarToken, autorizarRoles("administrador"), authController.registrar);
 
 // Ruta pública: el frontend enviará aquí los datos para validarlos
-router.post("/login", authController.login);
+router.post("/login", limitadorLogin, authController.login);
 
 export default router;

@@ -1,4 +1,5 @@
 import * as documentoService from "../services/documentoService.js";
+import { esPdf, calcularHash, guardarPdf, borrarPdf } from "../utils/archivos.js";
 import {
   errorPostgresReferencia,
   responderError,
@@ -34,24 +35,27 @@ function esNombreArchivoValido(nombreArchivo) {
   return esTextoValido(nombreArchivo, 255) && /\.pdf$/i.test(nombreArchivo);
 }
 
-// Revisa los datos para registrar un documento (POST) y devuelve la lista de problemas encontrados (vacía si todo está bien)
+// Revisa los datos para registrar un documento (POST) y devuelve la lista de problemas encontrados (vacía si todo está bien).
+// El archivo viaja aparte, en multipart; aquí solo se revisan los campos de texto que lo acompañan.
 function validarDatosCreacion(datosDocumento) {
   const errores = [];
 
   const camposDesconocidos = buscarCamposDesconocidos(datosDocumento, documentoService.columnasCreacion);
   if (camposDesconocidos.length > 0) errores.push(`Campos no permitidos: ${camposDesconocidos.join(", ")}`);
 
-  const { id_tramite, id_tipo_documento, nombre_archivo } = datosDocumento;
+  const { id_tramite, id_tipo_documento } = datosDocumento;
   if (id_tramite === undefined) errores.push("Falta el campo id_tramite");
   else if (!esIdValido(id_tramite)) errores.push("id_tramite debe ser un número entero mayor que 0");
 
   if (id_tipo_documento === undefined) errores.push("Falta el campo id_tipo_documento");
   else if (!esIdValido(id_tipo_documento)) errores.push("id_tipo_documento debe ser un número entero mayor que 0");
 
-  if (nombre_archivo === undefined) errores.push("Falta el campo nombre_archivo");
-  else if (!esNombreArchivoValido(nombre_archivo)) errores.push("nombre_archivo debe ser un nombre de archivo .pdf de hasta 255 caracteres");
-
   return errores;
+}
+
+// El nombre original lo manda el navegador en latin1; así se recupera tal como lo escribió la persona (tildes, ñ)
+function leerNombreDelArchivo(archivo) {
+  return Buffer.from(archivo.originalname, "latin1").toString("utf8");
 }
 
 // Revisa los campos enviados para editar un documento y devuelve la lista de problemas encontrados.
@@ -174,12 +178,26 @@ export async function obtenerDocumento(req, res) {
 }
 
 // POST /api/documentos
-// Registra un documento PDF de un trámite; queda pendiente de revisión. Responde 201 con el documento creado,
-// o 400 si los datos no son válidos, el trámite no existe o ese tipo de documento no se pide para ese trámite.
+// Sube el PDF de un trámite (multipart/form-data con id_tramite, id_tipo_documento y el archivo en "archivo");
+// queda pendiente de revisión. Responde 201 con el documento creado, o 400 si los datos no son válidos,
+// el archivo no es un PDF, el trámite no existe o ese tipo de documento no se pide para ese trámite.
+// El archivo se escribe en disco solo después de que pasó todas las comprobaciones.
 export async function crearDocumento(req, res) {
   const datosDocumento = req.body ?? {};
   const errores = validarDatosCreacion(datosDocumento);
   if (errores.length > 0) return responderError(res, 400, "Datos del documento inválidos", errores);
+
+  const archivo = req.file;
+  if (!archivo) return responderError(res, 400, "Debes adjuntar el archivo PDF en el campo archivo");
+
+  const nombreArchivo = leerNombreDelArchivo(archivo);
+  if (!esNombreArchivoValido(nombreArchivo)) {
+    return responderError(res, 400, "El archivo debe llamarse .pdf y su nombre no puede pasar de 255 caracteres");
+  }
+  // No basta con la extensión ni con el tipo que declara el navegador: se revisa el contenido real
+  if (!esPdf(archivo.buffer)) {
+    return responderError(res, 400, "El archivo no es un PDF válido");
+  }
 
   const revision = await documentoService.revisarSiTramiteExigeDocumento(datosDocumento.id_tramite, datosDocumento.id_tipo_documento);
   if (!revision) return responderError(res, 400, "No existe un trámite con ese id_tramite");
@@ -187,10 +205,18 @@ export async function crearDocumento(req, res) {
     return responderError(res, 400, "Ese tipo de documento no existe o no se pide para este tipo de trámite");
   }
 
+  const ruta = await guardarPdf(archivo.buffer);
   try {
-    const documentoCreado = await documentoService.insertarDocumento(datosDocumento);
+    const documentoCreado = await documentoService.insertarDocumento({
+      ...datosDocumento,
+      nombre_archivo: nombreArchivo,
+      ruta,
+      hash: calcularHash(archivo.buffer),
+    });
     res.status(201).location(`/api/documentos/${documentoCreado.id_documento}`).json({ datos: documentoCreado });
   } catch (error) {
+    // Si no se pudo guardar en la base, el archivo que acaba de escribirse no debe quedar suelto en el disco
+    await borrarPdf(ruta);
     if (!responderErrorDeBaseDeDatos(res, error)) throw error;
   }
 }
@@ -226,5 +252,7 @@ export async function eliminarDocumento(req, res) {
   const documentoEliminado = await documentoService.borrarDocumento(idDocumento);
   if (!documentoEliminado) return responderError(res, 404, "Documento no encontrado");
 
+  // El PDF se borra después de la base: si la base falla, el archivo sigue ahí y el documento no se pierde
+  await borrarPdf(documentoEliminado.ruta);
   res.status(200).json({ mensaje: "Documento eliminado", datos: documentoEliminado });
 }

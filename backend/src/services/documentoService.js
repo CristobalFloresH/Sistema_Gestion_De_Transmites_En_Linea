@@ -25,8 +25,9 @@ const tablasDocumento = `
   join tipo_documento td on td.id_tipo_documento = d.id_tipo_documento
   join estado_documento ed on ed.id_estado_documento = d.id_estado_documento`;
 
-// Datos de un documento que se pueden enviar al registrarlo y al editarlo desde la API
-export const columnasCreacion = ["id_tramite", "id_tipo_documento", "nombre_archivo"];
+// Datos que se envían al registrar un documento. El nombre del archivo, su ruta y su hash
+// no se mandan: salen del PDF que viene adjunto en la misma petición.
+export const columnasCreacion = ["id_tramite", "id_tipo_documento"];
 export const columnasEditables = ["nombre_archivo", "id_estado_documento", "motivo_rechazo", "rut_revisor"];
 
 // Busca los documentos, opcionalmente filtrados por trámite o por estado, ordenados por trámite y fecha de subida
@@ -68,13 +69,14 @@ export async function revisarSiTramiteExigeDocumento(idTramite, idTipoDocumento)
   return rows[0] ? { exigeDocumento: rows[0].exige_documento } : null;
 }
 
-// Registra un documento nuevo de un trámite; siempre parte en estado pendiente (1) hasta que un funcionario lo revise
-export async function insertarDocumento({ id_tramite, id_tipo_documento, nombre_archivo }) {
+// Registra un documento nuevo de un trámite, con la ruta del PDF ya guardado en disco y su huella SHA-256;
+// siempre parte en estado pendiente (1) hasta que un funcionario lo revise
+export async function insertarDocumento({ id_tramite, id_tipo_documento, nombre_archivo, ruta, hash }) {
   const { rows } = await pool.query(
-    `insert into documento (id_tramite, id_tipo_documento, nombre_archivo, id_estado_documento)
-     values ($1, $2, $3, 1)
+    `insert into documento (id_tramite, id_tipo_documento, nombre_archivo, ruta, hash, id_estado_documento)
+     values ($1, $2, $3, $4, $5, 1)
      returning id_documento`,
-    [id_tramite, id_tipo_documento, nombre_archivo],
+    [id_tramite, id_tipo_documento, nombre_archivo, ruta, hash],
   );
   return buscarDocumentoPorId(rows[0].id_documento);
 }

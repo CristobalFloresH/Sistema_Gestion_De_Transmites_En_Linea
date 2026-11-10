@@ -14,7 +14,6 @@ import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
 import '@ionic/react/css/typography.css';
 import ProtectedRoute from './routes/ProtectedRoute';
-import Registro from './pages/Registro';
 import MiPerfil from './pages/MiPerfil';
 import MisDocumentos from './pages/MisDocumentos';
 import Notificaciones from './pages/Notificaciones';
@@ -30,7 +29,6 @@ export default function App() {
                     {/* Rutas públicas */}
           <Route path="/" element={<MenuPrincipal />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/registro" element={<Registro />} />
           <Route path="/tramite-licencia" element={<ProtectedRoute><TramiteLicencia /></ProtectedRoute>} />
           <Route path="/calendario" element={<ProtectedRoute><Calendario /></ProtectedRoute>} />
           <Route path="/tramite-finalizado" element={<ProtectedRoute><TramiteFinalizado /></ProtectedRoute>} />
@@ -41,8 +39,8 @@ export default function App() {
 
           {/* Rutas del funcionario */}
           <Route path="/funcionario/agenda" element={<ProtectedRoute rol="funcionario"><AgendaFuncionario /></ProtectedRoute>} />
-          <Route path="/funcionario/agenda/proceso" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
-          <Route path="/funcionario/agenda/error" element={<ProtectedRoute rol="funcionario"><AgendaProceso hasErrors /></ProtectedRoute>} />
+          {/* El proceso se abre con el id del tramite: antes habia una ruta fija y otra de ejemplo con error */}
+          <Route path="/funcionario/tramites/:idTramite" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
 
         </IonRouterOutlet>
       </IonReactRouter>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   IonPage, IonContent, IonInput, IonInputPasswordToggle, IonButton, IonText,
 } from '@ionic/react';
@@ -127,8 +127,9 @@ export default function Login() {
                 <p className="login-card__footer">
                   <a href="https://claveunica.gob.cl" target="_blank" rel="noreferrer">¿Problemas con tu Clave Única?</a>
                 </p>
+                {/* Las cuentas no se crean en la plataforma: las entrega la municipalidad, como con la Clave Unica */}
                 <p className="login-card__footer">
-                  No tienes cuenta? <Link to="/registro">Registrate aqui</Link>
+                  Las cuentas las entrega la municipalidad
                 </p>
               </div>
             </section>

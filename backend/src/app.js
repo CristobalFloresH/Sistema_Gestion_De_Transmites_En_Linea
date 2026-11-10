@@ -16,11 +16,22 @@ const app = express();
 const PORT = 3000;
 
 app.use(helmet());
+// Orígenes que pueden llamar a la API, separados por coma en el .env (sin comodín *)
+const origenesPermitidos = (process.env.CORS_ORIGIN ?? "http://localhost:5173")
+  .split(",")
+  .map((origen) => origen.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin(origen, callback) {
+      // Sin cabecera Origin (Insomnia, pruebas del servidor) se deja pasar; un navegador desde otro sitio no
+      if (!origen || origenesPermitidos.includes(origen)) return callback(null, true);
+      callback(null, false);
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    maxAge: 600,
   }),
 );
 app.use(express.json());

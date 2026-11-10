@@ -5,24 +5,27 @@ import {
 } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import { getUsuario } from '../services/authService';
-import { buscarTipo, leerReserva, limpiarReserva } from '../services/reserva';
+import { leerTipo, leerReserva, limpiarReserva } from '../services/reserva';
 import './TramiteFinalizado.css';
 
-function formatearFechaHora(reserva) {
-  if (!reserva.fecha) return '—';
-  const [anio, mes, dia] = reserva.fecha.slice(0, 10).split('-');
-  return `${dia}/${mes}/${anio}${reserva.hora ? ` ${reserva.hora}` : ''}`;
+// Dia y hora de la cita que devolvio la API, escritos como 10/11/2026 09:00
+function formatearFechaHora(cita) {
+  if (!cita?.fecha) return '—';
+  const [anio, mes, dia] = cita.fecha.slice(0, 10).split('-');
+  return `${dia}/${mes}/${anio} ${cita.hora_inicio.slice(0, 5)}`;
 }
 
+// Los datos del resumen salen de la cita recien creada, no de lo que el usuario eligio en pantalla
 function leerDatos() {
   const usuario = getUsuario();
-  const reserva = leerReserva();
+  const { cita, id_tramite } = leerReserva();
   return {
     nombre: usuario?.nombre ?? '—',
     rut: usuario?.rut ?? '—',
-    correo: usuario?.correo,
-    tramite: buscarTipo(reserva.tipo)?.nombre ?? '—',
-    fechaHora: formatearFechaHora(reserva),
+    tramite: leerTipo()?.nombre_tipo_tramite ?? '—',
+    fechaHora: formatearFechaHora(cita),
+    idTramite: id_tramite,
+    canal: cita?.nombre_metodo_notificacion,
   };
 }
 
@@ -66,14 +69,16 @@ export default function TramiteFinalizado() {
               <div className="finalizado-email">
                 <IonIcon icon={mailOutline} />
                 <p>
-                  Te enviamos un correo{datos.correo ? ` a ${datos.correo}` : ''} con el comprobante e informacion sobre tu tramite
+                  {datos.idTramite ? `Tu tramite quedo registrado con el numero ${datos.idTramite}. ` : ''}
+                  El aviso automatico{datos.canal ? ` por ${datos.canal.toLowerCase()}` : ''} todavia no esta disponible:
+                  revisa el estado de tu tramite en Mis tramites
                 </p>
               </div>
 
               <div className="finalizado-actions">
                 <IonButton
                   className="btn btn--white-outline"
-                  onClick={() => mostrarAviso({ message: 'Comprobante descargado', duration: 2000, color: 'success' })}>
+                  onClick={() => mostrarAviso({ message: 'La descarga del comprobante todavia no esta disponible', duration: 2500, color: 'warning' })}>
                   <IonIcon slot="start" icon={downloadOutline} /> Descargar Comprobante
                 </IonButton>
                 <IonButton routerLink="/" onClick={limpiarReserva} className="btn btn--green">Volver al inicio</IonButton>

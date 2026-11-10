@@ -2,20 +2,6 @@
 // (tipo de tramite -> dia y hora -> documentos -> proceso completado)
 const CLAVE = 'reserva';
 
-const DOC_RESIDENCIA = 'Certificado de residencia';
-const DOC_CEDULA = 'Cedula de Identidad';
-const DOC_EDUCACION = 'Certificado de educacion basica';
-
-export const TIPOS_TRAMITE = [
-  { value: 'primera_vez', titulo: 'Licencia (Primera Vez)', nombre: 'Licencia por primera vez', detalle: '30 min · 3 documentos', documentos: [DOC_RESIDENCIA, DOC_EDUCACION, DOC_CEDULA] },
-  { value: 'renovacion', titulo: 'Renovacion', nombre: 'Renovacion de licencia', detalle: '20 min · 2 documentos', documentos: [DOC_RESIDENCIA, DOC_CEDULA] },
-  { value: 'reimprimir', titulo: 'Re-imprimir', nombre: 'Reimpresion de licencia', detalle: '20 min · 2 documentos', documentos: [DOC_RESIDENCIA, DOC_CEDULA] },
-];
-
-export function buscarTipo(valor) {
-  return TIPOS_TRAMITE.find((t) => t.value === valor) ?? null;
-}
-
 export function leerReserva() {
   try {
     return JSON.parse(sessionStorage.getItem(CLAVE)) ?? {};
@@ -30,4 +16,11 @@ export function guardarReserva(parcial) {
 
 export function limpiarReserva() {
   sessionStorage.removeItem(CLAVE);
+}
+
+// Tipo de tramite elegido, tal como vino del catalogo de la API (con sus documentos requeridos).
+// Devuelve null si todavia no se elige o si quedo guardada una reserva con el formato antiguo
+export function leerTipo() {
+  const tipo = leerReserva().tipo;
+  return tipo?.id_tipo_tramite ? tipo : null;
 }

@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { IonPage, IonContent, IonButton, IonSpinner, IonIcon, useIonViewWillEnter } from '@ionic/react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  IonPage, IonContent, IonButton, IonSpinner, IonIcon, IonSegment, IonSegmentButton, IonLabel,
+  useIonToast, useIonViewWillEnter,
+} from '@ionic/react';
 import { arrowForward } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
-import { buscarTipo, leerReserva, guardarReserva } from '../services/reserva';
+import { listarMetodosNotificacion } from '../services/catalogoService';
+import { crearTramite } from '../services/tramiteService';
+import { crearCita } from '../services/citaService';
+import { crearDocumento } from '../services/documentoService';
+import { getUsuario } from '../services/authService';
+import { leerTipo, leerReserva, guardarReserva } from '../services/reserva';
 import './Calendario.css';
 
 const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -25,6 +33,8 @@ function formatearFecha(fechaIso) {
 }
 
 export default function Calendario() {
+  const navigate = useNavigate();
+  const [mostrarAviso] = useIonToast();
   const hoy = fechaDeHoy();
   const [anio, setAnio] = useState(Number(hoy.slice(0, 4)));
   const [mes, setMes] = useState(Number(hoy.slice(5, 7)) - 1);
@@ -33,20 +43,24 @@ export default function Calendario() {
   const [bloques, setBloques] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-  const [tipo, setTipo] = useState(() => buscarTipo(leerReserva().tipo));
+  const [tipo, setTipo] = useState(() => leerTipo());
   const [paso, setPaso] = useState(1); // 1 = dia y hora, 2 = documentos
   const [archivos, setArchivos] = useState({});
   const [errorArchivo, setErrorArchivo] = useState('');
+  const [metodos, setMetodos] = useState([]);
+  const [idMetodo, setIdMetodo] = useState(null);
+  const [guardando, setGuardando] = useState(false);
 
   // Cada vez que se entra a la pagina se lee el tramite elegido y se parte del paso 1
   useIonViewWillEnter(() => {
-    setTipo(buscarTipo(leerReserva().tipo));
+    setTipo(leerTipo());
     setPaso(1);
     setArchivos({});
     setErrorArchivo('');
   });
 
-  const elegirArchivo = (nombreDoc, e) => {
+  // Los archivos se guardan por id_tipo_documento, el mismo que despues pide la API al subirlos
+  const elegirArchivo = (idTipoDocumento, e) => {
     const archivo = e.target.files?.[0];
     if (!archivo) return;
     if (archivo.type !== 'application/pdf') {
@@ -54,14 +68,59 @@ export default function Calendario() {
       return;
     }
     setErrorArchivo('');
-    setArchivos({ ...archivos, [nombreDoc]: archivo });
+    setArchivos({ ...archivos, [idTipoDocumento]: archivo });
   };
 
-  const docsCompletos = tipo ? tipo.documentos.every((d) => archivos[d]) : false;
+  const docsCompletos = tipo ? tipo.documentos_requeridos.every((d) => archivos[d.id_tipo_documento]) : false;
 
   const irADocumentos = () => {
     guardarReserva({ fecha, hora: bloque.hora_inicio.slice(0, 5), id_bloque_horario: bloque.id_bloque_horario });
     setPaso(2);
+  };
+
+  // Las formas de avisar (correo, WhatsApp) salen del catalogo; se parte con la primera
+  useEffect(() => {
+    listarMetodosNotificacion()
+      .then((datos) => {
+        setMetodos(datos);
+        setIdMetodo(datos[0]?.id_metodo_notificacion ?? null);
+      })
+      .catch(() => setMetodos([]));
+  }, []);
+
+  // Guarda la reserva en la API: primero el tramite, despues la cita y al final cada documento.
+  // Lo que ya quedo creado se anota, para que un reintento no duplique el tramite ni la cita.
+  const confirmarReserva = async () => {
+    setGuardando(true);
+    try {
+      const reserva = leerReserva();
+      let idTramite = reserva.id_tramite;
+      if (!idTramite) {
+        const tramite = await crearTramite(getUsuario().rut, tipo.id_tipo_tramite);
+        idTramite = tramite.id_tramite;
+        guardarReserva({ id_tramite: idTramite });
+      }
+
+      let cita = reserva.cita;
+      if (!cita) {
+        cita = await crearCita(idTramite, bloque.id_bloque_horario, idMetodo);
+        guardarReserva({ cita });
+      }
+
+      const registrados = reserva.documentos_registrados ?? [];
+      for (const documento of tipo.documentos_requeridos) {
+        if (registrados.includes(documento.id_tipo_documento)) continue;
+        await crearDocumento(idTramite, documento.id_tipo_documento, archivos[documento.id_tipo_documento]);
+        registrados.push(documento.id_tipo_documento);
+        guardarReserva({ documentos_registrados: registrados });
+      }
+
+      navigate('/tramite-finalizado');
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 4000, color: 'danger' });
+    } finally {
+      setGuardando(false);
+    }
   };
 
   useEffect(() => {
@@ -119,7 +178,7 @@ export default function Calendario() {
             )}
             {tipo && (
               <p className="reserva-tipo">
-                Tramite: <strong>{tipo.nombre}</strong> · <Link to="/tramite-licencia">Cambiar</Link>
+                Tramite: <strong>{tipo.nombre_tipo_tramite}</strong> · <Link to="/tramite-licencia">Cambiar</Link>
               </p>
             )}
 
@@ -195,22 +254,37 @@ export default function Calendario() {
                 <h3>Carga tus documentos (PDF)</h3>
                 <p className="horas-panel__fecha">Cita: {formatearFecha(fecha)}, {bloque?.hora_inicio.slice(0, 5)}</p>
                 <div className="subida-grid">
-                  {tipo.documentos.map((nombreDoc) => (
-                    <label key={nombreDoc} className={`subida-doc ${archivos[nombreDoc] ? 'cargado' : ''}`}>
-                      <input type="file" accept="application/pdf" hidden onChange={(e) => elegirArchivo(nombreDoc, e)} />
-                      <span>{nombreDoc}</span>
-                      {archivos[nombreDoc] && <small>{archivos[nombreDoc].name}</small>}
-                    </label>
-                  ))}
+                  {tipo.documentos_requeridos.map((documento) => {
+                    const archivo = archivos[documento.id_tipo_documento];
+                    return (
+                      <label key={documento.id_tipo_documento} className={`subida-doc ${archivo ? 'cargado' : ''}`}>
+                        <input type="file" accept="application/pdf" hidden onChange={(e) => elegirArchivo(documento.id_tipo_documento, e)} />
+                        <span>{documento.nombre_tipo_documento}</span>
+                        {archivo && <small>{archivo.name}</small>}
+                      </label>
+                    );
+                  })}
                 </div>
                 {errorArchivo && <p className="subida-error">{errorArchivo}</p>}
+                {metodos.length > 0 && (
+                  <>
+                    <h3>Como quieres recibir el comprobante</h3>
+                    <IonSegment value={String(idMetodo)} onIonChange={(e) => setIdMetodo(Number(e.detail.value))}>
+                      {metodos.map((metodo) => (
+                        <IonSegmentButton key={metodo.id_metodo_notificacion} value={String(metodo.id_metodo_notificacion)}>
+                          <IonLabel>{metodo.nombre_metodo_notificacion}</IonLabel>
+                        </IonSegmentButton>
+                      ))}
+                    </IonSegment>
+                  </>
+                )}
                 <div className="subida-acciones">
                   <IonButton className="btn btn--outline calendario-continuar" onClick={() => setPaso(1)}>Volver</IonButton>
                   <IonButton
-                    routerLink="/tramite-finalizado"
-                    disabled={!docsCompletos}
+                    onClick={confirmarReserva}
+                    disabled={!docsCompletos || !idMetodo || guardando}
                     className="btn btn--green calendario-continuar">
-                    Continuar <IonIcon slot="end" icon={arrowForward} />
+                    {guardando ? 'Guardando...' : 'Continuar'} <IonIcon slot="end" icon={arrowForward} />
                   </IonButton>
                 </div>
               </div>

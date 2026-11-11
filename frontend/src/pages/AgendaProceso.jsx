@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
-  IonPage, IonContent, IonButton, IonIcon, IonTextarea, IonSpinner, useIonToast, useIonViewWillEnter,
+  IonPage, IonContent, IonButton, IonIcon, IonTextarea, IonSpinner, IonModal, IonHeader, IonToolbar,
+  IonTitle, IonButtons, useIonToast, useIonViewWillEnter,
 } from '@ionic/react';
 import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import IconoPDF from '../assets/PDF.png';
 import { obtenerTramite, listarTramites } from '../services/tramiteService';
-import { listarDocumentos } from '../services/documentoService';
+import { listarDocumentos, abrirArchivo } from '../services/documentoService';
 import { etapasDe, pasoActual, ID_LISTA_PARA_RETIRO, ID_RECHAZADO } from '../utils/etapas';
 import './AgendaProceso.css';
 
@@ -39,6 +40,8 @@ export default function AgendaProceso() {
   const [otrosTramites, setOtrosTramites] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
+  // PDF que se esta mirando: su direccion temporal en el navegador y el nombre con que lo subieron
+  const [pdf, setPdf] = useState(null);
 
   // Trae el tramite con su historial, sus documentos y los demas tramites del mismo ciudadano
   useIonViewWillEnter(() => {
@@ -59,6 +62,30 @@ export default function AgendaProceso() {
   });
 
   const hayRechazado = documentos.some((documento) => documento.id_estado_documento === ID_DOCUMENTO_RECHAZADO);
+
+  // Trae el PDF y lo muestra dentro de la misma pagina, para no depender de que el navegador
+  // permita ventanas emergentes
+  const verArchivo = async (evento, documento) => {
+    evento.preventDefault();
+    try {
+      const url = await abrirArchivo(documento.id_documento);
+      setPdf({ url, nombre: documento.nombre_archivo });
+    } catch (e) {
+      const mensaje = e.status === 404 ? 'Este documento no tiene un archivo guardado' : e.mensaje;
+      mostrarAviso({ message: mensaje, duration: 4000, color: 'danger' });
+    }
+  };
+
+  // Al cerrar se libera la direccion temporal que el navegador creo para el archivo
+  const cerrarPdf = () => {
+    if (pdf) URL.revokeObjectURL(pdf.url);
+    setPdf(null);
+  };
+
+  // Guarda una copia del PDF en el computador del funcionario
+  const descargarPdf = () => {
+    Object.assign(document.createElement('a'), { href: pdf.url, download: pdf.nombre }).click();
+  };
 
   const avisarPendiente = () => mostrarAviso({
     message: 'Aprobar y rechazar documentos todavia no esta disponible',
@@ -115,14 +142,10 @@ export default function AgendaProceso() {
                           {documento.id_estado_documento === ID_DOCUMENTO_RECHAZADO && (
                             <span className="doc-item__badge">{documento.nombre_estado_documento}</span>
                           )}
-                          {/* La subida y la descarga del PDF son los pasos siguientes de la entrega */}
                           <a
                             href="#"
                             className="doc-item__ver"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              mostrarAviso({ message: 'Ver el PDF todavia no esta disponible', duration: 2500, color: 'warning' });
-                            }}>
+                            onClick={(e) => verArchivo(e, documento)}>
                             Ver
                           </a>
                         </div>
@@ -169,6 +192,21 @@ export default function AgendaProceso() {
             )}
           </main>
         </div>
+
+        <IonModal className="visor-pdf" isOpen={!!pdf} onDidDismiss={cerrarPdf}>
+          <IonHeader>
+            <IonToolbar>
+              <IonTitle>{pdf?.nombre}</IonTitle>
+              <IonButtons slot="end">
+                <IonButton onClick={descargarPdf}>Descargar</IonButton>
+                <IonButton onClick={cerrarPdf}>Cerrar</IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <iframe className="visor-pdf__hoja" src={pdf?.url} title={pdf?.nombre} />
+          </IonContent>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

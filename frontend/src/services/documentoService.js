@@ -11,6 +11,13 @@ export async function crearDocumento(idTramite, idTipoDocumento, archivo) {
   return respuesta.data.datos;
 }
 
+// Descarga el PDF de un documento (la peticion lleva el token) y devuelve una direccion
+// temporal del navegador con la que se puede abrir en una pestaña
+export async function abrirArchivo(idDocumento) {
+  const respuesta = await api.get(`/documentos/${idDocumento}/archivo`, { responseType: 'blob' });
+  return URL.createObjectURL(respuesta.data);
+}
+
 // Documentos de un tramite, con su tipo y su estado de revision
 export async function listarDocumentos(idTramite) {
   const respuesta = await api.get('/documentos', { params: { id_tramite: idTramite } });

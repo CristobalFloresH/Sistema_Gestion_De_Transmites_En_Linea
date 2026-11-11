@@ -11,6 +11,7 @@ import documentoRoutes from "./routes/documentoRoutes.js"; // rutas de los docum
 import usuarioRoutes from "./routes/usuarioRoutes.js"; // rutas de los usuarios
 import catalogoRoutes from "./routes/catalogoRoutes.js"; // rutas de los catálogos (solo lectura)
 import authRoutes from "./routes/authRoutes.js"; // 
+import { bloquearHtml } from "./middlewares/bloquearHtml.js";
 
 const app = express();
 const PORT = 3000;
@@ -35,6 +36,7 @@ app.use(
   }),
 );
 app.use(express.json({ limit: "10kb" }));
+app.use(bloquearHtml);
 app.use(requestLogger);
 
 app.get("/", (req, res) => {

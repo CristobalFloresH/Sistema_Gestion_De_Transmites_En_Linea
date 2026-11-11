@@ -30,9 +30,13 @@ const mensajesReferenciaInexistente = {
 // Funciones de apoyo
 // ---------------------------------------------------------------------
 
-// Revisa que el nombre del archivo tenga texto y termine en .pdf, porque el sistema solo recibe documentos PDF
+// Revisa que el nombre del archivo tenga texto sin elementos HTML y termine en .pdf, porque el sistema solo recibe documentos PDF
 function esNombreArchivoValido(nombreArchivo) {
-  return esTextoValido(nombreArchivo, 255) && /\.pdf$/i.test(nombreArchivo);
+  return (
+    esTextoValido(nombreArchivo, 255) &&
+    /\.pdf$/i.test(nombreArchivo) &&
+    !/[<>\/\\\u0000-\u001f]/.test(nombreArchivo)
+  );
 }
 
 // Revisa los datos para registrar un documento (POST) y devuelve la lista de problemas encontrados (vacía si todo está bien).
@@ -192,7 +196,7 @@ export async function crearDocumento(req, res) {
 
   const nombreArchivo = leerNombreDelArchivo(archivo);
   if (!esNombreArchivoValido(nombreArchivo)) {
-    return responderError(res, 400, "El archivo debe llamarse .pdf y su nombre no puede pasar de 255 caracteres");
+    return responderError(res, 400, "El archivo debe llamarse .pdf, sin los símbolos < > / \\ y con un nombre de hasta 255 caracteres");
   }
   // No basta con la extensión ni con el tipo que declara el navegador: se revisa el contenido real
   if (!esPdf(archivo.buffer)) {

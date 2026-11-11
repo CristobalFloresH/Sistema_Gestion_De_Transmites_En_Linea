@@ -1,3 +1,4 @@
+import path from "node:path";
 import * as documentoService from "../services/documentoService.js";
 import { esPdf, calcularHash, guardarPdf, borrarPdf } from "../utils/archivos.js";
 import {
@@ -179,6 +180,24 @@ export async function obtenerDocumento(req, res) {
   if (!documento) return responderError(res, 404, "Documento no encontrado");
 
   res.status(200).json({ datos: documento });
+}
+
+// GET /api/documentos/:id/archivo
+// Entrega el PDF guardado para que el funcionario lo revise en pantalla.
+// Responde 404 si el documento no existe, si se registró antes de la subida real (sin ruta)
+// o si el archivo ya no está en el disco.
+export async function obtenerArchivo(req, res) {
+  const idDocumento = leerIdDeLaUrl(req);
+  if (!idDocumento) return responderError(res, 400, "El id debe ser un número entero positivo");
+
+  const documento = await documentoService.buscarDocumentoPorId(idDocumento);
+  if (!documento) return responderError(res, 404, "Documento no encontrado");
+  if (!documento.ruta) return responderError(res, 404, "Este documento no tiene un archivo guardado");
+
+  // sendFile exige una ruta absoluta; en la base se guarda relativa a la carpeta del servidor
+  res.sendFile(path.resolve(documento.ruta), (error) => {
+    if (error && !res.headersSent) responderError(res, 404, "El archivo del documento no está disponible");
+  });
 }
 
 // POST /api/documentos

@@ -6,9 +6,13 @@ import {
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import { listarTramites } from '../services/tramiteService';
-import { listarCitas, crearCita, cancelarCita, reagendarCita } from '../services/citaService';
+import { listarCitas, crearCita, cancelarCita, reagendarCita, descargarComprobante } from '../services/citaService';
 import { listarBloquesPorFecha } from '../services/bloqueHorarioService';
+import { listarDocumentos, crearDocumento } from '../services/documentoService';
 import { etapasDe, pasoActual, ID_LISTA_PARA_RETIRO, ID_RECHAZADO } from '../utils/etapas';
+import {
+  vigentesPorTipo, ID_DOCUMENTO_APROBADO, ID_DOCUMENTO_RECHAZADO,
+} from '../utils/documentos';
 import { formatear, hoyIso } from '../utils/fechas';
 import './MisTramites.css';
 
@@ -16,6 +20,13 @@ import './MisTramites.css';
 function claseEstado(idEstadoTramite) {
   if (idEstadoTramite === ID_RECHAZADO) return 'rechazado';
   if (idEstadoTramite === ID_LISTA_PARA_RETIRO) return 'aprobado';
+  return 'pendiente';
+}
+
+// Color del badge segun como quedo la revision del documento
+function claseEstadoDocumento(idEstadoDocumento) {
+  if (idEstadoDocumento === ID_DOCUMENTO_RECHAZADO) return 'rechazado';
+  if (idEstadoDocumento === ID_DOCUMENTO_APROBADO) return 'aprobado';
   return 'pendiente';
 }
 
@@ -45,13 +56,17 @@ export default function MisTramites() {
     setError('');
     try {
       const [susTramites, susCitas] = await Promise.all([listarTramites(), listarCitas()]);
-      setTramites(susTramites.map((tramite) => {
+      // Los documentos se piden tramite por tramite: a un ciudadano el backend le exige el id_tramite
+      const documentosPorTramite = await Promise.all(susTramites.map((tramite) => listarDocumentos(tramite.id_tramite)));
+      setTramites(susTramites.map((tramite, posicion) => {
         const delTramite = susCitas.filter((cita) => cita.id_tramite === tramite.id_tramite);
         return {
           ...tramite,
           cita: delTramite.find((cita) => cita.vigente),
           // Si cancelo, se reutiliza el canal que habia elegido al agendar la primera vez
           idMetodo: delTramite[0]?.id_metodo_notificacion ?? 1,
+          // De cada tipo solo se muestra el documento mas reciente, que es el que vale
+          documentos: vigentesPorTipo(documentosPorTramite[posicion]),
         };
       }));
     } catch (e) {
@@ -102,6 +117,36 @@ export default function MisTramites() {
       mostrarAviso({ message: e.mensaje, duration: 4000, color: 'danger' });
     } finally {
       setGuardando(false);
+    }
+  };
+
+  // Cuando le rechazan un documento, el ciudadano sube otro del mismo tipo: el rechazado no se borra
+  // ni se edita, asi queda el registro de por que se rechazo
+  const subirDeNuevo = async (tramite, documento, evento) => {
+    const archivo = evento.target.files?.[0];
+    evento.target.value = ''; // permite volver a elegir el mismo archivo si algo falla
+    if (!archivo) return;
+    if (archivo.type !== 'application/pdf') {
+      return mostrarAviso({ message: 'Solo se aceptan archivos PDF', duration: 3000, color: 'warning' });
+    }
+    setGuardando(true);
+    try {
+      await crearDocumento(tramite.id_tramite, documento.id_tipo_documento, archivo);
+      await cargar();
+      mostrarAviso({ message: 'Documento enviado, queda pendiente de revision', duration: 3000, color: 'success' });
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 4000, color: 'danger' });
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  // Baja el comprobante en PDF de la cita de ese tramite
+  const bajarComprobante = async (cita) => {
+    try {
+      await descargarComprobante(cita.id_cita);
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 4000, color: 'danger' });
     }
   };
 
@@ -158,14 +203,46 @@ export default function MisTramites() {
                     <p className="mis-tramites-subtitle">
                       {tramite.cita ? `Cita: ${textoCita(tramite.cita)}` : 'Sin cita vigente'}
                     </p>
+                    {tramite.documentos.length > 0 && (
+                      <div className="tramite-card__docs">
+                        {tramite.documentos.map((documento) => (
+                          <div key={documento.id_documento} className="tramite-doc">
+                            <span className="tramite-doc__nombre">{documento.nombre_tipo_documento}</span>
+                            <span className={`pill ${claseEstadoDocumento(documento.id_estado_documento)}`}>
+                              {documento.nombre_estado_documento}
+                            </span>
+                            {documento.id_estado_documento === ID_DOCUMENTO_RECHAZADO && (
+                              <>
+                                <span className="tramite-doc__motivo">{documento.motivo_rechazo}</span>
+                                <label className="tramite-doc__subir">
+                                  <input
+                                    type="file"
+                                    accept="application/pdf"
+                                    hidden
+                                    disabled={guardando}
+                                    onChange={(e) => subirDeNuevo(tramite, documento, e)}
+                                  />
+                                  Subir de nuevo
+                                </label>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <div className="tramite-card__acciones">
                       <IonButton className="btn btn--outline" onClick={() => abrirModal(tramite)}>
                         {tramite.cita ? 'Reagendar' : 'Agendar otra hora'}
                       </IonButton>
                       {tramite.cita && (
-                        <IonButton className="btn btn--outline" onClick={() => pedirCancelar(tramite.cita)}>
-                          Cancelar cita
-                        </IonButton>
+                        <>
+                          <IonButton className="btn btn--outline" onClick={() => pedirCancelar(tramite.cita)}>
+                            Cancelar cita
+                          </IonButton>
+                          <IonButton className="btn btn--outline" onClick={() => bajarComprobante(tramite.cita)}>
+                            Descargar comprobante
+                          </IonButton>
+                        </>
                       )}
                     </div>
                   </div>

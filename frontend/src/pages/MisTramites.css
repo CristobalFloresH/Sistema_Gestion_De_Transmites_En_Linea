@@ -32,3 +32,9 @@
 
 /* Botones de la tarjeta (reagendar y cancelar), agregado al reconectar la pagina con la API */
 .tramite-card__acciones { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* Documentos del tramite con su revision, agregado al conectar aprobar/rechazar (RF-6) */
+.tramite-card__docs { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.tramite-doc { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-family: var(--font-ui); font-size: 14px; }
+.tramite-doc__motivo { flex-basis: 100%; color: var(--err-text); font-size: 13px; }
+.tramite-doc__subir { color: var(--primary); font-weight: 700; text-decoration: underline; cursor: pointer; }

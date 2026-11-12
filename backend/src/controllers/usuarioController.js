@@ -18,6 +18,20 @@ import {
 // Campos obligatorios al reemplazar un usuario con PUT (el teléfono es opcional y queda vacío si no se envía)
 const camposObligatoriosPut = ["nombre", "correo", "activo", "id_rol"];
 
+// Rol administrador en el catálogo rol (licencias.sql)
+const idRolAdministrador = 3;
+
+// Un administrador no puede dejarse a sí mismo fuera del sistema: si lo hiciera, nadie podría volver a entrar
+// a crear administradores. Devuelve el mensaje del problema, o null si la edición es válida.
+function motivoQueSeDejaFuera(rutEditado, usuarioQuePide, camposNuevos) {
+  if (rutEditado !== usuarioQuePide.rut) return null;
+  if (camposNuevos.activo === false) return "No puedes desactivar tu propia cuenta";
+  if (camposNuevos.id_rol !== undefined && camposNuevos.id_rol !== idRolAdministrador) {
+    return "No puedes quitarte el rol de administrador";
+  }
+  return null;
+}
+
 // ---------------------------------------------------------------------
 // Funciones de apoyo
 // ---------------------------------------------------------------------
@@ -97,6 +111,9 @@ async function editarUsuario(req, res, { esParcial }) {
   const errores = validarDatosUsuario(camposNuevos, { esParcial });
   if (errores.length > 0) return responderError(res, 400, "Datos del usuario inválidos", errores);
 
+  const motivo = motivoQueSeDejaFuera(rut, req.usuario, camposNuevos);
+  if (motivo) return responderError(res, 409, motivo);
+
   // En PUT el teléfono que no se envía queda vacío, porque se reemplaza el usuario completo
   const datosParaGuardar = esParcial ? camposNuevos : { telefono: null, ...camposNuevos };
 
@@ -164,6 +181,8 @@ export async function actualizarUsuario(req, res) {
 export async function eliminarUsuario(req, res) {
   const rut = leerRutDeLaUrl(req);
   if (!rut) return responderError(res, 400, "El RUT debe tener formato 12345678-9, sin puntos y con guion");
+  // Borrarse a sí mismo deja al sistema sin ese administrador, igual que desactivarse
+  if (rut === req.usuario.rut) return responderError(res, 409, "No puedes eliminar tu propia cuenta");
 
   try {
     const usuarioEliminado = await usuarioService.borrarUsuario(rut);

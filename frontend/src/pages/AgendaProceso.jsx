@@ -8,13 +8,13 @@ import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import ProgressBar from '../components/ProgressBar';
 import IconoPDF from '../assets/PDF.png';
-import { obtenerTramite, listarTramites } from '../services/tramiteService';
-import { listarDocumentos, abrirArchivo } from '../services/documentoService';
-import { etapasDe, pasoActual, ID_LISTA_PARA_RETIRO, ID_RECHAZADO } from '../utils/etapas';
+import { obtenerTramite, listarTramites, cambiarEstadoTramite } from '../services/tramiteService';
+import { listarDocumentos, abrirArchivo, revisarDocumento } from '../services/documentoService';
+import { etapasDe, pasoActual, siguienteEstado, nombreEtapa, ID_LISTA_PARA_RETIRO, ID_RECHAZADO } from '../utils/etapas';
+import {
+  vigentesPorTipo, ID_DOCUMENTO_PENDIENTE, ID_DOCUMENTO_APROBADO, ID_DOCUMENTO_RECHAZADO,
+} from '../utils/documentos';
 import './AgendaProceso.css';
-
-// Estados del catalogo estado_documento
-const ID_DOCUMENTO_RECHAZADO = 3;
 
 // Color del badge segun el estado en que va el tramite
 function claseEstado(idEstadoTramite) {
@@ -39,15 +39,18 @@ export default function AgendaProceso() {
   const [documentos, setDocumentos] = useState([]);
   const [otrosTramites, setOtrosTramites] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState('');
+  // Documento que se esta revisando en el panel derecho (null = el primero pendiente)
+  const [idSeleccionado, setIdSeleccionado] = useState(null);
   // PDF que se esta mirando: su direccion temporal en el navegador y el nombre con que lo subieron
   const [pdf, setPdf] = useState(null);
 
   // Trae el tramite con su historial, sus documentos y los demas tramites del mismo ciudadano
-  useIonViewWillEnter(() => {
+  const cargar = () => {
     setCargando(true);
     setError('');
-    obtenerTramite(Number(idTramite))
+    return obtenerTramite(Number(idTramite))
       .then(async (datos) => {
         setTramite(datos);
         const [susDocumentos, susTramites] = await Promise.all([
@@ -59,9 +62,50 @@ export default function AgendaProceso() {
       })
       .catch((e) => { setTramite(null); setError(e.mensaje); })
       .finally(() => setCargando(false));
-  });
+  };
 
-  const hayRechazado = documentos.some((documento) => documento.id_estado_documento === ID_DOCUMENTO_RECHAZADO);
+  useIonViewWillEnter(cargar);
+
+  // De cada tipo de documento solo cuenta el mas reciente, porque al rechazar uno el ciudadano sube otro
+  const vigentes = vigentesPorTipo(documentos);
+  const hayRechazado = vigentes.some((d) => d.id_estado_documento === ID_DOCUMENTO_RECHAZADO);
+  // Si no se eligio ninguno, se revisa el primer pendiente que de verdad falta por revisar
+  const seleccionado = documentos.find((d) => d.id_documento === idSeleccionado)
+    ?? vigentes.find((d) => d.id_estado_documento === ID_DOCUMENTO_PENDIENTE);
+  const seleccionadoRechazado = seleccionado?.id_estado_documento === ID_DOCUMENTO_RECHAZADO;
+  const siguiente = tramite && siguienteEstado(tramite.id_tipo_tramite, tramite.id_estado_tramite);
+
+  // Aprueba o rechaza el documento que se esta revisando y vuelve a leer los datos del tramite
+  const revisar = async (idEstadoDocumento) => {
+    if (idEstadoDocumento === ID_DOCUMENTO_RECHAZADO && !motivo.trim()) {
+      return mostrarAviso({ message: 'Para rechazar un documento debes escribir el motivo', duration: 3000, color: 'warning' });
+    }
+    setGuardando(true);
+    try {
+      await revisarDocumento(seleccionado.id_documento, idEstadoDocumento, motivo.trim());
+      setMotivo('');
+      setIdSeleccionado(null); // vuelve al siguiente documento pendiente
+      await cargar();
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 4000, color: 'danger' });
+    } finally {
+      setGuardando(false);
+    }
+  };
+
+  // Hace avanzar el tramite a la etapa siguiente; el backend lo rechaza si falta algun documento por aprobar
+  const avanzarTramite = async () => {
+    setGuardando(true);
+    try {
+      await cambiarEstadoTramite(tramite.id_tramite, siguiente);
+      mostrarAviso({ message: `El tramite avanzo a ${nombreEtapa(siguiente)}`, duration: 3000, color: 'success' });
+      await cargar();
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 5000, color: 'danger' });
+    } finally {
+      setGuardando(false);
+    }
+  };
 
   // Trae el PDF y lo muestra dentro de la misma pagina, para no depender de que el navegador
   // permita ventanas emergentes
@@ -86,12 +130,6 @@ export default function AgendaProceso() {
   const descargarPdf = () => {
     Object.assign(document.createElement('a'), { href: pdf.url, download: pdf.nombre }).click();
   };
-
-  const avisarPendiente = () => mostrarAviso({
-    message: 'Aprobar y rechazar documentos todavia no esta disponible',
-    duration: 2500,
-    color: 'warning',
-  });
 
   return (
     <IonPage>
@@ -122,6 +160,14 @@ export default function AgendaProceso() {
                     steps={etapasDe(tramite.id_tipo_tramite)}
                     currentStep={pasoActual(tramite.id_tipo_tramite, tramite.id_estado_tramite)}
                   />
+                  {siguiente && (
+                    <IonButton
+                      className="btn-validacion aprobar"
+                      disabled={guardando}
+                      onClick={avanzarTramite}>
+                      Aprobar tramite ({nombreEtapa(siguiente)})
+                    </IonButton>
+                  )}
                 </div>
 
                 <div className="proceso-panels">
@@ -130,7 +176,10 @@ export default function AgendaProceso() {
                     <div className="doc-list">
                       {documentos.length === 0 && <p>Este tramite todavia no tiene documentos</p>}
                       {documentos.map((documento) => (
-                        <div key={documento.id_documento} className="doc-item">
+                        <div
+                          key={documento.id_documento}
+                          className={`doc-item ${documento.id_documento === seleccionado?.id_documento ? 'seleccionado' : ''}`}
+                          onClick={() => setIdSeleccionado(documento.id_documento)}>
                           <img src={IconoPDF} alt="PDF" />
                           <div className="doc-item__info">
                             <strong>{documento.nombre_archivo}</strong>
@@ -154,10 +203,10 @@ export default function AgendaProceso() {
                   </div>
 
                   <div className={`proceso-panel ${hayRechazado ? 'con-error' : ''}`}>
-                    <h3>Validar veracidad de los documentos</h3>
+                    <h3>{seleccionado ? seleccionado.nombre_archivo : 'Validar veracidad de los documentos'}</h3>
                     <ul className="validacion-list">
-                      <Check ok={!hayRechazado}>Datos coinciden con el RUT</Check>
-                      <Check ok={!hayRechazado}>Documento legible</Check>
+                      <Check ok={!seleccionadoRechazado}>Datos coinciden con el RUT</Check>
+                      <Check ok={!seleccionadoRechazado}>Documento legible</Check>
                       <Check ok>Cumple normativa vigente</Check>
                     </ul>
                     <p className="motivo-label">Motivo del rechazo</p>
@@ -169,8 +218,18 @@ export default function AgendaProceso() {
                       onIonInput={(e) => setMotivo(e.detail.value ?? '')}
                     />
                     <div className="validacion-actions">
-                      <IonButton className="btn-validacion rechazar" onClick={avisarPendiente}>Rechazar</IonButton>
-                      <IonButton className="btn-validacion aprobar" onClick={avisarPendiente}>Aceptar</IonButton>
+                      <IonButton
+                        className="btn-validacion rechazar"
+                        disabled={!seleccionado || guardando}
+                        onClick={() => revisar(ID_DOCUMENTO_RECHAZADO)}>
+                        Rechazar
+                      </IonButton>
+                      <IonButton
+                        className="btn-validacion aprobar"
+                        disabled={!seleccionado || guardando}
+                        onClick={() => revisar(ID_DOCUMENTO_APROBADO)}>
+                        Aceptar
+                      </IonButton>
                     </div>
                     <div className="historial">
                       <h4>Historial de tramites</h4>

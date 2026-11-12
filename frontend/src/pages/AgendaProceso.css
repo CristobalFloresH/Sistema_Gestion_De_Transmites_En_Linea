@@ -113,3 +113,7 @@
   letter-spacing: normal;
 }
 .visor-pdf__hoja { width: 100%; height: 100%; border: 0; display: block; background: var(--bg); }
+
+/* Fila del documento que se esta revisando en el panel derecho (agregado al conectar aprobar/rechazar) */
+.doc-item { cursor: pointer; }
+.doc-item.seleccionado { border-color: var(--primary); border-width: 2px; background: #e3eef7; }

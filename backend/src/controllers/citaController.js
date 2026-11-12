@@ -1,4 +1,5 @@
 import * as citaService from "../services/citaService.js";
+
 import {
   errorPostgresDuplicado,
   errorPostgresReferencia,
@@ -11,6 +12,7 @@ import {
   buscarCamposDesconocidos,
 } from "../utils/apoyoControladores.js";
 
+import * as notificacionService from "../services/notificacionService.js";
 // Este archivo recibe las peticiones de citas: revisa que los datos sean correctos,
 // le pide al servicio que haga el trabajo en la base de datos y decide qué responderle al cliente.
 
@@ -178,6 +180,8 @@ export async function crearCita(req, res) {
 
   try {
     const resultado = await citaService.reservarCita(datosCita);
+    // Si la cita se reservó, se avisa por WhatsApp sin hacer esperar la respuesta
+    if (resultado.cita) notificacionService.avisarCitaReservada(resultado.cita);
     responderResultado(res, resultado, 201);
   } catch (error) {
     if (!responderErrorDeBaseDeDatos(res, error)) throw error;

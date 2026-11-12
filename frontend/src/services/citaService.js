@@ -34,3 +34,11 @@ export async function listarCitasVigentes(filtros) {
   const respuesta = await api.get('/citas', { params: { ...filtros, vigente: true } });
   return respuesta.data.datos;
 }
+
+// Baja el comprobante de una cita en PDF (la peticion lleva el token) y lo guarda en el computador
+export async function descargarComprobante(idCita) {
+  const respuesta = await api.get(`/citas/${idCita}/comprobante`, { responseType: 'blob' });
+  const url = URL.createObjectURL(respuesta.data);
+  Object.assign(document.createElement('a'), { href: url, download: `comprobante-cita-${idCita}.pdf` }).click();
+  URL.revokeObjectURL(url);
+}

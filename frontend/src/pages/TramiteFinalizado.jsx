@@ -5,6 +5,7 @@ import {
 } from 'ionicons/icons';
 import NavBar from '../components/NavBar';
 import { getUsuario } from '../services/authService';
+import { descargarComprobante } from '../services/citaService';
 import { leerTipo, leerReserva, limpiarReserva } from '../services/reserva';
 import './TramiteFinalizado.css';
 
@@ -25,6 +26,7 @@ function leerDatos() {
     tramite: leerTipo()?.nombre_tipo_tramite ?? '—',
     fechaHora: formatearFechaHora(cita),
     idTramite: id_tramite,
+    idCita: cita?.id_cita,
     canal: cita?.nombre_metodo_notificacion,
   };
 }
@@ -35,6 +37,15 @@ export default function TramiteFinalizado() {
 
   // La pagina queda en memoria: se vuelven a leer los datos cada vez que se entra
   useIonViewWillEnter(() => setDatos(leerDatos()));
+
+  // Baja el comprobante que arma el backend con los datos de la cita
+  const bajarComprobante = async () => {
+    try {
+      await descargarComprobante(datos.idCita);
+    } catch (e) {
+      mostrarAviso({ message: e.mensaje, duration: 4000, color: 'danger' });
+    }
+  };
 
   const items = [
     { icono: personOutline, etiqueta: 'Nombre', valor: datos.nombre },
@@ -76,9 +87,7 @@ export default function TramiteFinalizado() {
               </div>
 
               <div className="finalizado-actions">
-                <IonButton
-                  className="btn btn--white-outline"
-                  onClick={() => mostrarAviso({ message: 'La descarga del comprobante todavia no esta disponible', duration: 2500, color: 'warning' })}>
+                <IonButton className="btn btn--white-outline" disabled={!datos.idCita} onClick={bajarComprobante}>
                   <IonIcon slot="start" icon={downloadOutline} /> Descargar Comprobante
                 </IonButton>
                 <IonButton routerLink="/" onClick={limpiarReserva} className="btn btn--green">Volver al inicio</IonButton>

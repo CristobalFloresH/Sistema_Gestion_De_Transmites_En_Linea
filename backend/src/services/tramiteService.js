@@ -94,8 +94,9 @@ export async function insertarTramite({ rut_ciudadano, id_tipo_tramite }) {
 }
 
 // Cambia los datos indicados de un trámite (sirve para PUT y PATCH); si no existe, no devuelve nada.
-// Si el estado cambia, el nuevo estado queda anotado en el historial dentro de la misma transacción.
-export async function actualizarTramite(idTramite, camposNuevos) {
+// Si el estado cambia, el nuevo estado queda anotado en el historial dentro de la misma transacción,
+// junto con el rut del funcionario que hizo el cambio.
+export async function actualizarTramite(idTramite, camposNuevos, rutFuncionario) {
   // Solo se aceptan campos conocidos, para que nadie pueda colar texto extraño en la consulta
   const nombresCampos = Object.keys(camposNuevos).filter((nombreCampo) =>
     columnasEditables.includes(nombreCampo),
@@ -126,10 +127,9 @@ export async function actualizarTramite(idTramite, camposNuevos) {
 
     const idEstadoNuevo = camposNuevos.id_estado_tramite;
     if (idEstadoNuevo !== undefined && idEstadoNuevo !== idEstadoAnterior) {
-      // rut_funcionario queda vacío por ahora; se llenará con el usuario del token cuando exista el login
       await cliente.query(
-        `insert into historial_estado (id_tramite, id_estado_tramite) values ($1, $2)`,
-        [idTramite, idEstadoNuevo],
+        `insert into historial_estado (id_tramite, id_estado_tramite, rut_funcionario) values ($1, $2, $3)`,
+        [idTramite, idEstadoNuevo, rutFuncionario ?? null],
       );
     }
     await cliente.query("commit");
@@ -140,6 +140,28 @@ export async function actualizarTramite(idTramite, camposNuevos) {
   } finally {
     cliente.release();
   }
+}
+
+// Devuelve los nombres de los documentos que el tipo de trámite exige y que todavía no están aprobados.
+// De cada tipo vale solo el documento más reciente, porque al rechazar uno el ciudadano sube otro del mismo tipo.
+export async function buscarDocumentosExigidosSinAprobar(idTramite) {
+  const { rows } = await pool.query(
+    `select td.nombre_tipo_documento
+     from tramite t
+     join requiere r on r.id_tipo_tramite = t.id_tipo_tramite
+     join tipo_documento td on td.id_tipo_documento = r.id_tipo_documento
+     left join lateral (
+       select d.id_estado_documento
+       from documento d
+       where d.id_tramite = t.id_tramite and d.id_tipo_documento = r.id_tipo_documento
+       order by d.fecha_subida desc, d.id_documento desc
+       limit 1
+     ) ultimo on true
+     where t.id_tramite = $1 and ultimo.id_estado_documento is distinct from 2
+     order by td.nombre_tipo_documento`,
+    [idTramite],
+  );
+  return rows.map((fila) => fila.nombre_tipo_documento);
 }
 
 // Cuenta cuántas citas y documentos tiene un trámite, para saber si se puede borrar sin perder información

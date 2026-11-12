@@ -27,7 +27,13 @@ export default function NavBar() {
       </div>
       <div className="NavBar__links">
         {variant === 'funcionario' && (
-          <Link to="/funcionario/agenda" className="NavBar__link">Agenda</Link>
+          <>
+            <Link to="/funcionario/agenda" className="NavBar__link">Agenda</Link>
+            <Link to="/funcionario/bloques" className="NavBar__link">Bloques</Link>
+            {usuario?.rol === 'administrador' && (
+              <Link to="/admin/funcionarios" className="NavBar__link">Funcionarios</Link>
+            )}
+          </>
         )}
         <Link to="/tramite-licencia" className="NavBar__link">Tramites</Link>
         <Link to="/" className="NavBar__link">Contacto</Link>

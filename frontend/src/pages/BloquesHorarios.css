@@ -1,0 +1,6 @@
+/* Pantalla de bloques horarios (RF-16). No esta en el Figma: reusa los estilos de la Agenda
+   del funcionario y aqui solo va lo propio de esta pantalla */
+.bloques-ayuda { font-family: var(--font-body); font-size: 15px; color: var(--gray-text); margin-bottom: 16px; }
+.bloques-dia { font-family: var(--font-ui); font-size: 14px; color: var(--primary); text-transform: capitalize; }
+.bloques-acciones { display: flex; gap: 14px; flex-wrap: wrap; }
+.bloques-acciones .link-action:disabled { opacity: 0.5; }

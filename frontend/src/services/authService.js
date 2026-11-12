@@ -11,7 +11,7 @@ export async function login(rut, password) {
 
 //Alta de una cuenta. No hay registro publico: el backend exige token de administrador,
 //asi que esto solo se usa desde la pantalla de gestion de funcionarios
-export async function registrar({ rut, nombre, correo, telefono, password }) {
+export async function registrar({ rut, nombre, correo, telefono, password, rol }) {
   //Hace peticion POST al backend, enviando los datos
   const { data } = await api.post('/auth/registro', {
     rut,
@@ -19,6 +19,7 @@ export async function registrar({ rut, nombre, correo, telefono, password }) {
     correo,
     telefono: telefono || undefined, 
     password,
+    rol, //sin rol, el backend crea un ciudadano
   });
   //Se devuelve respuesta
   return data;

@@ -9,6 +9,8 @@ import TramiteFinalizado from './pages/TramiteFinalizado';
 import MisTramites from './pages/MisTramites';
 import AgendaFuncionario from './pages/AgendaFuncionario';
 import AgendaProceso from './pages/AgendaProceso';
+import BloquesHorarios from './pages/BloquesHorarios';
+import Funcionarios from './pages/Funcionarios';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
@@ -41,6 +43,8 @@ export default function App() {
           <Route path="/funcionario/agenda" element={<ProtectedRoute rol="funcionario"><AgendaFuncionario /></ProtectedRoute>} />
           {/* El proceso se abre con el id del tramite: antes habia una ruta fija y otra de ejemplo con error */}
           <Route path="/funcionario/tramites/:idTramite" element={<ProtectedRoute rol="funcionario"><AgendaProceso /></ProtectedRoute>} />
+          <Route path="/funcionario/bloques" element={<ProtectedRoute rol="funcionario"><BloquesHorarios /></ProtectedRoute>} />
+          <Route path="/admin/funcionarios" element={<ProtectedRoute rol="administrador"><Funcionarios /></ProtectedRoute>} />
 
         </IonRouterOutlet>
       </IonReactRouter>

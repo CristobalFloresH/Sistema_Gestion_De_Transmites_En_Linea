@@ -7,6 +7,10 @@ import * as bloqueHorarioService from "../services/bloqueHorarioService.js";
 const errorPostgresDuplicado = "23505"; // ya existe un bloque con esa misma fecha y hora de inicio
 const errorPostgresCheck = "23514"; // los datos no cumplen una regla de la tabla (por ejemplo, la hora de término es antes que la de inicio)
 
+// Horario de atención del municipio (RNF-3): solo de lunes a viernes y entre estas horas
+const horaApertura = "08:00";
+const horaCierre = "17:00";
+
 // Campos que se aceptan al crear o editar un bloque, y cuáles son obligatorios al crearlo
 const camposPermitidos = bloqueHorarioService.columnasEditables;
 const camposObligatorios = ["fecha", "hora_inicio", "hora_fin", "cupos"];
@@ -32,6 +36,12 @@ function esFechaValida(texto) {
 // Revisa que el texto sea una hora válida escrita como HH:MM
 function esHoraValida(texto) {
   return typeof texto === "string" && /^([01]\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/.test(texto);
+}
+
+// Revisa que la fecha caiga en un día hábil, de lunes (1) a viernes (5)
+function esDiaHabil(fecha) {
+  const diaDeLaSemana = new Date(`${fecha}T00:00:00Z`).getUTCDay();
+  return diaDeLaSemana >= 1 && diaDeLaSemana <= 5;
 }
 
 // Toma el id que viene en la URL y lo devuelve como número; si no es un número válido, devuelve null
@@ -70,6 +80,16 @@ function validarDatosBloqueHorario(datosBloqueHorario, { esParcial }) {
   }
   if (esHoraValida(hora_inicio) && esHoraValida(hora_fin) && hora_fin <= hora_inicio) {
     errores.push("hora_fin debe ser posterior a hora_inicio");
+  }
+  // Reglas del horario de atención (RNF-3); se revisa lo que venga en la petición
+  if (esFechaValida(fecha) && !esDiaHabil(fecha)) {
+    errores.push("Solo se pueden agendar bloques de lunes a viernes");
+  }
+  if (esHoraValida(hora_inicio) && hora_inicio.slice(0, 5) < horaApertura) {
+    errores.push(`hora_inicio no puede ser antes de las ${horaApertura}`);
+  }
+  if (esHoraValida(hora_fin) && hora_fin.slice(0, 5) > horaCierre) {
+    errores.push(`hora_fin no puede ser después de las ${horaCierre}`);
   }
   if (cupos !== undefined && (!Number.isInteger(cupos) || cupos <= 0)) {
     errores.push("cupos debe ser un número entero mayor que 0");

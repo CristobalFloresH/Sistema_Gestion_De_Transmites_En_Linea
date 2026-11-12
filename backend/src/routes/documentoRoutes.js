@@ -43,6 +43,8 @@ router.use(verificarToken);
 //Los logueados pueden ver y subir documentos (un ciudadano solo los de sus trámites)
 router.get("/", ciudadanoSoloDocumentosDeSusTramites, documentoController.listarDocumentos);
 router.get("/:id", ciudadanoSoloSusDocumentos, documentoController.obtenerDocumento);
+//El PDF en sí: mismas reglas que el documento, un ciudadano solo puede abrir los de sus trámites
+router.get("/:id/archivo", ciudadanoSoloSusDocumentos, documentoController.obtenerArchivo);
 //El archivo se recibe y los id se convierten antes de revisar que el trámite sea del ciudadano
 router.post(
   "/",

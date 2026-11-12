@@ -275,6 +275,21 @@
       }
     },
     {
+      "_id": "req_cita_12b",
+      "_type": "request",
+      "parentId": "wrk_tramites_citas",
+      "name": "12b Descargar el comprobante en PDF de la cita 1 (200)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/citas/1/comprobante",
+      "metaSortKey": 12.5,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_citas_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
       "_id": "req_cita_13",
       "_type": "request",
       "parentId": "wrk_tramites_citas",

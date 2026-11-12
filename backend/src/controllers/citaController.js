@@ -1,5 +1,6 @@
 import * as citaService from "../services/citaService.js";
-
+import * as tramiteService from "../services/tramiteService.js";
+import { generarComprobante } from "../utils/comprobante.js"; 
 import {
   errorPostgresDuplicado,
   errorPostgresReferencia,
@@ -168,6 +169,27 @@ export async function obtenerCita(req, res) {
   if (!cita) return responderError(res, 404, "Cita no encontrada");
 
   res.status(200).json({ datos: cita });
+}
+
+// GET /api/citas/:id/comprobante
+// Entrega el comprobante de la cita en PDF, para descargarlo. Responde 404 si la cita no existe.
+export async function obtenerComprobante(req, res) {
+  const idCita = leerIdDeLaUrl(req);
+  if (!idCita) return responderError(res, 400, "El id debe ser un número entero positivo");
+
+  const cita = await citaService.buscarCitaPorId(idCita);
+  if (!cita) return responderError(res, 404, "Cita no encontrada");
+
+  // El nombre del ciudadano y el tipo de trámite no vienen en la cita; se leen del trámite al que pertenece
+  const tramite = await tramiteService.buscarTramitePorId(cita.id_tramite);
+  const comprobante = await generarComprobante({ ...cita, ...tramite });
+
+  // El nombre del archivo se arma solo con números: así la cabecera nunca lleva tildes ni ñ
+  res
+    .status(200)
+    .type("application/pdf")
+    .set("Content-Disposition", `attachment; filename="comprobante-cita-${idCita}.pdf"`)
+    .send(comprobante);
 }
 
 // POST /api/citas

@@ -14,6 +14,8 @@ router.use(verificarToken);
 router.get("/", limitarListadoAlCiudadano, citaController.listarCitas);
 //Un ciudadano solo puede ver sus citas y reservar en sus propios trámites
 router.get("/:id", ciudadanoSoloSusCitas, citaController.obtenerCita);
+//El comprobante en PDF: mismas reglas que la cita, un ciudadano solo puede bajar el de las suyas
+router.get("/:id/comprobante", ciudadanoSoloSusCitas, citaController.obtenerComprobante);
 router.post("/", ciudadanoSoloSuTramiteEnElCuerpo, citaController.crearCita);
 //Un ciudadano solo puede editar (cancelar o reagendar) sus propias citas
 router.put("/:id", ciudadanoSoloSusCitas, citaController.reemplazarCita);

@@ -12,6 +12,9 @@ import {
 // Este archivo recibe las peticiones de trámites: revisa que los datos sean correctos,
 // le pide al servicio que haga el trabajo en la base de datos y decide qué responderle al cliente.
 
+// Estado del catálogo estado_tramite al que sí se puede llegar con documentos sin aprobar
+const idEstadoRechazado = 7;
+
 // Mensaje para cada dato que apunta a otra tabla, por si la base de datos avisa que ese registro no existe
 const mensajesReferenciaInexistente = {
   tramite_rut_ciudadano_fkey: "No existe un usuario con ese rut_ciudadano",
@@ -82,8 +85,21 @@ async function editarTramite(req, res, { esParcial }) {
   const errores = validarDatosEdicion(camposNuevos, { esParcial });
   if (errores.length > 0) return responderError(res, 400, "Datos del trámite inválidos", errores);
 
+  const tramiteActual = await tramiteService.buscarTramitePorId(idTramite);
+  if (!tramiteActual) return responderError(res, 404, "Trámite no encontrado");
+
+  // Un trámite solo avanza de etapa si todos los documentos que exige su tipo están aprobados;
+  // rechazarlo (estado 7) siempre se permite, porque justamente puede deberse a un documento mal
+  const idEstadoNuevo = camposNuevos.id_estado_tramite;
+  if (idEstadoNuevo !== undefined && idEstadoNuevo !== idEstadoRechazado && idEstadoNuevo !== tramiteActual.id_estado_tramite) {
+    const sinAprobar = await tramiteService.buscarDocumentosExigidosSinAprobar(idTramite);
+    if (sinAprobar.length > 0) {
+      return responderError(res, 409, `El trámite no puede avanzar: faltan documentos por aprobar (${sinAprobar.join(", ")})`);
+    }
+  }
+
   try {
-    const tramiteActualizado = await tramiteService.actualizarTramite(idTramite, camposNuevos);
+    const tramiteActualizado = await tramiteService.actualizarTramite(idTramite, camposNuevos, req.usuario.rut);
     if (!tramiteActualizado) return responderError(res, 404, "Trámite no encontrado");
     res.status(200).json({ datos: tramiteActualizado });
   } catch (error) {

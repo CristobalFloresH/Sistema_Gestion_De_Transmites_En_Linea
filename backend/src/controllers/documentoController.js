@@ -1,9 +1,9 @@
+import path from "node:path";
 import * as documentoService from "../services/documentoService.js";
 import { esPdf, calcularHash, guardarPdf, borrarPdf } from "../utils/archivos.js";
 import {
   errorPostgresReferencia,
   responderError,
-  esRutValido,
   esIdValido,
   esTextoValido,
   leerIdDeLaUrl,
@@ -17,6 +17,9 @@ import {
 // Estados del catálogo estado_documento, en el orden en que se cargan en licencias.sql
 const idEstadoPendiente = 1;
 const idEstadoRechazado = 3;
+
+// Campos que se aceptan en el cuerpo al editar: el revisor no se manda, se toma del token de quien revisa
+const columnasDelCuerpo = documentoService.columnasEditables.filter((columna) => columna !== "rut_revisor");
 
 // Mensaje para cada dato que apunta a otra tabla, por si la base de datos avisa que ese registro no existe
 const mensajesReferenciaInexistente = {
@@ -63,14 +66,15 @@ function leerNombreDelArchivo(archivo) {
 }
 
 // Revisa los campos enviados para editar un documento y devuelve la lista de problemas encontrados.
-// En PUT son obligatorios el nombre del archivo y el estado; motivo_rechazo y rut_revisor pueden faltar o ser null.
+// En PUT son obligatorios el nombre del archivo y el estado; motivo_rechazo puede faltar o ser null.
+// rut_revisor no se acepta en el cuerpo: sale del token, así que si lo mandan se responde 400 como campo no permitido.
 function validarDatosEdicion(datosDocumento, { esParcial }) {
   const errores = [];
 
-  const camposDesconocidos = buscarCamposDesconocidos(datosDocumento, documentoService.columnasEditables);
+  const camposDesconocidos = buscarCamposDesconocidos(datosDocumento, columnasDelCuerpo);
   if (camposDesconocidos.length > 0) errores.push(`Campos no permitidos: ${camposDesconocidos.join(", ")}`);
 
-  const { nombre_archivo, id_estado_documento, motivo_rechazo, rut_revisor } = datosDocumento;
+  const { nombre_archivo, id_estado_documento, motivo_rechazo } = datosDocumento;
   if (!esParcial) {
     if (nombre_archivo === undefined) errores.push("Falta el campo nombre_archivo");
     if (id_estado_documento === undefined) errores.push("Falta el campo id_estado_documento");
@@ -84,16 +88,14 @@ function validarDatosEdicion(datosDocumento, { esParcial }) {
   if (motivo_rechazo !== undefined && motivo_rechazo !== null && !esTextoValido(motivo_rechazo, 255)) {
     errores.push("motivo_rechazo debe ser un texto de hasta 255 caracteres");
   }
-  if (rut_revisor !== undefined && rut_revisor !== null && !esRutValido(rut_revisor)) {
-    errores.push("rut_revisor debe tener formato 12345678-9, sin puntos y con guion");
-  }
 
   return errores;
 }
 
 // Junta los datos actuales del documento con los enviados y aplica las reglas de la revisión:
 // un documento rechazado necesita motivo, el motivo solo se guarda si está rechazado, y uno pendiente no tiene revisor.
-function armarDatosFinales(documentoActual, camposNuevos, { esParcial }) {
+// El revisor es siempre quien hace la petición, nunca un rut que venga en el cuerpo.
+function armarDatosFinales(documentoActual, camposNuevos, { esParcial, rutRevisor }) {
   const datosFinales = esParcial
     ? {
         nombre_archivo: documentoActual.nombre_archivo,
@@ -105,6 +107,7 @@ function armarDatosFinales(documentoActual, camposNuevos, { esParcial }) {
     : { motivo_rechazo: null, rut_revisor: null, ...camposNuevos };
 
   if (datosFinales.id_estado_documento !== idEstadoRechazado) datosFinales.motivo_rechazo = null;
+  if (camposNuevos.id_estado_documento !== undefined) datosFinales.rut_revisor = rutRevisor; // quien aprueba o rechaza queda registrado
   if (datosFinales.id_estado_documento === idEstadoPendiente) datosFinales.rut_revisor = null;
   return datosFinales;
 }
@@ -134,7 +137,7 @@ async function editarDocumento(req, res, { esParcial }) {
   const documentoActual = await documentoService.buscarDocumentoPorId(idDocumento);
   if (!documentoActual) return responderError(res, 404, "Documento no encontrado");
 
-  const datosFinales = armarDatosFinales(documentoActual, camposNuevos, { esParcial });
+  const datosFinales = armarDatosFinales(documentoActual, camposNuevos, { esParcial, rutRevisor: req.usuario.rut });
   if (datosFinales.id_estado_documento === idEstadoRechazado && !datosFinales.motivo_rechazo) {
     return responderError(res, 400, "Para rechazar un documento debes indicar motivo_rechazo");
   }
@@ -179,6 +182,24 @@ export async function obtenerDocumento(req, res) {
   if (!documento) return responderError(res, 404, "Documento no encontrado");
 
   res.status(200).json({ datos: documento });
+}
+
+// GET /api/documentos/:id/archivo
+// Entrega el PDF guardado para que el funcionario lo revise en pantalla.
+// Responde 404 si el documento no existe, si se registró antes de la subida real (sin ruta)
+// o si el archivo ya no está en el disco.
+export async function obtenerArchivo(req, res) {
+  const idDocumento = leerIdDeLaUrl(req);
+  if (!idDocumento) return responderError(res, 400, "El id debe ser un número entero positivo");
+
+  const documento = await documentoService.buscarDocumentoPorId(idDocumento);
+  if (!documento) return responderError(res, 404, "Documento no encontrado");
+  if (!documento.ruta) return responderError(res, 404, "Este documento no tiene un archivo guardado");
+
+  // sendFile exige una ruta absoluta; en la base se guarda relativa a la carpeta del servidor
+  res.sendFile(path.resolve(documento.ruta), (error) => {
+    if (error && !res.headersSent) responderError(res, 404, "El archivo del documento no está disponible");
+  });
 }
 
 // POST /api/documentos

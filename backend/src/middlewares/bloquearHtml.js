@@ -1,7 +1,9 @@
 import { responderError } from "../utils/apoyoControladores.js";
 
-// Campos que pueden llevar cualquier símbolo, porque nunca se muestran en pantalla
-const camposExentos = ["password"];
+// Campos que pueden llevar cualquier símbolo: la clave nunca se muestra, y el motivo del rechazo es
+// texto libre del funcionario (por ejemplo "la foto mide < 2 cm") que React escapa al mostrarlo
+// (comentario ajustado al agregar motivo_rechazo)
+const camposExentos = ["password", "motivo_rechazo"];
 
 // Revisa si un texto trae < o >, los símbolos necesarios para escribir una etiqueta HTML (<script>, <img>, etc.)
 const contieneHtml = (texto) => /[<>]/.test(texto);

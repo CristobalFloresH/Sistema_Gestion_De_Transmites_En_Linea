@@ -1,4 +1,5 @@
 import * as tramiteService from "../services/tramiteService.js";
+import * as notificacionService from "../services/notificacionService.js";
 import {
   errorPostgresReferencia,
   responderError,
@@ -12,8 +13,9 @@ import {
 // Este archivo recibe las peticiones de trámites: revisa que los datos sean correctos,
 // le pide al servicio que haga el trabajo en la base de datos y decide qué responderle al cliente.
 
-// Estado del catálogo estado_tramite al que sí se puede llegar con documentos sin aprobar
-const idEstadoRechazado = 7;
+// Estados del catálogo estado_tramite que el controlador necesita distinguir
+const idEstadoListaParaRetiro = 6;
+const idEstadoRechazado = 7; // a este sí se puede llegar con documentos sin aprobar
 
 // Mensaje para cada dato que apunta a otra tabla, por si la base de datos avisa que ese registro no existe
 const mensajesReferenciaInexistente = {
@@ -101,6 +103,10 @@ async function editarTramite(req, res, { esParcial }) {
   try {
     const tramiteActualizado = await tramiteService.actualizarTramite(idTramite, camposNuevos, req.usuario.rut);
     if (!tramiteActualizado) return responderError(res, 404, "Trámite no encontrado");
+    // Al quedar lista para retiro se avisa al ciudadano, sin hacer esperar la respuesta ni arriesgar el cambio de estado
+    if (idEstadoNuevo === idEstadoListaParaRetiro && idEstadoNuevo !== tramiteActual.id_estado_tramite) {
+      notificacionService.avisarLicenciaLista(idTramite);
+    }
     res.status(200).json({ datos: tramiteActualizado });
   } catch (error) {
     if (!responderErrorDeBaseDeDatos(res, error)) throw error;

@@ -117,3 +117,9 @@
 /* Fila del documento que se esta revisando en el panel derecho (agregado al conectar aprobar/rechazar) */
 .doc-item { cursor: pointer; }
 .doc-item.seleccionado { border-color: var(--primary); border-width: 2px; background: #e3eef7; }
+
+/* Checklist marcable y avisos del panel de revision (agregado al pulir la usabilidad del RF-6) */
+.validacion-list li { cursor: pointer; user-select: none; }
+.validacion-list li.por-revisar ion-icon { color: #999; }
+.validacion-aviso { font-size: 14px; color: var(--gray-text); margin-bottom: 16px; }
+.proceso-resumen__acciones { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }

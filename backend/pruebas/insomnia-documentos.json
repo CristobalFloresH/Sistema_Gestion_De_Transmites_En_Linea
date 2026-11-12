@@ -49,47 +49,75 @@
       "_id": "req_documento_02",
       "_type": "request",
       "parentId": "wrk_tramites_documentos",
-      "name": "02 Registrar cédula del trámite 1 (201)",
+      "name": "02 Subir la cédula del trámite 1 (201)",
       "method": "POST",
       "url": "http://localhost:3000/api/documentos",
       "metaSortKey": 2,
       "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 1,\n  \"nombre_archivo\": \"cedula.pdf\"\n}"
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_tramite",
+            "name": "id_tramite",
+            "value": "1"
+          },
+          {
+            "id": "pair_tipo",
+            "name": "id_tipo_documento",
+            "value": "1"
+          },
+          {
+            "id": "pair_archivo",
+            "name": "archivo",
+            "value": "",
+            "type": "file",
+            "fileName": "backend/pruebas/archivos/cedula-de-prueba.pdf"
+          }
+        ]
       },
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
+      "headers": [],
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
-      }
+      },
+      "description": "El archivo va adjunto: si Insomnia no lo encuentra, aprieta el campo \"archivo\" y elige backend/pruebas/archivos/cedula-de-prueba.pdf desde la carpeta del repositorio."
     },
     {
       "_id": "req_documento_03",
       "_type": "request",
       "parentId": "wrk_tramites_documentos",
-      "name": "03 Registrar certificado de residencia del trámite 1 (201)",
+      "name": "03 Subir la licencia anterior del trámite 1 (201)",
       "method": "POST",
       "url": "http://localhost:3000/api/documentos",
       "metaSortKey": 3,
       "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 2,\n  \"nombre_archivo\": \"residencia.pdf\"\n}"
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_tramite",
+            "name": "id_tramite",
+            "value": "1"
+          },
+          {
+            "id": "pair_tipo",
+            "name": "id_tipo_documento",
+            "value": "4"
+          },
+          {
+            "id": "pair_archivo",
+            "name": "archivo",
+            "value": "",
+            "type": "file",
+            "fileName": "backend/pruebas/archivos/cedula-de-prueba.pdf"
+          }
+        ]
       },
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
+      "headers": [],
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
-      }
+      },
+      "description": "El archivo va adjunto: si Insomnia no lo encuentra, aprieta el campo \"archivo\" y elige backend/pruebas/archivos/cedula-de-prueba.pdf desde la carpeta del repositorio."
     },
     {
       "_id": "req_documento_04",
@@ -100,19 +128,33 @@
       "url": "http://localhost:3000/api/documentos",
       "metaSortKey": 4,
       "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 4,\n  \"nombre_archivo\": \"licencia.pdf\"\n}"
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_tramite",
+            "name": "id_tramite",
+            "value": "1"
+          },
+          {
+            "id": "pair_tipo",
+            "name": "id_tipo_documento",
+            "value": "2"
+          },
+          {
+            "id": "pair_archivo",
+            "name": "archivo",
+            "value": "",
+            "type": "file",
+            "fileName": "backend/pruebas/archivos/cedula-de-prueba.pdf"
+          }
+        ]
       },
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
+      "headers": [],
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
-      }
+      },
+      "description": "El trámite 1 es una renovación: exige cédula (1) y licencia anterior (4), no certificado de residencia (2)."
     },
     {
       "_id": "req_documento_05",
@@ -123,42 +165,100 @@
       "url": "http://localhost:3000/api/documentos",
       "metaSortKey": 5,
       "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"id_tramite\": 999,\n  \"id_tipo_documento\": 1,\n  \"nombre_archivo\": \"cedula.pdf\"\n}"
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_tramite",
+            "name": "id_tramite",
+            "value": "999"
+          },
+          {
+            "id": "pair_tipo",
+            "name": "id_tipo_documento",
+            "value": "1"
+          },
+          {
+            "id": "pair_archivo",
+            "name": "archivo",
+            "value": "",
+            "type": "file",
+            "fileName": "backend/pruebas/archivos/cedula-de-prueba.pdf"
+          }
+        ]
       },
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
+      "headers": [],
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
-      }
+      },
+      "description": "El archivo va adjunto: si Insomnia no lo encuentra, aprieta el campo \"archivo\" y elige backend/pruebas/archivos/cedula-de-prueba.pdf desde la carpeta del repositorio."
     },
     {
       "_id": "req_documento_06",
       "_type": "request",
       "parentId": "wrk_tramites_documentos",
-      "name": "06 Error: datos inválidos (400)",
+      "name": "06 Error: el archivo no es un PDF de verdad (400)",
       "method": "POST",
       "url": "http://localhost:3000/api/documentos",
       "metaSortKey": 6,
       "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"id_tramite\": 1,\n  \"id_tipo_documento\": 1,\n  \"nombre_archivo\": \"foto.png\"\n}"
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_tramite",
+            "name": "id_tramite",
+            "value": "1"
+          },
+          {
+            "id": "pair_tipo",
+            "name": "id_tipo_documento",
+            "value": "1"
+          },
+          {
+            "id": "pair_archivo",
+            "name": "archivo",
+            "value": "",
+            "type": "file",
+            "fileName": "backend/pruebas/archivos/no-es-un-pdf.pdf"
+          }
+        ]
       },
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
+      "headers": [],
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
-      }
+      },
+      "description": "El archivo va adjunto: si Insomnia no lo encuentra, aprieta el campo \"archivo\" y elige backend/pruebas/archivos/no-es-un-pdf.pdf desde la carpeta del repositorio."
+    },
+    {
+      "_id": "req_documento_06b",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "06b Error: sin archivo adjunto (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/documentos",
+      "metaSortKey": 6.5,
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_tramite",
+            "name": "id_tramite",
+            "value": "1"
+          },
+          {
+            "id": "pair_tipo",
+            "name": "id_tipo_documento",
+            "value": "1"
+          }
+        ]
+      },
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      },
+      "description": "El endpoint exige el PDF en el campo \"archivo\"."
     },
     {
       "_id": "req_documento_07",
@@ -191,6 +291,22 @@
       }
     },
     {
+      "_id": "req_documento_08b",
+      "_type": "request",
+      "parentId": "wrk_tramites_documentos",
+      "name": "08b Ver el PDF de un documento (200)",
+      "method": "GET",
+      "url": "http://localhost:3000/api/documentos/8/archivo",
+      "metaSortKey": 8.5,
+      "body": {},
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      },
+      "description": "Devuelve el PDF guardado. Cambia el 8 por el id de un documento subido con la petición 02: los documentos 1 y 2 son anteriores a la subida real y responden 404."
+    },
+    {
       "_id": "req_documento_09",
       "_type": "request",
       "parentId": "wrk_tramites_documentos",
@@ -215,7 +331,7 @@
       "metaSortKey": 10,
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"id_estado_documento\": 2,\n  \"rut_revisor\": \"12345678-5\"\n}"
+        "text": "{\n  \"id_estado_documento\": 2\n}"
       },
       "headers": [
         {
@@ -261,7 +377,7 @@
       "metaSortKey": 12,
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"id_estado_documento\": 3,\n  \"motivo_rechazo\": \"El certificado tiene más de 30 días\",\n  \"rut_revisor\": \"12345678-5\"\n}"
+        "text": "{\n  \"id_estado_documento\": 3,\n  \"motivo_rechazo\": \"El certificado tiene más de 30 días\"\n}"
       },
       "headers": [
         {
@@ -278,13 +394,13 @@
       "_id": "req_documento_13",
       "_type": "request",
       "parentId": "wrk_tramites_documentos",
-      "name": "13 Error: revisor que no existe (400)",
+      "name": "13 Error: rut_revisor en el cuerpo (400)",
       "method": "PATCH",
       "url": "http://localhost:3000/api/documentos/2",
       "metaSortKey": 13,
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"rut_revisor\": \"99999999-9\"\n}"
+        "text": "{\n  \"id_estado_documento\": 2,\n  \"rut_revisor\": \"12345678-5\"\n}"
       },
       "headers": [
         {
@@ -295,7 +411,8 @@
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_documentos_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
-      }
+      },
+      "description": "El revisor sale del token de quien hace la petición, por eso el cuerpo lo rechaza."
     },
     {
       "_id": "req_documento_14",

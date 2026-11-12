@@ -610,6 +610,26 @@
         "type": "bearer",
         "token": "{% response 'body', 'req_auth_06_login_nuevo', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
       }
+    },
+    {
+      "_id": "req_auth_429",
+      "_type": "request",
+      "parentId": "wrk_tramites_auth",
+      "name": "Error: demasiados intentos de login (429)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/auth/login",
+      "metaSortKey": 31,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"rut\": \"20123456-5\",\n  \"password\": \"ClaveIncorrecta1!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "description": "Freno contra la fuerza bruta (EF3): ejecútala 11 veces seguidas. Las primeras 10 responden 401 y a partir de la 11 responde 429. El contador se borra solo a los 15 minutos y un login correcto no suma."
     }
   ]
 }

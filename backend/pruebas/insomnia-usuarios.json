@@ -167,6 +167,30 @@
       }
     },
     {
+      "_id": "req_usuarios_08b",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "08b Error: texto con etiquetas HTML (400)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/20123456-5",
+      "metaSortKey": 8.5,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nombre\": \"<script>alert(1)</script>\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      },
+      "description": "Defensa contra XSS almacenado (EF3): ningún campo de texto acepta los símbolos < ni >."
+    },
+    {
       "_id": "req_usuario_09",
       "_type": "request",
       "parentId": "wrk_tramites_usuarios",
@@ -269,6 +293,52 @@
       "body": {
         "mimeType": "application/json",
         "text": "{}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_usuarios_13b",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "13b Error: el administrador se desactiva a sí mismo (409)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/11111111-1",
+      "metaSortKey": 13.1,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"activo\": false\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_usuarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_usuarios_13c",
+      "_type": "request",
+      "parentId": "wrk_tramites_usuarios",
+      "name": "13c Error: el administrador se quita el rol (409)",
+      "method": "PATCH",
+      "url": "http://localhost:3000/api/usuarios/11111111-1",
+      "metaSortKey": 13.2,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"id_rol\": 2\n}"
       },
       "headers": [
         {

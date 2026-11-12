@@ -175,6 +175,52 @@
       }
     },
     {
+      "_id": "req_08b",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "08b Error: bloque en sábado (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/bloques_horarios",
+      "metaSortKey": 8.1,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fecha\": \"2026-10-24\",\n  \"hora_inicio\": \"10:00\",\n  \"hora_fin\": \"10:30\",\n  \"cupos\": 3\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
+      "_id": "req_08c",
+      "_type": "request",
+      "parentId": "wrk_tramites",
+      "name": "08c Error: bloque fuera del horario de atención (400)",
+      "method": "POST",
+      "url": "http://localhost:3000/api/bloques_horarios",
+      "metaSortKey": 8.2,
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"fecha\": \"2026-10-21\",\n  \"hora_inicio\": \"19:00\",\n  \"hora_fin\": \"19:30\",\n  \"cupos\": 3\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_bloques_horarios_00_login', 'b64::JC50b2tlbg==::46b', 'no-history', 60 %}"
+      }
+    },
+    {
       "_id": "req_09",
       "_type": "request",
       "parentId": "wrk_tramites",

@@ -8,8 +8,8 @@
 
 body {
   font-family: 'Cabin', sans-serif;
-  background-color: #E4EEFF;
-  color: #000;
+  background-color: var(--bg);
+  color: var(--black);
 }
 
 :root {
@@ -37,7 +37,31 @@ body {
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #0a4679;
   --ion-color-primary-tint: #2461a0;
+  --font-scale: 1;
 }
+
+html.dark {
+  color-scheme: dark;
+  --primary: #75B9EA;
+  --primary-dark: #4B9BD3;
+  --ok-bg: #183D2B; --ok-text: #9BE7B2;
+  --warn-bg: #493A17; --warn-text: #FFE08A;
+  --err-bg: #4B2227; --err-text: #FFAAAA;
+  --bg: #0F172A; --gray-text: #B6C4D6;
+  --white: #1E293B; --black: #F1F5F9;
+  --ion-background-color: #0F172A;
+  --ion-text-color: #F1F5F9;
+  --ion-item-background: #1E293B;
+  --ion-color-primary: #75B9EA;
+  --ion-color-primary-rgb: 117, 185, 234;
+  --ion-color-primary-contrast: #102033;
+  --ion-color-primary-contrast-rgb: 16, 32, 51;
+  --ion-color-primary-shade: #67a3ce;
+  --ion-color-primary-tint: #83c2ec;
+}
+
+html, body, ion-app, ion-content { background: var(--bg); color: var(--black); }
+ion-content { --background: var(--bg); --color: var(--black); }
 
 a {
   text-decoration: none;

@@ -64,3 +64,16 @@
 .finalizado-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: nowrap; }
 .finalizado-actions .btn { --border-radius: 100px; height: 38px; font-family: var(--font-display); font-size: 14px; }
 .finalizado-actions .btn--white-outline { --border-color: #666; --border-width: 1px; --color: var(--primary); }
+
+
+/* Modo oscuro: textos del comprobante y datos de la cita. */
+html.dark .finalizado-card { background: #1E293B; border: 1px solid #475569; }
+html.dark .finalizado-title { color: #8CCBFA; }
+html.dark .finalizado-desc { color: #CBD5E1; }
+html.dark .finalizado-dato small { color: #DCE6F2; }
+html.dark .finalizado-dato p { color: #F8FAFC; }
+html.dark .finalizado-dato__icono { background: #29415D; color: #A9D9FF; }
+html.dark .finalizado-email { color: #CBD5E1; }
+html.dark .finalizado-email ion-icon { color: #8CCBFA; }
+html.dark .finalizado-actions .btn--white-outline { --background: #26364D; --color: #EAF4FF; --border-color: #8AA0B8; }
+html.dark .finalizado-actions .btn--green { --background: #75B9EA; --color: #102033; }

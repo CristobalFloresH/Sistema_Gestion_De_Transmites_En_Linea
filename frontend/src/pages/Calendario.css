@@ -155,3 +155,19 @@
 .subida-acciones { display: flex; gap: 16px; justify-content: center; margin-top: 16px; }
 .subida-acciones .calendario-continuar { margin: 0; }
 .reserva-tipo a { color: var(--primary); text-decoration: underline; }
+
+
+/* Modo oscuro: mantener contraste alto en calendario y selección de horarios. */
+html.dark .cal-semana, html.dark .cal-dia { color: #E2E8F0; }
+html.dark .cal-dia.pasado { color: #8291A6; }
+html.dark .cal-dia.hoy::after { background: #75B9EA; }
+html.dark .cal-nav button { background: #29415D; color: #EAF4FF; }
+html.dark .hora-slot { background: #26364D; border-color: #71839A; color: #F8FAFC; }
+html.dark .hora-slot__hora { color: #F8FAFC; }
+html.dark .hora-slot__cupos { color: #CBD5E1; }
+html.dark .hora-slot__radio { border-color: #B6C4D6; }
+html.dark .hora-slot.selected { background: #24496B; border-color: #8CCBFA; }
+html.dark .hora-slot.selected .hora-slot__radio { background: #75B9EA; border-color: #75B9EA; box-shadow: inset 0 0 0 5px #1E293B; }
+html.dark .btn.calendario-continuar { --background: #75B9EA; --color: #102033; }
+html.dark .reserva-pasos li:not(.activo) { color: #CBD5E1; border-color: #64748B; }
+html.dark .subida-doc, html.dark .subida-doc.cargado { color: #C5E5FF; background: #1B3550; }

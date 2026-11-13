@@ -88,3 +88,15 @@
 .notif-vacio p { font-size: 16px; }
 
 @media (max-width: 700px) { .cuenta-content { padding: 20px 16px 40px; } }
+
+
+/* Modo oscuro: datos del perfil, documentos y notificaciones. */
+html.dark .cuenta-card, html.dark .mi-doc { background: #1E293B; border-color: #475569; color: #F1F5F9; }
+html.dark .dato small { color: #DCE6F2; }
+html.dark .dato p, html.dark .licencia p, html.dark .mi-doc__archivo { color: #F1F5F9; }
+html.dark .dato__icono, html.dark .mi-doc__icono, html.dark .notif-item__icono { background: #29415D; color: #A9D9FF; }
+html.dark .perfil-tramite, html.dark .licencia { border-color: #64748B; }
+html.dark .mi-doc.falta { background: #1B3550; }
+html.dark .btn-doc { background: #26364D; color: #D9EEFF; border-color: #75B9EA; }
+html.dark .btn-doc.lleno { background: #75B9EA; color: #102033; }
+html.dark .notif-item { border-bottom-color: #475569; }

@@ -97,3 +97,12 @@
   .NavBar__logo a { font-size: 18px; }
   .NavBar__links { flex-wrap: wrap; gap: 12px; }
 }
+
+
+/* Controles de accesibilidad */
+.NavBar__accesibilidad { display: flex; align-items: center; gap: 5px; padding-right: 14px; margin-right: 2px; border-right: 1px solid #c9d3e3; }
+.NavBar__btn-acces { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #9aa9bd; border-radius: 7px; background: transparent; color: var(--black); font: 700 13px var(--font-ui); }
+.NavBar__btn-acces:hover, .NavBar__btn-acces:focus-visible { background: var(--primary); color: #fff; outline: 2px solid transparent; }
+.NavBar__btn-tema { font-size: 16px; }
+.NavBar__escala { min-width: 38px; text-align: center; color: var(--gray-text); font: 12px var(--font-ui); }
+@media (max-width: 700px) { .NavBar__accesibilidad { border-right: 0; padding-right: 0; } }

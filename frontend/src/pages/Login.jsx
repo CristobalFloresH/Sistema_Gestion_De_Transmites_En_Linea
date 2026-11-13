@@ -5,7 +5,6 @@ import {
 } from '@ionic/react';
 import NavBar from '../components/NavBar';
 import { login } from '../services/authService';
-import { leerReserva } from '../services/reserva';
 import './Login.css';
 
 const PREGUNTAS = [
@@ -42,11 +41,9 @@ export default function Login() {
     setCargando(true);
     try {
       //Conexion con Backend para hacer la peticion POST
-      const usuario = await login(rut.trim(), clave);
-      //Se revisa que rol es
-      const esPersonal = usuario.rol === 'funcionario' || usuario.rol === 'administrador';
-      //Dependiendo de que usuario sea lo manda a distintos apartados
-      navigate(esPersonal ? '/funcionario/agenda' : (leerReserva().tipo ? '/calendario' : '/'));
+      await login(rut.trim(), clave);
+      // Todos los roles llegan a la pagina principal; desde ahi pueden elegir su seccion.
+      navigate('/');
     } catch (error) {
       setErrorServidor(error.message);
     } finally {

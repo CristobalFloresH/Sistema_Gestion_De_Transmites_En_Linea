@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useIonViewWillEnter } from '@ionic/react';
 //Funciones para obtener al usuario desde el localStorage
 import { getUsuario, logout } from '../services/authService';
+import { usePreferencias } from '../hooks/usePreferencias';
 import './NavBar.css';
 
 export default function NavBar() {
@@ -10,6 +11,7 @@ export default function NavBar() {
   const [showDropdown, setShowDropdown] = useState(false);
   //Estadi que guarda la informacion del usuario
   const [usuario, setUsuario] = useState(getUsuario());
+  const { tema, escalaFuente, toggleTema, aumentarFuente, disminuirFuente } = usePreferencias();
   useIonViewWillEnter(() => {
     setUsuario(getUsuario());
     setShowDropdown(false);
@@ -26,6 +28,12 @@ export default function NavBar() {
         <Link to="/">Municipalidad de Santo Domingo</Link>
       </div>
       <div className="NavBar__links">
+        <div className="NavBar__accesibilidad" aria-label="Controles de accesibilidad">
+          <button type="button" className="NavBar__btn-acces" onClick={disminuirFuente} aria-label="Disminuir tamaño de letra" title="Disminuir letra">A−</button>
+          <span className="NavBar__escala" aria-live="polite">{Math.round(escalaFuente * 100)}%</span>
+          <button type="button" className="NavBar__btn-acces" onClick={aumentarFuente} aria-label="Aumentar tamaño de letra" title="Aumentar letra">A+</button>
+          <button type="button" className="NavBar__btn-acces NavBar__btn-tema" onClick={toggleTema} aria-label={tema === 'claro' ? 'Activar modo oscuro' : 'Activar modo claro'} title={tema === 'claro' ? 'Modo oscuro' : 'Modo claro'}>{tema === 'claro' ? '🌙' : '☀️'}</button>
+        </div>
         {variant === 'funcionario' && (
           <>
             <Link to="/funcionario/agenda" className="NavBar__link">Agenda</Link>

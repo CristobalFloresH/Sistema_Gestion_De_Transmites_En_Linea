@@ -9,8 +9,15 @@ const REMITENTE = process.env.CORREO_REMITENTE || "Municipalidad de Santo Doming
 // Sin credenciales el envío queda desactivado, así el resto del equipo puede correr el backend sin configurar correo
 export const correoActivo = Boolean(USUARIO && CLAVE);
 
+// Gmail por el puerto 587 con STARTTLS: el 465 lo intercepta el escudo de correo de algunos antivirus
 const transporte = correoActivo
-  ? nodemailer.createTransport({ service: "gmail", auth: { user: USUARIO, pass: CLAVE } })
+  ? nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: { user: USUARIO, pass: CLAVE },
+    })
   : null;
 
 // Envía un correo de texto, con un archivo adjunto opcional ({ filename, content })

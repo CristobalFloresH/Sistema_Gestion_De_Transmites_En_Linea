@@ -51,13 +51,26 @@ export default function Calendario() {
   const [idMetodo, setIdMetodo] = useState(null);
   const [guardando, setGuardando] = useState(false);
 
-  // Cada vez que se entra a la pagina se lee el tramite elegido y se parte del paso 1
-  useIonViewWillEnter(() => {
-    setTipo(leerTipo());
-    setPaso(1);
-    setArchivos({});
-    setErrorArchivo('');
-  });
+// Cada vez que se entra al calendario se recupera el trámite elegido
+// y se reinicia la selección de fecha, hora y documentos.
+useIonViewWillEnter(() => {
+  setTipo(leerTipo());
+
+  setPaso(1);
+  setArchivos({});
+  setErrorArchivo('');
+
+  // Reiniciar fecha y hora seleccionada
+  setFecha(hoy);
+  setAnio(Number(hoy.slice(0, 4)));
+  setMes(Number(hoy.slice(5, 7)) - 1);
+  setBloque(null);
+
+  // Volver a consultar los horarios del día actual
+  setBloques([]);
+  setCargando(true);
+  setError('');
+});
 
   // Los archivos se guardan por id_tipo_documento, el mismo que despues pide la API al subirlos
   const elegirArchivo = (idTipoDocumento, e) => {

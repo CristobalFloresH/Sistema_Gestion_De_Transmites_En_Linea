@@ -8,6 +8,7 @@ import * as usuarioService from "../services/usuarioService.js";
 const PLANTILLA = process.env.WHATSAPP_PLANTILLA_CONFIRMACION || "confirmacion_cita";
 const IDIOMA = process.env.WHATSAPP_PLANTILLA_IDIOMA || "es";
 const PLANTILLA_LISTA = process.env.WHATSAPP_PLANTILLA_LISTA || "licencia_lista";
+const PLANTILLA_RECORDATORIO = process.env.WHATSAPP_PLANTILLA_RECORDATORIO || "recordatorio_cita";
 
 // Convierte "2026-11-12" en "12-11-2026"
 const formatearFecha = (fecha) => fecha.split("-").reverse().join("-");
@@ -155,5 +156,57 @@ export async function avisarLicenciaLista(idTramite) {
     console.log(`WhatsApp de licencia lista enviado (trámite ${idTramite})`);
   } catch (error) {
     console.error(`No se pudo enviar el WhatsApp del trámite ${idTramite}:`, error.message);
+  }
+}
+
+// Recuerda al ciudadano la cita que tiene al día siguiente (RF-11). Lo llama el script
+// scripts/recordatorios.js, que se ejecuta una vez al día. Nunca lanza errores.
+export async function avisarRecordatorioCita(cita) {
+  try {
+    if (cita.nombre_metodo_notificacion === "Correo") {
+      return avisarPorCorreo({
+        idTramite: cita.id_tramite,
+        cita,
+        asunto: "Recordatorio: mañana tienes tu cita",
+        texto: (tramite) => [
+          `Hola ${tramite.nombre_ciudadano}:`,
+          "",
+          `Te recordamos que mañana ${formatearFecha(cita.fecha)} a las ${cita.hora_inicio.slice(0, 5)} tienes tu cita para el trámite de ${tramite.nombre_tipo_tramite}.`,
+          "",
+          "Preséntate 15 minutos antes con tu cédula de identidad. Adjuntamos otra vez el comprobante.",
+          "",
+          "Municipalidad de Santo Domingo",
+        ].join("\n"),
+      });
+    }
+    if (cita.nombre_metodo_notificacion !== "WhatsApp") return;
+    if (!whatsappActivo) {
+      console.warn("WhatsApp desactivado: faltan WHATSAPP_ACCESS_TOKEN o WHATSAPP_PHONE_NUMBER_ID en el .env");
+      return;
+    }
+
+    const { rows } = await pool.query(
+      `select u.telefono, tt.nombre_tipo_tramite
+       from tramite t
+       join usuario u on u.rut = t.rut_ciudadano
+       join tipo_tramite tt on tt.id_tipo_tramite = t.id_tipo_tramite
+       where t.id_tramite = $1`,
+      [cita.id_tramite],
+    );
+    const { telefono, nombre_tipo_tramite } = rows[0] ?? {};
+    if (!telefono) {
+      console.warn(`Cita ${cita.id_cita}: el ciudadano no tiene teléfono registrado, no se envió el recordatorio`);
+      return;
+    }
+
+    await enviarPlantilla({
+      telefono: soloDigitos(telefono),
+      plantilla: PLANTILLA_RECORDATORIO,
+      idioma: IDIOMA,
+      variables: [nombre_tipo_tramite, formatearFecha(cita.fecha), cita.hora_inicio.slice(0, 5)],
+    });
+    console.log(`WhatsApp de recordatorio enviado (cita ${cita.id_cita})`);
+  } catch (error) {
+    console.error(`No se pudo enviar el recordatorio de la cita ${cita.id_cita}:`, error.message);
   }
 }

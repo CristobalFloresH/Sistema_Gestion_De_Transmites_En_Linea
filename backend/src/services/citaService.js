@@ -44,6 +44,21 @@ export async function buscarCitas({ fecha, rut_ciudadano, id_bloque_horario, vig
   return rows;
 }
 
+// Busca las citas vigentes cuya hora empieza dentro de la ventana indicada, contada desde ahora.
+// La usa el recordatorio del RF-11: con (24, 25) devuelve las citas que son en 24 horas, ni antes ni después.
+export async function buscarCitasEnVentana(horasDesde, horasHasta) {
+  const { rows } = await pool.query(
+    `select ${columnasCita}
+     from ${tablasCita}
+     where c.vigente
+       and (b.fecha + b.hora_inicio) >= now() + ($1 || ' hours')::interval
+       and (b.fecha + b.hora_inicio) <  now() + ($2 || ' hours')::interval
+     order by b.fecha, b.hora_inicio, c.id_cita`,
+    [horasDesde, horasHasta],
+  );
+  return rows;
+}
+
 // Busca una cita por su id; si no existe, no devuelve nada
 export async function buscarCitaPorId(idCita) {
   const { rows } = await pool.query(

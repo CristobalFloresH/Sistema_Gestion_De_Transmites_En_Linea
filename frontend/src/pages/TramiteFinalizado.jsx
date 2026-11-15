@@ -81,8 +81,8 @@ export default function TramiteFinalizado() {
                 <IonIcon icon={mailOutline} />
                 <p>
                   {datos.idTramite ? `Tu tramite quedo registrado con el numero ${datos.idTramite}. ` : ''}
-                  El aviso automatico{datos.canal ? ` por ${datos.canal.toLowerCase()}` : ''} todavia no esta disponible:
-                  revisa el estado de tu tramite en Mis tramites
+                  Te enviamos el comprobante{datos.canal ? ` por ${datos.canal.toLowerCase()}` : ''} y
+                  tambien puedes descargarlo aqui o seguir tu tramite en Mis tramites
                 </p>
               </div>
 

@@ -41,7 +41,10 @@
 .doc-item__info { flex: 1; display: flex; flex-direction: column; }
 .doc-item__info strong { font-size: 12px; }
 .doc-item__info small { font-size: 10px; color: var(--gray-text); }
-.doc-item__badge { background: var(--err-bg); color: var(--err-text); font-size: 10px; font-weight: 700; padding: 1px 10px; border-radius: 100px; }
+.doc-item__badge { background: var(--err-bg); color: var(--err-text); font-size: 10px; font-weight: 700; padding: 1px 10px; border-radius: 100px; white-space: nowrap; }
+/* Ahora la etiqueta se muestra en los tres estados, no solo al rechazar (se veia igual aprobado que pendiente) */
+.doc-item__badge.aprobado { background: var(--ok-bg); color: var(--ok-text); }
+.doc-item__badge.pendiente { background: var(--warn-bg); color: var(--warn-text); }
 .doc-item__ver { background: var(--white); border: 1px solid #555; border-radius: 100px; padding: 2px 18px; font-size: 12px; color: var(--black); }
 
 .validacion-list { list-style: none; margin-bottom: 14px; }

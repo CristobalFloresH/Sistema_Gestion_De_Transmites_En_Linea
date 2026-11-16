@@ -18,6 +18,13 @@ import {
 } from '../utils/documentos';
 import './AgendaProceso.css';
 
+// Color de la etiqueta segun como quedo la revision del documento
+function claseEstadoDocumento(idEstadoDocumento) {
+  if (idEstadoDocumento === ID_DOCUMENTO_RECHAZADO) return 'rechazado';
+  if (idEstadoDocumento === ID_DOCUMENTO_APROBADO) return 'aprobado';
+  return 'pendiente';
+}
+
 // Color del badge segun el estado en que va el tramite
 function claseEstado(idEstadoTramite) {
   if (idEstadoTramite === ID_RECHAZADO) return 'rechazado';
@@ -228,9 +235,9 @@ export default function AgendaProceso() {
                               {documento.motivo_rechazo ? ` · ${documento.motivo_rechazo}` : ''}
                             </small>
                           </div>
-                          {documento.id_estado_documento === ID_DOCUMENTO_RECHAZADO && (
-                            <span className="doc-item__badge">{documento.nombre_estado_documento}</span>
-                          )}
+                          <span className={`doc-item__badge ${claseEstadoDocumento(documento.id_estado_documento)}`}>
+                            {documento.nombre_estado_documento}
+                          </span>
                           <a
                             href="#"
                             className="doc-item__ver"

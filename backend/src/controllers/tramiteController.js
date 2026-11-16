@@ -104,8 +104,9 @@ async function editarTramite(req, res, { esParcial }) {
     const tramiteActualizado = await tramiteService.actualizarTramite(idTramite, camposNuevos, req.usuario.rut);
     if (!tramiteActualizado) return responderError(res, 404, "Trámite no encontrado");
     // Al quedar lista para retiro se avisa al ciudadano, sin hacer esperar la respuesta ni arriesgar el cambio de estado
-    if (idEstadoNuevo === idEstadoListaParaRetiro && idEstadoNuevo !== tramiteActual.id_estado_tramite) {
-      notificacionService.avisarLicenciaLista(idTramite);
+    if (idEstadoNuevo !== tramiteActual.id_estado_tramite) {
+      if (idEstadoNuevo === idEstadoListaParaRetiro) notificacionService.avisarLicenciaLista(idTramite);
+      if (idEstadoNuevo === idEstadoRechazado) notificacionService.avisarTramiteRechazado(idTramite);
     }
     res.status(200).json({ datos: tramiteActualizado });
   } catch (error) {

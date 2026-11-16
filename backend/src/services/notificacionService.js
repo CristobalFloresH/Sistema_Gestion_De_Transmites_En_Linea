@@ -13,6 +13,10 @@ const PLANTILLA_RECORDATORIO = process.env.WHATSAPP_PLANTILLA_RECORDATORIO || "r
 // Convierte "2026-11-12" en "12-11-2026"
 const formatearFecha = (fecha) => fecha.split("-").reverse().join("-");
 
+// El ciudadano puede elegir un canal o los dos ("Correo y WhatsApp" en el catálogo metodo_notificacion)
+const incluyeCorreo = (canal) => canal === "Correo" || canal === "Correo y WhatsApp";
+const incluyeWhatsapp = (canal) => canal === "WhatsApp" || canal === "Correo y WhatsApp";
+
 // Deja solo los dígitos: "+56 9 1111 1111" -> "56911111111", que es el formato que pide WhatsApp
 const soloDigitos = (telefono) => telefono.replace(/\D/g, "");
 
@@ -51,8 +55,8 @@ async function avisarPorCorreo({ idTramite, cita, asunto, texto }) {
 export async function avisarCitaReservada(cita) {
   try {
     // El canal lo eligió el ciudadano al agendar (agregado por bushi al implementar el correo)
-    if (cita.nombre_metodo_notificacion === "Correo") {
-      return avisarPorCorreo({
+    if (incluyeCorreo(cita.nombre_metodo_notificacion)) {
+      await avisarPorCorreo({
         idTramite: cita.id_tramite,
         cita,
         asunto: "Comprobante de tu cita",
@@ -67,7 +71,7 @@ export async function avisarCitaReservada(cita) {
         ].join("\n"),
       });
     }
-    if (cita.nombre_metodo_notificacion !== "WhatsApp") return;
+    if (!incluyeWhatsapp(cita.nombre_metodo_notificacion)) return;
     if (!whatsappActivo) {
       console.warn("WhatsApp desactivado: faltan WHATSAPP_ACCESS_TOKEN o WHATSAPP_PHONE_NUMBER_ID en el .env");
       return;
@@ -122,8 +126,8 @@ export async function avisarLicenciaLista(idTramite) {
       [idTramite],
     );
     const { nombre, telefono, nombre_tipo_tramite, nombre_metodo_notificacion } = rows[0] ?? {};
-    if (nombre_metodo_notificacion === "Correo") {
-      return avisarPorCorreo({
+    if (incluyeCorreo(nombre_metodo_notificacion)) {
+      await avisarPorCorreo({
         idTramite,
         asunto: "Tu licencia está lista para retiro",
         texto: (tramite) => [
@@ -137,7 +141,7 @@ export async function avisarLicenciaLista(idTramite) {
         ].join("\n"),
       });
     }
-    if (nombre_metodo_notificacion !== "WhatsApp") return;
+    if (!incluyeWhatsapp(nombre_metodo_notificacion)) return;
     if (!whatsappActivo) {
       console.warn("WhatsApp desactivado: faltan WHATSAPP_ACCESS_TOKEN o WHATSAPP_PHONE_NUMBER_ID en el .env");
       return;
@@ -163,8 +167,8 @@ export async function avisarLicenciaLista(idTramite) {
 // scripts/recordatorios.js, que se ejecuta una vez al día. Nunca lanza errores.
 export async function avisarRecordatorioCita(cita) {
   try {
-    if (cita.nombre_metodo_notificacion === "Correo") {
-      return avisarPorCorreo({
+    if (incluyeCorreo(cita.nombre_metodo_notificacion)) {
+      await avisarPorCorreo({
         idTramite: cita.id_tramite,
         cita,
         asunto: "Recordatorio: mañana tienes tu cita",
@@ -179,7 +183,7 @@ export async function avisarRecordatorioCita(cita) {
         ].join("\n"),
       });
     }
-    if (cita.nombre_metodo_notificacion !== "WhatsApp") return;
+    if (!incluyeWhatsapp(cita.nombre_metodo_notificacion)) return;
     if (!whatsappActivo) {
       console.warn("WhatsApp desactivado: faltan WHATSAPP_ACCESS_TOKEN o WHATSAPP_PHONE_NUMBER_ID en el .env");
       return;
@@ -209,4 +213,44 @@ export async function avisarRecordatorioCita(cita) {
   } catch (error) {
     console.error(`No se pudo enviar el recordatorio de la cita ${cita.id_cita}:`, error.message);
   }
+}
+
+// Avisa que un documento fue rechazado, con el motivo que escribió el funcionario.
+// Va siempre por correo, sin mirar el canal elegido: el motivo es texto libre y la persona necesita
+// leerlo completo para saber qué corregir (una plantilla de WhatsApp solo admite textos cortos y fijos).
+export async function avisarDocumentoRechazado(documento) {
+  return avisarPorCorreo({
+    idTramite: documento.id_tramite,
+    asunto: "Un documento de tu trámite fue rechazado",
+    texto: (tramite) => [
+      `Hola ${tramite.nombre_ciudadano}:`,
+      "",
+      `Revisamos los documentos de tu trámite de ${tramite.nombre_tipo_tramite} (N° ${tramite.id_tramite}) y`,
+      `tu ${documento.nombre_tipo_documento.toLowerCase()} fue rechazada por este motivo:`,
+      "",
+      documento.motivo_rechazo,
+      "",
+      "Entra a Mis trámites y sube el documento corregido para continuar.",
+      "",
+      "Municipalidad de Santo Domingo",
+    ].join("\n"),
+  });
+}
+
+// Avisa que el trámite completo quedó rechazado. También va siempre por correo, por lo mismo.
+export async function avisarTramiteRechazado(idTramite) {
+  return avisarPorCorreo({
+    idTramite,
+    asunto: "Tu trámite fue rechazado",
+    texto: (tramite) => [
+      `Hola ${tramite.nombre_ciudadano}:`,
+      "",
+      `Tu trámite de ${tramite.nombre_tipo_tramite} (N° ${tramite.id_tramite}) fue rechazado.`,
+      "",
+      "En Mis trámites puedes ver el detalle de cada documento y el motivo de su revisión.",
+      "Si necesitas continuar, agenda una hora nueva.",
+      "",
+      "Municipalidad de Santo Domingo",
+    ].join("\n"),
+  });
 }

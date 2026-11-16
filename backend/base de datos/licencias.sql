@@ -196,7 +196,7 @@ insert into estado_tramite (nombre_estado_tramite) values
 
 insert into estado_documento (nombre_estado_documento) values ('Pendiente'), ('Aprobado'), ('Rechazado');
 
-insert into metodo_notificacion (nombre_metodo_notificacion) values ('Correo'), ('WhatsApp');
+insert into metodo_notificacion (nombre_metodo_notificacion) values ('Correo'), ('WhatsApp'), ('Correo y WhatsApp');
 
 
 -- ---------------------------------------------------------------------

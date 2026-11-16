@@ -1,5 +1,6 @@
 import path from "node:path";
 import * as documentoService from "../services/documentoService.js";
+import * as notificacionService from "../services/notificacionService.js";
 import { esPdf, calcularHash, guardarPdf, borrarPdf } from "../utils/archivos.js";
 import {
   errorPostgresReferencia,
@@ -145,6 +146,11 @@ async function editarDocumento(req, res, { esParcial }) {
   try {
     const documentoActualizado = await documentoService.actualizarDocumento(idDocumento, datosFinales);
     if (!documentoActualizado) return responderError(res, 404, "Documento no encontrado");
+    // Si el documento acaba de quedar rechazado se avisa al ciudadano, sin hacer esperar la respuesta
+    if (documentoActualizado.id_estado_documento === idEstadoRechazado
+        && documentoActual.id_estado_documento !== idEstadoRechazado) {
+      notificacionService.avisarDocumentoRechazado(documentoActualizado);
+    }
     res.status(200).json({ datos: documentoActualizado });
   } catch (error) {
     if (!responderErrorDeBaseDeDatos(res, error)) throw error;

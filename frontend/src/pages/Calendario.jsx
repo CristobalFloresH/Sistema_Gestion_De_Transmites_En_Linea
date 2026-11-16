@@ -289,6 +289,10 @@ useIonViewWillEnter(() => {
                         </IonSegmentButton>
                       ))}
                     </IonSegment>
+                    {/* El rechazo de un documento lleva el motivo escrito, por eso siempre va por correo */}
+                    <p className="horas-panel__fecha">
+                      Los avisos sobre la revision de tus documentos llegaran a tu correo.
+                    </p>
                   </>
                 )}
                 <div className="subida-acciones">

@@ -1,9 +1,12 @@
 import api from './api';
 
-// Bloques activos de un dia, para que el ciudadano elija hora en el calendario
+// Bloques activos de un dia, para que el ciudadano elija hora en el calendario.
+// Se descartan los que ya empezaron: el backend tambien los rechaza al reservar (409),
+// pero asi no se ofrecen horas que no se pueden tomar
 export async function listarBloquesPorFecha(fecha) {
   const respuesta = await api.get('/bloques_horarios', { params: { fecha, activo: true } });
-  return respuesta.data.datos;
+  const ahora = new Date();
+  return respuesta.data.datos.filter((bloque) => new Date(`${bloque.fecha}T${bloque.hora_inicio}`) > ahora);
 }
 
 // Todos los bloques de un dia, activos y desactivados, para la pantalla del funcionario

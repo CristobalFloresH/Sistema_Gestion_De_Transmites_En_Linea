@@ -12,6 +12,9 @@ import { formatear, hoyIso } from '../utils/fechas';
 import './AgendaFuncionario.css';
 import './BloquesHorarios.css';
 
+// "lunes, 16 de noviembre" -> "Lunes, 16 de noviembre" (en espanol solo va en mayuscula la primera letra)
+const conMayuscula = (texto) => texto.charAt(0).toUpperCase() + texto.slice(1);
+
 // Bloque vacio del formulario de arriba (el horario de atencion va de 08:00 a 17:00)
 const BLOQUE_NUEVO = { hora_inicio: '09:00', hora_fin: '09:30', cupos: 5 };
 
@@ -107,9 +110,10 @@ export default function BloquesHorarios() {
                 value={fecha}
                 onIonChange={(e) => cambiarFecha(e.detail.value)}
               />
-              <span className="bloques-dia">{formatear(fecha, { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+              <span className="bloques-dia">{conMayuscula(formatear(fecha, { weekday: 'long', day: 'numeric', month: 'long' }))}</span>
             </div>
 
+            <h2 className="bloques-subtitulo">Agregar un bloque</h2>
             <div className="agenda-filters">
               <IonInput
                 className="filter-select"
@@ -126,10 +130,11 @@ export default function BloquesHorarios() {
                 onIonChange={(e) => setNuevo({ ...nuevo, hora_fin: e.detail.value })}
               />
               <IonInput
-                className="filter-select"
+                className="filter-select bloques-cupos"
                 type="number"
                 min="1"
                 aria-label="Cupos"
+                placeholder="Cupos"
                 value={nuevo.cupos}
                 onIonChange={(e) => setNuevo({ ...nuevo, cupos: e.detail.value })}
               />

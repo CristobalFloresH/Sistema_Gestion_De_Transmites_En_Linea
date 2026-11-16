@@ -29,9 +29,10 @@ services:
       DB_PORT: 5432
       DB_NAME: licencias
       DB_USER: postgres
-      CORS_ORIGIN: http://localhost:5173
+      CORS_ORIGIN: http://localhost:5174
+    # Puertos distintos a los de npm run dev (3000 y 5173), así se pueden usar los dos a la vez
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:3001:3000"
     volumes:
       - subidas:/app/uploads
     depends_on:
@@ -39,9 +40,12 @@ services:
         condition: service_healthy
 
   frontend:
-    build: https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git#frontend-EP2:frontend
+    build:
+      context: https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git#frontend-EP2:frontend
+      args:
+        VITE_API_URL: http://localhost:3001/api
     ports:
-      - "127.0.0.1:5173:80"
+      - "127.0.0.1:5174:80"
     depends_on:
       - api
 

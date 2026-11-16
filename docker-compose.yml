@@ -1,0 +1,50 @@
+# Levanta el sistema completo con docker compose up: base de datos, API y frontend
+# Cada parte se construye desde su rama en GitHub, así basta con clonar main
+name: licencias
+
+services:
+  db:
+    # PostgreSQL con el script de la base, que se ejecuta solo la primera vez
+    build:
+      context: https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git#backend-EP2:backend
+      dockerfile_inline: |
+        FROM postgres:18-alpine
+        COPY ["base de datos/licencias.sql", "/docker-entrypoint-initdb.d/licencias.sql"]
+    environment:
+      POSTGRES_DB: licencias
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - datos-postgres:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d licencias"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git#backend-EP2:backend
+    env_file: .env
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: licencias
+      DB_USER: postgres
+      CORS_ORIGIN: http://localhost:5173
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - subidas:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: https://github.com/CristobalFloresH/Sistema_Gestion_De_Transmites_En_Linea.git#frontend-EP2:frontend
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      - api
+
+volumes:
+  datos-postgres:
+  subidas:
